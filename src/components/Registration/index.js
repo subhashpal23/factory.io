@@ -58,9 +58,7 @@ const RegistrationPage = ({user_type}) => {
   const registerUser = async (e) => {
     e.preventDefault();
     if (!validateForm()) return;
-    console.log('@registrationfields', registration)
     const userType = user_type === 'consumer' ? UserRole.CONSUMER : UserRole.SUPPLIER;
-    console.log("@>>>>>>>userType",user_type);
     try {
       dispatch(userRegister(registration,userType))
     } catch (err) {
@@ -70,7 +68,6 @@ const RegistrationPage = ({user_type}) => {
 
   if (registrationData) {
     const registrationStatus = registrationData?.status;
-    console.log('@#registrationData',registrationData);
     if (!registrationStatus) {
       window.alert(registrationData.message || '');
     } else {
@@ -90,7 +87,6 @@ const RegistrationPage = ({user_type}) => {
   }
   
   if(registrationError){
-    console.log('@registrationError',registrationError)
   }
 
   return (

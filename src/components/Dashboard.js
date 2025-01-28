@@ -123,7 +123,6 @@ const Dashboard = () => {
     if(registrationData){
         //setUser(registrationData)
     }
-    console.log('@user',logindata,registrationData )
     return <>
         <header>
             <Header>

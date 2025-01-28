@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
-import { userLogin, userLogout } from "./../redux/actions/authAction";
-// import useDal from '../../common/hooks/useDAL';
- import { UserRole } from './../types/enums'
+import { userLogin, userLogout } from "../redux/actions/authAction";
+import { UserRole } from '../types/enums'
 import styled from 'styled-components';
+import { notification } from 'antd';
+import { showErrorNotification, showSuccessNotification } from '../utils/AppNotification';
 
-const CustomerLoginPage = () => {
+const AdminLoginPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { logindata, loginError, loading } = useSelector((state) => state.auth);
@@ -17,11 +18,12 @@ const CustomerLoginPage = () => {
   if(logindata){
       if(logindata.status){
         localStorage.setItem('access_token', logindata.token);
-        localStorage.setItem('user_type', UserRole.CONSUMER);
+        localStorage.setItem('user_type', UserRole.SUPER_ADMIN);
         navigate('/dashboard');
       }else {
         localStorage.clear();
         dispatch(userLogout());
+        showErrorNotification('Invalid login credentilas')
         window.alert(logindata.message);
       }
     } 
@@ -29,10 +31,10 @@ const CustomerLoginPage = () => {
   const signInUser = async (e) => {
     e.preventDefault(); // Prevent form submission
     try {
-      dispatch(userLogin(userCreds,'consumer'))
+      dispatch(userLogin(userCreds,UserRole.SUPER_ADMIN))
     } catch (err) {
-      // todo: show error on modal or as a toaster
-      alert('Invalid consumer credentials');
+      showErrorNotification('Invalid login credentilas')
+      //alert('Invalid consumer credentials');
     }
   };
 
@@ -265,4 +267,4 @@ const SignUpLink = styled.a`
   text-decoration: underline;
 `;
 
-export default CustomerLoginPage;
+export default AdminLoginPage;

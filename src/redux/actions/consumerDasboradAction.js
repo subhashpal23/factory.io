@@ -16,15 +16,9 @@ export const getSupplierList = (token) => {
             if (!response.ok) {
                 throw new Error(`Error: ${response.status} ${response.statusText}`);
             }
-            console.log('@response >>>> ',response)
             const data = await response.json();
             dispatch({ type: 'GET_SUPPLIER_SUCCESS', payload: data });
-            // notification.success({
-            //     message: 'Success',
-            //    // description: 'API call succeeded.',
-            //     placement: 'topRight',
-            //   });
-        } catch (error) {
+         } catch (error) {
             dispatch({ type: 'GET_SUPPLIER_FAILURE', payload: error.message });
         }
     };

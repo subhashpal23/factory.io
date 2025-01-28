@@ -33,21 +33,6 @@ const CreateRFQ = () => {
 
 
 
-  // useEffect(() => {
-  //   console.log('RFQ Create Status:', rfqCreateStatus); // Debugging
-  //   notification.success({
-  //     message: 'RFQ Created',
-  //     description: 'Testing direct notification display.',
-  //     placement: 'topRight',
-  //     style: {
-  //       backgroundColor: '#F0F2F5', // Custom background color
-  //       border: '1px solid #1890FF', // Border color to stand out
-  //       color: '#000000', // Text color
-  //     }
-  //   });
-  // }, []);
-
-
   useEffect(() => {
     if (rfqCreateStatus) {
       setFormData({

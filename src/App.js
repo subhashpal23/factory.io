@@ -10,6 +10,7 @@ import Welcome from "./components/Welcome";
 import CustomerLoginPage from "./components/CustomerLoginPage";
 import SupplierLoginPage from "./components/SupplierLoginPage";
 import RegistrationPage from "./components/Registration";
+import AdminLoginPage from "./components/AdminLoginPage";
 import Dashboard from "./components/Dashboard";
 import DashboardContainer from "./components/DashboardContainer";
 const App = () => {
@@ -20,6 +21,7 @@ const App = () => {
             <Routes>
                 <Route path="/" element={<Welcome />} />
                 <Route path="/consumer-login" element={<CustomerLoginPage />} />
+                <Route path="/admin-login" element={<AdminLoginPage />} />
                 <Route path="/supplier-login" element={<SupplierLoginPage />} />
                 <Route path="/supplier-registration" element={<RegistrationPage user_type = "supplier"/>} />
                 <Route path="/consumer-registration" element={<RegistrationPage user_type = "consumer"/>} />

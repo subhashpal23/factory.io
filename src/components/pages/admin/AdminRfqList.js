@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Input } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { getSupplierList } from '../../redux/actions/consumerDasboradAction';
-
+//import { getAdminRfqLists } from '../../redux/actions/rfqAction';
+import { getAdminRfqLists } from '../../../redux/actions/rfqAction';
 const { Search } = Input;
 
-const HomeConsumer = () => {
+const AdminRfqList = () => {
   const dispatch = useDispatch();
   const { logindata, loginError } = useSelector((state) => state.auth);
-  const { supplierList, error } = useSelector((state) => state.consumerDashboard); 
+  const { adminRfqData, error } = useSelector((state) => state.rfq); 
+  const manufacturingProcess = useSelector((state) => state.auth.logindata.manufacturing_process);
   const [filteredData, setFilteredData] = useState([]);
   const [searchValue, setSearchValue] = useState('');
   const [pagination, setPagination] = useState({
@@ -18,40 +19,46 @@ const HomeConsumer = () => {
   });
   const [sortOrder, setSortOrder] = useState(null);
   const [loading, setLoading] = useState(false);
-
+ 
+  const rfqList = adminRfqData && adminRfqData?.data ? adminRfqData.data : []
+ 
   useEffect(() => {
     if (logindata && logindata.token) {
-      dispatch(getSupplierList(logindata.token));
+      dispatch(getAdminRfqLists(logindata.token));
     }
   }, [dispatch, logindata]);
 
   useEffect(() => {
-    if (supplierList && supplierList.length > 0) {
+    if (rfqList && rfqList.length > 0) {
       fetchData();
     }
-  }, [supplierList, pagination.current, pagination.pageSize, sortOrder, searchValue]);
+  }, [rfqList, pagination.current, pagination.pageSize, sortOrder, searchValue]);
+
+
+ const getManufacturingProcessValue = (id) => {
+  const process = manufacturingProcess.find( d => d.id === id)
+  return process?.process_name || '';
+ }
 
   const fetchData = () => {
     setLoading(true);
-    const data = supplierList.map((d,index)=>{
+    const data = rfqList.map((d, index) => {
       return {
         key: index,
-        Id: d.id,
-        Name: d.name,
-        Company: d.company,
-        Email: d.email,
-        CountryCode: d.country_code,
-        Contact: d.phone_number,
-        Valid: parseInt(d.is_validated) === 1 ? 'Yes' : 'No',
-        Industry: d.industry,
-        CreatedDate: '2025-01-24'
-      }
+        name: d.name,
+        email: d.email,
+        contact: d.mobile,
+        //manufacturingProcess: d.manufacturing_process_id,
+        manufacturingProcess: getManufacturingProcessValue(d.manufacturing_process_id),
+        designFiles: d.is_design_file === "1" ? 'Yes' : 'No',
+        comments: d.comments,
+      };
     });
 
     const filtered = searchValue
       ? data.filter(
           (item) =>
-            item.Email.includes(searchValue) || item.Contact.includes(searchValue)
+            item.email.includes(searchValue) || item.contact.includes(searchValue)
         )
       : data;
 
@@ -85,20 +92,41 @@ const HomeConsumer = () => {
   };
 
   const columns = [
-    { title: 'Id', dataIndex: 'Id', key: 'Id' },
-    { title: 'Name', dataIndex: 'Name', key: 'Name' },
-    { title: 'Company', dataIndex: 'Company', key: 'Company' },
-    { title: 'Email', dataIndex: 'Email', key: 'Email' },
-    { title: 'CountryCode', dataIndex: 'CountryCode', key: 'CountryCode' },
-    { title: 'Contact', dataIndex: 'Contact', key: 'Contact' },
-    { title: 'Valid', dataIndex: 'Valid', key: 'Valid' },
-    { title: 'Industry', dataIndex: 'Industry', key: 'Industry' },
-    { title: 'CreatedDate', dataIndex: 'CreatedDate', key: 'CreatedDate' },
+    {
+      title: 'Name',
+      dataIndex: 'name',
+      key: 'name',
+    },
+    {
+      title: 'Email',
+      dataIndex: 'email',
+      key: 'email',
+    },
+    {
+      title: 'Contact',
+      dataIndex: 'contact',
+      key: 'contact',
+    },
+    {
+      title: 'Manufacturing Process',
+      dataIndex: 'manufacturingProcess',
+      key: 'manufacturingProcess',
+    },
+    {
+      title: 'Design Files',
+      dataIndex: 'designFiles',
+      key: 'designFiles',
+    },
+    {
+      title: 'Comments',
+      dataIndex: 'comments',
+      key: 'comments',
+    },
   ];
 
   return (
     <div>
-      <h1 style={{marginBottom:"20px"}}> Supplier List</h1>
+      <h1 style={{marginBottom:"20px"}}> Rfq List</h1>
       <Search
         placeholder="Search by Email or Contact"
         onSearch={handleSearch}
@@ -130,4 +158,4 @@ const HomeConsumer = () => {
   );
 };
 
-export default HomeConsumer;
+export default AdminRfqList;

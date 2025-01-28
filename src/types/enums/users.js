@@ -1,5 +1,6 @@
 export const UserRole = {
     CONSUMER: "consumer",
     SUPPLIER: "supplier",
-    ADMIN: "admin"
+    ADMIN: "admin",
+    SUPER_ADMIN:'super_admin'
   };

@@ -17,13 +17,33 @@ export const getRfqList = (token) => {
             }
             const data = await response.json();
             dispatch({ type: 'GET_RFQ_SUCCESS', payload: data });
-            // notification.success({
-            //     message: 'Success',
-            //    // description: 'API call succeeded.',
-            //     placement: 'topRight',
-            //   });
         } catch (error) {
             dispatch({ type: 'GET_RFQ_FAILURE', payload: error.message });
+        }
+    };
+}
+
+
+export const getAdminRfqLists = (token) => {
+    return async (dispatch) => {
+        dispatch({ type: 'GET_ADMIN_RFQ_REQUEST' });
+        try {
+            const response = await fetch('https://factory.demosite.name/api/Api/AllRFQList', {
+                method: 'GET', 
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}` 
+                },
+                // Send the data as JSON
+            });
+
+            if (!response.ok) {
+                throw new Error(`Error: ${response.status} ${response.statusText}`);
+            }
+            const data = await response.json();
+            dispatch({ type: 'GET_ADMIN_RFQ_SUCCESS', payload: data });
+        } catch (error) {
+            dispatch({ type: 'GET_ADMIN_RFQ_FAILURE', payload: error.message });
         }
     };
 }

@@ -1,5 +1,6 @@
 const initialState = {
     rfqData: undefined,
+    adminRfqData: undefined,
     error: null,
     loading: false,
     rfqCreateStatus: false,
@@ -21,6 +22,13 @@ const initialState = {
         return { ...state, loading: false, rfqCreateStatus: true };
       case 'CREATE_RFQ_FAILURE':
         return { ...state, loading: false, rfqCreateError: action.payload };
+
+      case 'GET_ADMIN_RFQ_REQUEST':
+        return { ...state, loading: true};
+      case 'GET_ADMIN_RFQ_SUCCESS':
+        return { ...state, loading: false, adminRfqData: action.payload || [] };
+      case 'GET_ADMIN_RFQ_FAILURE':
+        return { ...state, loading: false, error: action.payload };
      
       case 'RESET_RFC_CREATE_STATUS':
         return {...state, rfqCreateStatus: false}

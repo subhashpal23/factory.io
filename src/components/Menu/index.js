@@ -48,11 +48,22 @@ const ResponsiveSidebar = ({userType}) => {
     icon: React.cloneElement(i.iconLabel, { style: { fontSize: '15px', padding:"2px 0px", color: '#ffffff' } }),
   }));
   
-  const renderSideMenuComponent = () => {
-    const sideMenuSelected = MenuItems.find(i=>i.id === parseInt(selectedKey))
-    return sideMenuSelected.component;
-  };
+  // const renderSideMenuComponent = () => {
+  //   const sideMenuSelected = MenuItems.find(i=>i.id === parseInt(selectedKey))
+  //   return sideMenuSelected.component;
+  // };
 
+
+  const renderSideMenuComponent = () => {
+    const sideMenuSelected = MenuItems.find(i => i.id === parseInt(selectedKey));
+    if (!sideMenuSelected) {
+      console.error('Component not found for selected key:', selectedKey); // Debugging
+      return <div>Component not found</div>;
+    }
+    
+    return React.cloneElement(sideMenuSelected.component, { handleSideMenuClick });
+  };
+  
 
 
 
@@ -77,7 +88,7 @@ const ResponsiveSidebar = ({userType}) => {
               localStorage.clear();
               dispatch(userLogout());
               navigate('/')
-              console.log('Logout clicked');
+              //console.log('Logout clicked');
     }
   };
   const profileMenu = (
@@ -119,7 +130,6 @@ const ResponsiveSidebar = ({userType}) => {
                   fontFamily: 'Roboto, sans-serif', // Roboto font applied
             }}>Factory.io</Title>
         </div>
-            {console.log('@selectedKey',selectedKey)}
         <Menu
           theme="dark"
           mode="inline"
@@ -150,7 +160,9 @@ const ResponsiveSidebar = ({userType}) => {
           />
           <div style={{width:'100%',display:'flex', justifyContent:'space-between'}}>
             <div style={{display:'flex',justifyContent: 'center', alignItems:'center'}}>
-              {userType === UserRole.CONSUMER ? <span style={{fontSize:'16px'}}> Customer Dashboard</span> : <span>Seller Dashboard</span>}
+              {userType === UserRole.CONSUMER && <span style={{fontSize:'16px'}}> Customer Dashboard</span>}
+              {userType === UserRole.SUPPLIER && <span style={{fontSize:'16px'}}> Supplier Dashboard</span>}
+              {userType === UserRole.SUPER_ADMIN && <span style={{fontSize:'16px'}}> Admin Dashboard</span>}
               <span style={{fontSize:'15px',marginLeft:'10px'}}>  Settings </span>
             </div>
             <div style={{marginRight:"20px",display:'flex',justifyContent:'center',alignItems:'center'}}>

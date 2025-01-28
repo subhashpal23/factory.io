@@ -20,7 +20,6 @@ const HomeConsumer = () => {
   const [sortOrder, setSortOrder] = useState(null);
   const [loading, setLoading] = useState(false);
   
-  console.log('@manufc',manufacturingProcess)
  
   const rfqList = rfqData && rfqData?.data ? rfqData.data : []
  
