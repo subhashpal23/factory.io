@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getAdminRfqLists } from '../../../redux/actions/rfqAction';
 const { Search } = Input;
 
-const AdminRfqList = () => {
+const AdminRfqList = ({filter}) => {
   const dispatch = useDispatch();
   const { logindata, loginError } = useSelector((state) => state.auth);
   const { adminRfqData, error } = useSelector((state) => state.rfq); 
@@ -20,8 +20,10 @@ const AdminRfqList = () => {
   const [sortOrder, setSortOrder] = useState(null);
   const [loading, setLoading] = useState(false);
  
-  const rfqList = adminRfqData && adminRfqData?.data ? adminRfqData.data : []
- 
+  let rfqList = adminRfqData && adminRfqData?.data ? adminRfqData.data : []
+  // if filter === supplierAssigned => then filter the data adminRfqData based on assigned to supplier.
+  // if filter === consumerAssigned => then filter the data adminRfqData based on assigned to consumer.
+
   useEffect(() => {
     if (logindata && logindata.token) {
       dispatch(getAdminRfqLists(logindata.token));
@@ -44,6 +46,7 @@ const AdminRfqList = () => {
     setLoading(true);
     const data = rfqList.map((d, index) => {
       return {
+        rfqcode: d.rfq_code,
         key: index,
         name: d.name,
         email: d.email,
@@ -93,6 +96,11 @@ const AdminRfqList = () => {
 
   const columns = [
     {
+      title: 'RFQ Code',
+      dataIndex: 'rfqcode',
+      key: 'rfqcode',
+    },
+    {
       title: 'Name',
       dataIndex: 'name',
       key: 'name',
@@ -127,13 +135,13 @@ const AdminRfqList = () => {
   return (
     <div>
       <h1 style={{marginBottom:"20px"}}> Rfq List</h1>
-      <Search
+      {/* <Search
         placeholder="Search by Email or Contact"
         onSearch={handleSearch}
         style={{ marginBottom: 20 }}
         value={searchValue}
         onChange={(e) => handleSearch(e.target.value)}
-      />
+      /> */}
       <Table
         columns={columns}
         dataSource={filteredData}
