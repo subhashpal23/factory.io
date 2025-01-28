@@ -1,15 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Input } from 'antd';
+import { Table, Input, Button, Checkbox, Drawer, Dropdown, Menu, Modal } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-//import { getAdminRfqLists } from '../../redux/actions/rfqAction';
 import { getAdminRfqLists } from '../../../redux/actions/rfqAction';
+import { getAllSupplier, getAllConsumer } from '../../../redux/actions/allDataAction';
+import { assignRfqToSupplier, resetAssignRfqStatus } from '../../../redux/actions/assignRfqAction';
 const { Search } = Input;
+const { confirm } = Modal;
 
-const AdminRfqList = ({filter}) => {
+const AdminRfqList = ({ filter }) => {
   const dispatch = useDispatch();
-  const { logindata, loginError } = useSelector((state) => state.auth);
-  const { adminRfqData, error } = useSelector((state) => state.rfq); 
+  const { logindata } = useSelector((state) => state.auth);
+  const { adminRfqData } = useSelector((state) => state.rfq);
+  const allSupplier = useSelector((state) => state.dataSet.allSupplier);
+  const allConsumer = useSelector((state) => state.dataSet.allConsumer);
   const manufacturingProcess = useSelector((state) => state.auth.logindata.manufacturing_process);
+  const rfqAssignStatus = useSelector((state)=> state.assignRfq.assignStatus)
   const [filteredData, setFilteredData] = useState([]);
   const [searchValue, setSearchValue] = useState('');
   const [pagination, setPagination] = useState({
@@ -19,14 +24,45 @@ const AdminRfqList = ({filter}) => {
   });
   const [sortOrder, setSortOrder] = useState(null);
   const [loading, setLoading] = useState(false);
- 
-  let rfqList = adminRfqData && adminRfqData?.data ? adminRfqData.data : []
-  // if filter === supplierAssigned => then filter the data adminRfqData based on assigned to supplier.
-  // if filter === consumerAssigned => then filter the data adminRfqData based on assigned to consumer.
+  const [drawerVisible, setDrawerVisible] = useState(false);
+  const [selectedUsers, setSelectedUsers] = useState([]);
+  const [userSearchValue, setUserSearchValue] = useState('');
+  const [drawerTitle, setDrawerTitle] = useState('');
+  const [drawarActiveDataSet, setDrawerActiveDataSet] = useState('');
+  const [userList, setUserList] = useState([]);
+  const [currentRfqCode, setCurrentRfqCode] = useState('');
+  const [currentRfqId,setCurrentRfqId] = useState('');
+
+
+  let rfqList = adminRfqData && adminRfqData?.data ? adminRfqData.data : [];
+
+  useEffect(()=>{
+    if(rfqAssignStatus){
+      setTimeout(() => {
+        setDrawerVisible(false);
+        setSelectedUsers([]);
+        setUserSearchValue('');
+        dispatch(resetAssignRfqStatus())  
+      }, 2000);
+    }
+  },[rfqAssignStatus])
+
+  useEffect(() => {
+    if (drawarActiveDataSet === 'consumer' && allConsumer && allConsumer.length) {
+      setUserList(allConsumer);
+    }
+
+    if (drawarActiveDataSet === 'supplier' && allSupplier && allSupplier.length) {
+      setUserList(allSupplier);
+    }
+
+  }, [allSupplier, allConsumer, drawarActiveDataSet]);
 
   useEffect(() => {
     if (logindata && logindata.token) {
       dispatch(getAdminRfqLists(logindata.token));
+      dispatch(getAllConsumer(logindata.token));
+      dispatch(getAllSupplier(logindata.token));
     }
   }, [dispatch, logindata]);
 
@@ -36,43 +72,41 @@ const AdminRfqList = ({filter}) => {
     }
   }, [rfqList, pagination.current, pagination.pageSize, sortOrder, searchValue]);
 
-
- const getManufacturingProcessValue = (id) => {
-  const process = manufacturingProcess.find( d => d.id === id)
-  return process?.process_name || '';
- }
+  const getManufacturingProcessValue = (id) => {
+    const process = manufacturingProcess.find((d) => d.id === id);
+    return process?.process_name || '';
+  };
 
   const fetchData = () => {
     setLoading(true);
     const data = rfqList.map((d, index) => {
       return {
+        rfq_id: d.id,
         rfqcode: d.rfq_code,
         key: index,
         name: d.name,
         email: d.email,
         contact: d.mobile,
-        //manufacturingProcess: d.manufacturing_process_id,
         manufacturingProcess: getManufacturingProcessValue(d.manufacturing_process_id),
-        designFiles: d.is_design_file === "1" ? 'Yes' : 'No',
+        designFiles: d.is_design_file === '1' ? 'Yes' : 'No',
         comments: d.comments,
       };
     });
 
     const filtered = searchValue
       ? data.filter(
-          (item) =>
-            item.email.includes(searchValue) || item.contact.includes(searchValue)
-        )
+        (item) => item.email.includes(searchValue) || item.contact.includes(searchValue)
+      )
       : data;
 
     const sortedData = sortOrder
       ? filtered.sort((a, b) => {
-          if (a[sortOrder.columnKey] < b[sortOrder.columnKey])
-            return sortOrder.order === 'ascend' ? -1 : 1;
-          if (a[sortOrder.columnKey] > b[sortOrder.columnKey])
-            return sortOrder.order === 'ascend' ? 1 : -1;
-          return 0;
-        })
+        if (a[sortOrder.columnKey] < b[sortOrder.columnKey])
+          return sortOrder.order === 'ascend' ? -1 : 1;
+        if (a[sortOrder.columnKey] > b[sortOrder.columnKey])
+          return sortOrder.order === 'ascend' ? 1 : -1;
+        return 0;
+      })
       : filtered;
 
     const start = (pagination.current - 1) * pagination.pageSize;
@@ -93,6 +127,70 @@ const AdminRfqList = ({filter}) => {
     setPagination(pagination);
     setSortOrder(sorter);
   };
+
+  const showDrawer = (title, dataset, rfqCode, rfqId ) => {
+    if(dataset==='supplier'){ 
+      setDrawerTitle(title);
+      setDrawerVisible(true);
+      setDrawerActiveDataSet(dataset);
+      setCurrentRfqCode(rfqCode);
+      setCurrentRfqId(rfqId)
+    }
+  };
+
+  const closeDrawer = () => {
+    confirm({
+      title: 'Are you sure you want to leave?',
+      content: 'Changes you made may not be saved.',
+      onOk() {
+        setDrawerVisible(false);
+        setSelectedUsers([]);
+        setUserSearchValue('');
+      },
+    });
+  };
+
+  const handleUserSearch = (value) => {
+    setUserSearchValue(value);
+  };
+
+  const handleUserSelect = (userId) => {
+    setSelectedUsers((prevSelectedUsers) =>
+      prevSelectedUsers.includes(userId)
+        ? prevSelectedUsers.filter((id) => id !== userId)
+        : [...prevSelectedUsers, userId]
+    );
+  };
+
+  const handleAssignAndSave = () => {
+    console.log('Assigned users:', selectedUsers);
+    const request = {
+      rfq_id : currentRfqId,
+      rfq_code: currentRfqCode,
+      supplier_id: selectedUsers
+    }
+    if(request && request?.rfq_id && request?.rfq_code && request?.supplier_id && request.supplier_id.length){
+      dispatch(assignRfqToSupplier(request, logindata.token))
+    }
+  };
+
+  const filteredUserList = userSearchValue
+    ? userList.filter((user) =>
+      user.name.toLowerCase().includes(userSearchValue.toLowerCase()) ||
+      user.email.toLowerCase().includes(userSearchValue.toLowerCase())
+    )
+    : userList;
+
+  const menu = (record) => (
+    <Menu>
+      <Menu.Item key="supplier" onClick={() => showDrawer('Assign to Supplier', 'supplier', record.rfqcode, record.rfq_id)}>
+        Assign to Supplier
+      </Menu.Item>
+      <Menu.Item key="consumer" onClick={() => showDrawer('Assign to Consumer', 'consumer', record.rfqcode, record.rfq_id)}>
+        Assign to Consumer
+      </Menu.Item>
+    </Menu>
+  );
 
   const columns = [
     {
@@ -130,18 +228,20 @@ const AdminRfqList = ({filter}) => {
       dataIndex: 'comments',
       key: 'comments',
     },
+    {
+      title: 'Action',
+      key: 'action',
+      render: (_, record) => (
+        <Dropdown overlay={menu(record)} trigger={['hover']}>
+          {!filter && <Button type="primary">Assign</Button>}
+        </Dropdown>
+      ),
+    },
   ];
 
   return (
     <div>
-      <h1 style={{marginBottom:"20px"}}> Rfq List</h1>
-      {/* <Search
-        placeholder="Search by Email or Contact"
-        onSearch={handleSearch}
-        style={{ marginBottom: 20 }}
-        value={searchValue}
-        onChange={(e) => handleSearch(e.target.value)}
-      /> */}
+      <h1 style={{ marginBottom: '20px' }}>Rfq List</h1>
       <Table
         columns={columns}
         dataSource={filteredData}
@@ -152,6 +252,44 @@ const AdminRfqList = ({filter}) => {
           index % 2 === 0 ? 'table-row-light' : 'table-row-dark'
         }
       />
+      <Drawer
+        title={drawerTitle}
+        width={500}
+        onClose={closeDrawer}
+        visible={drawerVisible}
+        bodyStyle={{ paddingBottom: 80 }}
+      >
+        <h2 style={{margin:"0px 10px 10px 0px"}}>{currentRfqCode}</h2>
+        <Search
+          placeholder="Search users"
+          onSearch={handleUserSearch}
+          style={{ marginBottom: 20 }}
+          value={userSearchValue}
+          onChange={(e) => handleUserSearch(e.target.value)}
+        />
+        <div style={{ maxHeight: 'calc(100vh - 200px)', overflowY: 'auto' }}>
+        {filteredUserList.map((user) => (
+          <div key={user.id} style={{ display: 'flex', padding: '10px', borderBottom: '1px solid #ccc', alignItems: 'center' }}>
+            <Checkbox
+              checked={selectedUsers.includes(user.id)}
+              onChange={() => handleUserSelect(user.id)}
+              style={{ marginRight: '10px' }}
+            />
+            <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
+              <span style={{ flex: '1' }}>{user.name}</span>
+              <span style={{ flex: '1', textAlign: 'right' }}>{user.email}</span>
+            </div>
+          </div>
+        ))}
+        </div>
+        <Button
+          type="primary"
+          onClick={handleAssignAndSave}
+          style={{ position: 'absolute', right: 20, bottom: 20 }}
+        >
+          Assign and Save
+        </Button>
+      </Drawer>
       <style>
         {`
           .table-row-light {
