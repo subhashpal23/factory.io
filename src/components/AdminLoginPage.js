@@ -1,50 +1,53 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import { userLogin, userLogout } from "../redux/actions/authAction";
 import { UserRole } from '../types/enums'
 import styled from 'styled-components';
-import { notification } from 'antd';
-import { showErrorNotification, showSuccessNotification } from '../utils/AppNotification';
+import CustomSpinner from '../utils/CustomSpinner';
+import { showErrorNotification } from '../utils/AppNotification';
 
 const AdminLoginPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [appLoading, setAppLoading] = useState(false);
   const { logindata, loginError, loading } = useSelector((state) => state.auth);
   const defaultState = { email: '', password: '' };
- // const dal = useDal();
+  // const dal = useDal();
   const [userCreds, setUserCreds] = useState({ ...defaultState });
 
-  if(logindata){
-      if(logindata.status){
-        localStorage.setItem('access_token', logindata.token);
-        localStorage.setItem('user_type', UserRole.SUPER_ADMIN);
-        navigate('/dashboard');
-      }else {
-        localStorage.clear();
-        dispatch(userLogout());
-        showErrorNotification('Invalid login credentilas')
-        window.alert(logindata.message);
-      }
-    } 
+  useEffect(() => {
+    if (logindata && logindata.status) {
+      setAppLoading(false);
+      localStorage.setItem('access_token', logindata.token);
+      localStorage.setItem('user_type', UserRole.SUPER_ADMIN);
+      navigate('/dashboard');
+    } else if (logindata && !logindata.status) {
+      setAppLoading(false);
+      localStorage.clear();
+      dispatch(userLogout());
+      showErrorNotification(logindata.message)
+      //window.alert(logindata.message);
+    }
+  }, [logindata]);
 
   const signInUser = async (e) => {
     e.preventDefault(); // Prevent form submission
     try {
-      dispatch(userLogin(userCreds,UserRole.SUPER_ADMIN))
+      setAppLoading(true);
+      dispatch(userLogin(userCreds, UserRole.SUPER_ADMIN));
     } catch (err) {
-      showErrorNotification('Invalid login credentilas')
-      //alert('Invalid consumer credentials');
+      showErrorNotification('Invalid login credentilas');
     }
   };
-
-
 
   return (
     <Container>
       {/* Left Section */}
       <LeftSection>
-        <h1 style={{fontSize:"36px !important", marginBottom:"20px"}}>Manufacturing is easy with Karkhana.io</h1>
+        <h1 style={{ fontSize: "36px !important", marginBottom: "20px" }}>
+          Manufacturing is easy with Karkhana.io
+        </h1>
         <List>
           <ListItem>
             <Icon>💵</Icon>
@@ -67,38 +70,21 @@ const AdminLoginPage = () => {
 
       {/* Right Section */}
       <RightSection>
-        <FormWrapper>
-          <p style={{fontSize:'24px',color:"#333333", marginBottom:"18px"}}>Log In</p>
-          <p style={{fontSize:'14px',color:"#333333", marginBottom:"18px"}}>Welcome back!</p>
-          <form>
-            <InputField>
-              <label style={{fontSize:"14px", color:"#374151" ,fontWeight:"semibold"}}>Email</label>
-              <input
-                type="email"
-                placeholder="Enter your email"
-                style={{
-                    padding: '0.75rem',
-                    borderRadius: '5px',
-                    border: '1px solid #1A3E8A',
-                    fontSize: '13px',
-                    backgroundColor: '#f9fafb',
-                    color: '#333',
-                    height: '38px',
-                  }}
-                onChange={(e) =>
-                  setUserCreds((prevState) => ({
-                    ...prevState,
-                    email: e.target.value,
-                  }))
-                }
-              />
-            </InputField>
-            <InputField>
-              <label style={{fontSize:"14px", color:"#374151" ,fontWeight:"bold"}}>Password</label>
-              <div className="relative">
+        {appLoading && (
+          <SpinnerWrapper>
+            <CustomSpinner tip="Loading..." />
+          </SpinnerWrapper>
+        )}
+        {!appLoading && (
+          <FormWrapper>
+            <p style={{ fontSize: '24px', color: "#333333", marginBottom: "18px" }}>Log In</p>
+            <p style={{ fontSize: '14px', color: "#333333", marginBottom: "18px" }}>Welcome back!</p>
+            <form>
+              <InputField>
+                <label style={{ fontSize: "14px", color: "#374151", fontWeight: "semibold" }}>Email</label>
                 <input
-                  type="password"
-                  placeholder="Enter your password"
+                  type="email"
+                  placeholder="Enter your email"
                   style={{
                     padding: '0.75rem',
                     borderRadius: '5px',
@@ -107,42 +93,64 @@ const AdminLoginPage = () => {
                     backgroundColor: '#f9fafb',
                     color: '#333',
                     height: '38px',
-                    marginBottom: "8px"
                   }}
-                    onChange={(e) =>
+                  onChange={(e) =>
                     setUserCreds((prevState) => ({
                       ...prevState,
-                      password: e.target.value,
+                      email: e.target.value,
                     }))
                   }
                 />
-                {/* <ShowButton>Show</ShowButton> */}
-              </div>
-            </InputField>
-            <RememberMeWrapper>
-              <label>
-                <input type="checkbox" className="mr-2" />
-                <span style={{fontSize:"13px", marginLeft:"8px"}}>Remember me</span>
-              </label>
-              <ForgotPasswordLink onClick={() => navigate('/consumer-registration')}>
-                <span style={{fontSize:'13px'}}>Forgot password?</span>
-              </ForgotPasswordLink>
-            </RememberMeWrapper>
-            <LoginButton type="submit" onClick={signInUser}>
-              Log In
-            </LoginButton>
-          </form>
-          <SignupPrompt>
-            <span style={{fontSize:"13px"}}>Don’t have an account?{' '}</span>
-            <SignUpLink onClick={() => navigate('/consumer-registration')}><span style={{fontSize:"13px"}}>Sign Up</span></SignUpLink>
-          </SignupPrompt>
-        </FormWrapper>
+              </InputField>
+              <InputField>
+                <label style={{ fontSize: "14px", color: "#374151", fontWeight: "bold" }}>Password</label>
+                <div className="relative">
+                  <input
+                    type="password"
+                    placeholder="Enter your password"
+                    style={{
+                      padding: '0.75rem',
+                      borderRadius: '5px',
+                      border: '1px solid #1A3E8A',
+                      fontSize: '13px',
+                      backgroundColor: '#f9fafb',
+                      color: '#333',
+                      height: '38px',
+                      marginBottom: "8px"
+                    }}
+                    onChange={(e) =>
+                      setUserCreds((prevState) => ({
+                        ...prevState,
+                        password: e.target.value,
+                      }))
+                    }
+                  />
+                  {/* <ShowButton>Show</ShowButton> */}
+                </div>
+              </InputField>
+              <RememberMeWrapper>
+                <label>
+                  <input type="checkbox" className="mr-2" />
+                  <span style={{ fontSize: "13px", marginLeft: "8px" }}>Remember me</span>
+                </label>
+                <ForgotPasswordLink onClick={() => navigate('/consumer-registration')}>
+                  <span style={{ fontSize: '13px' }}>Forgot password?</span>
+                </ForgotPasswordLink>
+              </RememberMeWrapper>
+              <LoginButton type="submit" onClick={signInUser}>
+                Log In
+              </LoginButton>
+            </form>
+            <SignupPrompt>
+              <span style={{ fontSize: "13px" }}>Don’t have an account?{' '}</span>
+              <SignUpLink onClick={() => navigate('/consumer-registration')}><span style={{ fontSize: "13px" }}>Sign Up</span></SignUpLink>
+            </SignupPrompt>
+          </FormWrapper>
+        )}
       </RightSection>
     </Container>
   );
 };
-
-
 
 const Container = styled.div`
   display: flex;
@@ -151,7 +159,6 @@ const Container = styled.div`
 
 const LeftSection = styled.div`
   width: 50%;
-  //background-color: #1e40af;
   background-color: #1e3a8a;
   color: white;
   display: flex;
@@ -190,6 +197,14 @@ const RightSection = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
+`;
+
+const SpinnerWrapper = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 `;
 
 const FormWrapper = styled.div`

@@ -1,9 +1,11 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { userLogin,userLogout } from "./../redux/actions/authAction";
 import { UserRole } from './../types/enums'
+import CustomSpinner from "../utils/CustomSpinner";
+import { showErrorNotification } from "../utils/AppNotification";
 
 // Styled components
 const Container = styled.div`
@@ -27,6 +29,7 @@ const RightSection = styled.div`
   justify-content: center;
   align-items: center;
   background-color: white;
+  position: relative;
 `;
 
 const Card = styled.div`
@@ -108,6 +111,7 @@ const Button = styled.button`
   border-radius: 0.375rem;
   font-weight: medium;
   border: none;
+  cursor: pointer;
   &:hover {
     background-color:rgb(52, 134, 110);
   }
@@ -127,39 +131,36 @@ const SignUpLink = styled.a`
 `;
 
 const SupplierLoginPage = () => {
-  const dispatch = useDispatch();
+  const [appLoading, setAppLoading] = useState(false);
+  const dispatch = useDispatch(); 
   const { logindata, loginError, loading } = useSelector((state) => state.auth);
   const defaultState = { email: '', password: '' };
   const [userCreds, setUserCreds] = useState({ ...defaultState });
   
   const navigate = useNavigate();
   const signInUser = async (e) => {
-      e.preventDefault(); // Prevent form submission
-      try {
-        dispatch(userLogin(userCreds,UserRole.SUPPLIER))
-        // const response = await dal.userAuth.login(userCreds, UserRole.CONSUMER);
-        //   localStorage.setItem('access_token', response.token);
-        //   localStorage.setItem('user_type', UserRole.CONSUMER);
-        //   let onRegistrationSuccessRoute = '/instant-quote';
-        //   navigate(onRegistrationSuccessRoute);
-      } catch (err) {
-        // todo: show error on modal or as a toaster
-        alert('Invalid consumer credentials');
-      }
-    };
+    e.preventDefault(); // Prevent form submission
+    try {
+      setAppLoading(true)
+      dispatch(userLogin(userCreds,UserRole.SUPPLIER))
+    } catch (err) {
+      showErrorNotification('Something went wrong!')
+    }
+  };
  
-  if(logindata){
-    if(logindata.status){
+  useEffect(()=>{
+    if(logindata && logindata.status){
+      setAppLoading(false);
       localStorage.setItem('access_token', logindata.token);
-      localStorage.setItem('user_type', UserRole.CONSUMER);
+      localStorage.setItem('user_type', UserRole.SUPPLIER);
       navigate('/dashboard');
-
-    }else {
+    }else if(logindata &&  !logindata.status){
+      setAppLoading(false);
       localStorage.clear();
       dispatch(userLogout());
-      window.alert(logindata.message);
+      showErrorNotification(logindata.message);
     }
-  }  
+  },[logindata])
     
   return (
     <Container>
@@ -194,72 +195,75 @@ const SupplierLoginPage = () => {
 
       {/* Right Section */}
       <RightSection>
-        <Card>
-          <SubHeading>Login</SubHeading>
-          <Description>Welcome back!</Description>
-          <form>
-            <InputWrapper>
-              <Label htmlFor="email">Email ID *</Label>
-              <Input 
-              type="email" 
-              id="email" 
-              placeholder="Enter Email Address"
-              onChange={(e) =>
-                setUserCreds((prevState) => ({
-                  ...prevState,
-                  email: e.target.value,
-                }))
-              }
-              />
-            </InputWrapper>
-            <InputWrapper>
-              <Label htmlFor="password">Password *</Label>
-              <div style={{ position: 'relative' }}>
-                <Input
-                  type="password"
-                  id="password"
-                  placeholder="Password"
-                  onChange={(e) =>
-                    setUserCreds((prevState) => ({
-                      ...prevState,
-                      password: e.target.value,
-                    }))
-                  }
+        {appLoading && <CustomSpinner tip="Loading..." />}
+        {!appLoading && (
+          <Card>
+            <SubHeading>Login</SubHeading>
+            <Description>Welcome back!</Description>
+            <form>
+              <InputWrapper>
+                <Label htmlFor="email">Email ID *</Label>
+                <Input 
+                type="email" 
+                id="email" 
+                placeholder="Enter Email Address"
+                onChange={(e) =>
+                  setUserCreds((prevState) => ({
+                    ...prevState,
+                    email: e.target.value,
+                  }))
+                }
                 />
-                <button
-                  type="button"
-                  style={{
-                    position: 'absolute',
-                    right: '0.75rem',
-                    top: '50%',
-                    transform: 'translateY(-50%)',
-                    background: 'none',
-                    border: 'none',
-                    color: '#6b7280',
-                  }}
-                >
-                  👁️
-                </button>
+              </InputWrapper>
+              <InputWrapper>
+                <Label htmlFor="password">Password *</Label>
+                <div style={{ position: 'relative' }}>
+                  <Input
+                    type="password"
+                    id="password"
+                    placeholder="Password"
+                    onChange={(e) =>
+                      setUserCreds((prevState) => ({
+                        ...prevState,
+                        password: e.target.value,
+                      }))
+                    }
+                  />
+                  <button
+                    type="button"
+                    style={{
+                      position: 'absolute',
+                      right: '0.75rem',
+                      top: '50%',
+                      transform: 'translateY(-50%)',
+                      background: 'none',
+                      border: 'none',
+                      color: '#6b7280',
+                    }}
+                  >
+                    👁️
+                  </button>
+                </div>
+              </InputWrapper>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px'}}>
+                <label style={{ display: 'flex', alignItems: 'center', color: '#4b5563', fontSize: '14px' }}>
+                  <input type="checkbox" style={{ marginRight: '0.5rem' }} />
+                  Remember me
+                </label>
+                <ForgotPassword href="/">Forgot password?</ForgotPassword>
               </div>
-            </InputWrapper>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px'}}>
-              <label style={{ display: 'flex', alignItems: 'center', color: '#4b5563', fontSize: '14px' }}>
-                <input type="checkbox" style={{ marginRight: '0.5rem' }} />
-                Remember me
-              </label>
-              <ForgotPassword href="/">Forgot password?</ForgotPassword>
-            </div>
-            <Button
-              type="submit"
-              onClick={signInUser}>
-              Log In
-            </Button>
-          </form>
-          <p style={{ textAlign: 'center', color: '#6b7280', marginTop: '1rem' }} onClick={() => navigate('/supplier-registration')}>
-            Don’t have an account?{" "}
-            <SignUpLink>Sign Up</SignUpLink>
-          </p>
-        </Card>
+              <Button
+                type="submit"
+                onClick={signInUser}>
+                Log In
+              </Button>
+            </form>
+            <p style={{ textAlign: 'center', color: '#6b7280', marginTop: '1rem' }} onClick={() => navigate('/supplier-registration')}>
+              Don’t have an account?{" "}
+              <SignUpLink>Sign Up</SignUpLink>
+            </p>
+          </Card>
+        )}
       </RightSection>
     </Container>
   );

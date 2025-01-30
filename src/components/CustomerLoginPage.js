@@ -1,38 +1,45 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import { userLogin, userLogout } from "./../redux/actions/authAction";
-// import useDal from '../../common/hooks/useDAL';
- import { UserRole } from './../types/enums'
+import { UserRole } from './../types/enums'
 import styled from 'styled-components';
+import CustomSpinner from '../utils/CustomSpinner';
+import { showErrorNotification } from '../utils/AppNotification';
 
 const CustomerLoginPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [appLoading, setAppLoading] = useState(false);
   const { logindata, loginError, loading } = useSelector((state) => state.auth);
   const defaultState = { email: '', password: '' };
  // const dal = useDal();
   const [userCreds, setUserCreds] = useState({ ...defaultState });
 
-  if(logindata){
-      if(logindata.status){
-        localStorage.setItem('access_token', logindata.token);
-        localStorage.setItem('user_type', UserRole.CONSUMER);
-        navigate('/dashboard');
-      }else {
-        localStorage.clear();
-        dispatch(userLogout());
-        window.alert(logindata.message);
-      }
-    } 
+  
+  useEffect(()=>{
+     if(logindata && logindata.status){
+       setAppLoading(false);
+       localStorage.setItem('access_token', logindata.token);
+       localStorage.setItem('user_type', UserRole.CONSUMER);
+       navigate('/dashboard');
+     }else if(logindata &&  !logindata.status){
+       setAppLoading(false); 
+      localStorage.clear();
+       dispatch(userLogout());
+       showErrorNotification(logindata.message)
+     }
+   },[logindata])
+
 
   const signInUser = async (e) => {
     e.preventDefault(); // Prevent form submission
     try {
+      setAppLoading(true)
       dispatch(userLogin(userCreds,'consumer'))
     } catch (err) {
       // todo: show error on modal or as a toaster
-      alert('Invalid consumer credentials');
+      showErrorNotification('Invalid consumer credentials')
     }
   };
 
@@ -65,38 +72,21 @@ const CustomerLoginPage = () => {
 
       {/* Right Section */}
       <RightSection>
-        <FormWrapper>
-          <p style={{fontSize:'24px',color:"#333333", marginBottom:"18px"}}>Log In</p>
-          <p style={{fontSize:'14px',color:"#333333", marginBottom:"18px"}}>Welcome back!</p>
-          <form>
-            <InputField>
-              <label style={{fontSize:"14px", color:"#374151" ,fontWeight:"semibold"}}>Email</label>
-              <input
-                type="email"
-                placeholder="Enter your email"
-                style={{
-                    padding: '0.75rem',
-                    borderRadius: '5px',
-                    border: '1px solid #1A3E8A',
-                    fontSize: '13px',
-                    backgroundColor: '#f9fafb',
-                    color: '#333',
-                    height: '38px',
-                  }}
-                onChange={(e) =>
-                  setUserCreds((prevState) => ({
-                    ...prevState,
-                    email: e.target.value,
-                  }))
-                }
-              />
-            </InputField>
-            <InputField>
-              <label style={{fontSize:"14px", color:"#374151" ,fontWeight:"bold"}}>Password</label>
-              <div className="relative">
+        {appLoading && (
+          <SpinnerWrapper>
+            <CustomSpinner tip="Loading..." />
+          </SpinnerWrapper>
+        )}  
+        {!appLoading && (
+          <FormWrapper>
+            <p style={{fontSize:'24px',color:"#333333", marginBottom:"18px"}}>Log In</p>
+            <p style={{fontSize:'14px',color:"#333333", marginBottom:"18px"}}>Welcome back!</p>
+            <form>
+              <InputField>
+                <label style={{fontSize:"14px", color:"#374151" ,fontWeight:"semibold"}}>Email</label>
                 <input
-                  type="password"
-                  placeholder="Enter your password"
+                  type="email"
+                  placeholder="Enter your email"
                   style={{
                     padding: '0.75rem',
                     borderRadius: '5px',
@@ -105,42 +95,64 @@ const CustomerLoginPage = () => {
                     backgroundColor: '#f9fafb',
                     color: '#333',
                     height: '38px',
-                    marginBottom: "8px"
                   }}
-                    onChange={(e) =>
+                  onChange={(e) =>
                     setUserCreds((prevState) => ({
                       ...prevState,
-                      password: e.target.value,
+                      email: e.target.value,
                     }))
                   }
                 />
-                {/* <ShowButton>Show</ShowButton> */}
-              </div>
-            </InputField>
-            <RememberMeWrapper>
-              <label>
-                <input type="checkbox" className="mr-2" />
-                <span style={{fontSize:"13px", marginLeft:"8px"}}>Remember me</span>
-              </label>
-              <ForgotPasswordLink onClick={() => navigate('/consumer-registration')}>
-                <span style={{fontSize:'13px'}}>Forgot password?</span>
-              </ForgotPasswordLink>
-            </RememberMeWrapper>
-            <LoginButton type="submit" onClick={signInUser}>
-              Log In
-            </LoginButton>
-          </form>
-          <SignupPrompt>
-            <span style={{fontSize:"13px"}}>Don’t have an account?{' '}</span>
-            <SignUpLink onClick={() => navigate('/consumer-registration')}><span style={{fontSize:"13px"}}>Sign Up</span></SignUpLink>
-          </SignupPrompt>
-        </FormWrapper>
+              </InputField>
+              <InputField>
+                <label style={{fontSize:"14px", color:"#374151" ,fontWeight:"bold"}}>Password</label>
+                <div className="relative">
+                  <input
+                    type="password"
+                    placeholder="Enter your password"
+                    style={{
+                      padding: '0.75rem',
+                      borderRadius: '5px',
+                      border: '1px solid #1A3E8A',
+                      fontSize: '13px',
+                      backgroundColor: '#f9fafb',
+                      color: '#333',
+                      height: '38px',
+                      marginBottom: "8px"
+                    }}
+                    onChange={(e) =>
+                      setUserCreds((prevState) => ({
+                        ...prevState,
+                        password: e.target.value,
+                      }))
+                    }
+                  />
+                  {/* <ShowButton>Show</ShowButton> */}
+                </div>
+              </InputField>
+              <RememberMeWrapper>
+                <label>
+                  <input type="checkbox" className="mr-2" />
+                  <span style={{fontSize:"13px", marginLeft:"8px"}}>Remember me</span>
+                </label>
+                <ForgotPasswordLink onClick={() => navigate('/consumer-registration')}>
+                  <span style={{fontSize:'13px'}}>Forgot password?</span>
+                </ForgotPasswordLink>
+              </RememberMeWrapper>
+              <LoginButton type="submit" onClick={signInUser}>
+                Log In
+              </LoginButton>
+            </form>
+            <SignupPrompt>
+              <span style={{fontSize:"13px"}}>Don’t have an account?{' '}</span>
+              <SignUpLink onClick={() => navigate('/consumer-registration')}><span style={{fontSize:"13px"}}>Sign Up</span></SignUpLink>
+            </SignupPrompt>
+          </FormWrapper>
+        )}
       </RightSection>
     </Container>
   );
 };
-
-
 
 const Container = styled.div`
   display: flex;
@@ -188,6 +200,14 @@ const RightSection = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
+`;
+
+const SpinnerWrapper = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 `;
 
 const FormWrapper = styled.div`
