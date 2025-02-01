@@ -6,6 +6,7 @@ import consumerDashboardReducer from "./reducer/consumerDashboardReducer";
 import rfqReducer from "./reducer/rfqReducer";
 import dataRedsucer from "./reducer/dataReducer";
 import assignRfqReducer from "./reducer/assignRfqReducer";
+import supplierRfqReducer from "./reducer/supplierRfqReducer";
 const rootReducer = combineReducers({
     user: userReducer,
     product: productReducer,
@@ -13,7 +14,9 @@ const rootReducer = combineReducers({
     consumerDashboard: consumerDashboardReducer,
     rfq: rfqReducer,
     dataSet : dataRedsucer,
-    assignRfq:  assignRfqReducer
+    assignRfq:  assignRfqReducer,
+    supplierRfq: supplierRfqReducer
 })
 
 export default rootReducer;
+

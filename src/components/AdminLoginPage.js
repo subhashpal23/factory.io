@@ -27,12 +27,11 @@ const AdminLoginPage = () => {
       localStorage.clear();
       dispatch(userLogout());
       showErrorNotification(logindata.message)
-      //window.alert(logindata.message);
     }
   }, [logindata]);
 
   const signInUser = async (e) => {
-    e.preventDefault(); // Prevent form submission
+    e.preventDefault(); 
     try {
       setAppLoading(true);
       dispatch(userLogin(userCreds, UserRole.SUPER_ADMIN));

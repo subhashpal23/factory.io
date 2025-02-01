@@ -1,16 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Input, Button, Checkbox, Drawer, Dropdown, Menu, Modal } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAdminRfqLists } from '../../../redux/actions/rfqAction';
-import { getAllSupplier, getAllConsumer } from '../../../redux/actions/allDataAction';
-import { assignRfqToSupplier, resetAssignRfqStatus } from '../../../redux/actions/assignRfqAction';
+import { getSupplierRfqReceivedList, changeRfqStatus } from '../../../redux/actions/supplierRfqAction';
+//import { getAdminRfqLists } from '../../../redux/actions/rfqAction';
+//import { getAllSupplier, getAllConsumer } from '../../../redux/actions/allDataAction';
+//import { assignRfqToSupplier, resetAssignRfqStatus } from '../../../redux/actions/assignRfqAction';
 const { Search } = Input;
 const { confirm } = Modal;
 
-const AdminRfqList = ({ filter }) => {
+
+
+const RfqReceived = ({ filter }) => {
   const dispatch = useDispatch();
+  const [rfqList, setRfqList] = useState([])
   const { logindata } = useSelector((state) => state.auth);
-  const { adminRfqData } = useSelector((state) => state.rfq);
+  const { rfqReceivedData } = useSelector((state) => state.supplierRfq);
   const allSupplier = useSelector((state) => state.dataSet.allSupplier);
   const allConsumer = useSelector((state) => state.dataSet.allConsumer);
   const manufacturingProcess = useSelector((state) => state.auth.logindata.manufacturing_process);
@@ -32,17 +36,21 @@ const AdminRfqList = ({ filter }) => {
   const [userList, setUserList] = useState([]);
   const [currentRfqCode, setCurrentRfqCode] = useState('');
   const [currentRfqId,setCurrentRfqId] = useState('');
+  
+  
+  //let rfqList = rfqReceivedData && rfqReceivedData?.data ? rfqReceivedData.data : [];
+  useEffect(()=>{
+    if(rfqReceivedData)
+      setRfqList(rfqReceivedData.data || [])
+  },[rfqReceivedData])
 
-
-  let rfqList = adminRfqData && adminRfqData?.data ? adminRfqData.data : [];
-  console.log('@rfqList',rfqList)
   useEffect(()=>{
     if(rfqAssignStatus){
       setTimeout(() => {
         setDrawerVisible(false);
         setSelectedUsers([]);
         setUserSearchValue('');
-        dispatch(resetAssignRfqStatus())  
+        //dispatch(resetAssignRfqStatus())  
       }, 2000);
     }
   },[rfqAssignStatus])
@@ -60,9 +68,9 @@ const AdminRfqList = ({ filter }) => {
 
   useEffect(() => {
     if (logindata && logindata.token) {
-      dispatch(getAdminRfqLists(logindata.token));
-      dispatch(getAllConsumer(logindata.token));
-      dispatch(getAllSupplier(logindata.token));
+        dispatch(getSupplierRfqReceivedList(logindata.token));
+     // dispatch(getAllConsumer(logindata.token));
+    //  dispatch(getAllSupplier(logindata.token));
     }
   }, [dispatch, logindata]);
 
@@ -170,9 +178,38 @@ const AdminRfqList = ({ filter }) => {
       supplier_id: selectedUsers
     }
     if(request && request?.rfq_id && request?.rfq_code && request?.supplier_id && request.supplier_id.length){
-      dispatch(assignRfqToSupplier(request, logindata.token))
+     // dispatch(assignRfqToSupplier(request, logindata.token))
     }
   };
+
+  const handleAccept = (rfqId) => {
+    if (rfqId && rfqList) {
+      const selectedRfq = rfqList.find(rf => rf.id === rfqId)
+      const request = { rfq_id: selectedRfq["id"], rfq_code: selectedRfq["rfq_code"], status: 'accept' }
+      dispatch(changeRfqStatus(logindata.token, request));
+      setTimeout(()=>{
+        dispatch(getSupplierRfqReceivedList(logindata.token));
+      },1500)
+      
+    }
+  };
+
+  const handleReject = (rfqId) => {
+    confirm({
+      title: 'Are you sure to Reject RFQ?',
+      onOk() {
+        if (rfqId && rfqList) {
+          const selectedRfq = rfqList.find(rf => rf.id === rfqId)
+          const request = { rfq_id: selectedRfq["id"], rfq_code: selectedRfq["rfq_code"], status: 'reject' }
+          dispatch(changeRfqStatus(logindata.token, request));
+          setTimeout(()=>{
+            dispatch(getSupplierRfqReceivedList(logindata.token));
+          },1500)
+        }
+      },
+    });
+  };
+
 
   const filteredUserList = userSearchValue
     ? userList.filter((user) =>
@@ -232,9 +269,35 @@ const AdminRfqList = ({ filter }) => {
       title: 'Action',
       key: 'action',
       render: (_, record) => (
-        <Dropdown overlay={menu(record)} trigger={['hover']}>
-          {!filter && <Button type="primary">Assign</Button>}
-        </Dropdown>
+        <div>
+          {!filter && (
+            <>
+              {/* Accept RFQ Button */}
+              <Button
+                type="primary"
+                onClick={() => {
+                  //setCurrentRfqId(record.rfq_id);
+                  handleAccept(record.rfq_id);
+                }}
+                // style={{ marginRight: '8px' }}
+                style={{ backgroundColor: '#2E6F40', borderColor: 'white',marginRight: '8px' }}
+              >
+                Accept RFQ
+              </Button>
+              {/* Reject RFQ Button */}
+              <Button
+                type="danger"
+                style={{ backgroundColor: '#E32227', borderColor: 'white', color:'white' }}
+                onClick={() => {
+                  //setCurrentRfqId(record.rfq_id);
+                  handleReject(record.rfq_id);
+                }}
+              >
+                Reject RFQ
+              </Button>
+            </>
+          )}
+        </div>
       ),
     },
   ];
@@ -304,4 +367,4 @@ const AdminRfqList = ({ filter }) => {
   );
 };
 
-export default AdminRfqList;
+export default RfqReceived;

@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Input, Button, Checkbox, Drawer, Dropdown, Menu, Modal } from 'antd';
+import { Table, Input, Button, Checkbox, Drawer, Dropdown, Menu, Modal, DatePicker, Select, Upload, Form } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAdminRfqLists } from '../../../redux/actions/rfqAction';
 import { getAllSupplier, getAllConsumer } from '../../../redux/actions/allDataAction';
 import { assignRfqToSupplier, resetAssignRfqStatus } from '../../../redux/actions/assignRfqAction';
 const { Search } = Input;
 const { confirm } = Modal;
-
-const AdminRfqList = ({ filter }) => {
+const { Option } = Select
+const AcceptedRfqs = ({ filter }) => {
   const dispatch = useDispatch();
   const { logindata } = useSelector((state) => state.auth);
   const { adminRfqData } = useSelector((state) => state.rfq);
@@ -32,6 +32,16 @@ const AdminRfqList = ({ filter }) => {
   const [userList, setUserList] = useState([]);
   const [currentRfqCode, setCurrentRfqCode] = useState('');
   const [currentRfqId,setCurrentRfqId] = useState('');
+  
+  const [formData, setFormData] = useState({
+    total_cost: '',
+    valid_till: null,
+    duration_year: '',
+    duration_month: '',
+    duration_day: '',
+    documents: [],
+    payment_term: '',
+  });
 
 
   let rfqList = adminRfqData && adminRfqData?.data ? adminRfqData.data : [];
@@ -76,6 +86,31 @@ const AdminRfqList = ({ filter }) => {
     const process = manufacturingProcess.find((d) => d.id === id);
     return process?.process_name || '';
   };
+
+
+  const handleFormChange = (key, value) => {
+    setFormData({
+      ...formData,
+      [key]: value,
+    });
+  };
+
+  const handleReset = () => {
+    setFormData({
+      total_cost: '',
+      valid_till: null,
+      duration_year: '',
+      duration_month: '',
+      duration_day: '',
+      documents: [],
+      payment_term: '',
+    });
+  };
+
+  const handleSubmit = () => {
+    console.log('Form Data:', formData);
+  };
+
 
   const fetchData = () => {
     setLoading(true);
@@ -232,9 +267,12 @@ const AdminRfqList = ({ filter }) => {
       title: 'Action',
       key: 'action',
       render: (_, record) => (
-        <Dropdown overlay={menu(record)} trigger={['hover']}>
-          {!filter && <Button type="primary">Assign</Button>}
-        </Dropdown>
+        <>
+            {!filter && <Button type="primary" onClick={() => showDrawer('Generate Quote', 'supplier', record.rfqcode, record.rfq_id)} > Generate Quote</Button>}
+        </>
+        // <Dropdown overlay={menu(record)} trigger={['hover']}>
+          
+        // </Dropdown>
       ),
     },
   ];
@@ -259,36 +297,88 @@ const AdminRfqList = ({ filter }) => {
         visible={drawerVisible}
         bodyStyle={{ paddingBottom: 80 }}
       >
-        <h2 style={{margin:"0px 10px 10px 0px"}}>{currentRfqCode}</h2>
-        <Search
-          placeholder="Search users"
-          onSearch={handleUserSearch}
-          style={{ marginBottom: 20 }}
-          value={userSearchValue}
-          onChange={(e) => handleUserSearch(e.target.value)}
-        />
-        <div style={{ maxHeight: 'calc(100vh - 200px)', overflowY: 'auto' }}>
-        {filteredUserList.map((user) => (
-          <div key={user.id} style={{ display: 'flex', padding: '10px', borderBottom: '1px solid #ccc', alignItems: 'center' }}>
-            <Checkbox
-              checked={selectedUsers.includes(user.id)}
-              onChange={() => handleUserSelect(user.id)}
-              style={{ marginRight: '10px' }}
-            />
-            <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
-              <span style={{ flex: '1' }}>{user.name}</span>
-              <span style={{ flex: '1', textAlign: 'right' }}>{user.email}</span>
-            </div>
-          </div>
-        ))}
-        </div>
-        <Button
-          type="primary"
-          onClick={handleAssignAndSave}
-          style={{ position: 'absolute', right: 20, bottom: 20 }}
-        >
-          Assign and Save
-        </Button>
+        <h2 style={{margin:"0px 10px 10px 0px"}}>{`RFQ Code  :  ${currentRfqCode}`}</h2>
+        <div style={{ textAlign: 'right', marginBottom: '10px' }}>
+            <Button type="link" onClick={handleReset}>Reset Fields</Button>
+      </div>
+        <Form layout="vertical">
+        <Form.Item label="Cost" required>
+          <Input
+            type="number"
+            value={formData.total_cost}
+            onChange={(e) => handleFormChange('total_cost', e.target.value)}
+          />
+        </Form.Item>
+        <Form.Item label="Valid Upto">
+          <DatePicker
+            style={{ width: '100%' }}
+            value={formData.valid_till}
+            onChange={(date) => handleFormChange('valid_till', date)}
+          />
+        </Form.Item>
+        <Form.Item label="Duration">
+          <Input.Group compact>
+            <Select
+              placeholder="Year"
+              style={{ width: '33%' }}
+              value={formData.duration_year}
+              onChange={(value) => handleFormChange('duration_year', value)}
+            >
+              {Array.from({ length: 10 }, (_, i) => (
+                <Option key={i} value={i + 1}>{`${i + 1} Year${i > 0 ? 's' : ''}`}</Option>
+              ))}
+            </Select>
+            <Select
+              placeholder="Month"
+              style={{ width: '33%' }}
+              value={formData.duration_month}
+              onChange={(value) => handleFormChange('duration_month', value)}
+            >
+              {Array.from({ length: 12 }, (_, i) => (
+                <Option key={i} value={i}>{`${i + 1} Month${i > 0 ? 's' : ''}`}</Option>
+              ))}
+            </Select>
+            <Select
+              placeholder="Day"
+              style={{ width: '33%' }}
+              value={formData.duration_day}
+              onChange={(value) => handleFormChange('duration_day', value)}
+            >
+              {Array.from({ length: 31 }, (_, i) => (
+                <Option key={i} value={i + 1}>{`${i + 1} Day${i > 0 ? 's' : ''}`}</Option>
+              ))}
+            </Select>
+          </Input.Group>
+        </Form.Item>
+        <Form.Item label="Documents">
+          <Upload
+            multiple
+            beforeUpload={() => false} // Prevent automatic upload
+            fileList={formData.documents}
+            onChange={({ fileList }) => handleFormChange('documents', fileList)}
+          >
+            <Button>Upload</Button>
+          </Upload>
+        </Form.Item>
+        <Form.Item label="Payment Term">
+          <Input
+            value={formData.payment_term}
+            onChange={(e) => handleFormChange('payment_term', e.target.value)}
+          />
+        </Form.Item>
+        {/* <Button type="primary" onClick={handleSubmit} style={{ position: 'absolute', right: 20, bottom: 20 }}>
+          Generate Quote
+        </Button> */}
+        <Form.Item>
+          <Button
+            type="primary"
+            onClick={handleSubmit}
+            style={{ display: 'block', margin: '0 auto' }}
+          >
+            Generate Quote
+          </Button>
+        </Form.Item>
+      </Form>
       </Drawer>
       <style>
         {`
@@ -304,4 +394,4 @@ const AdminRfqList = ({ filter }) => {
   );
 };
 
-export default AdminRfqList;
+export default AcceptedRfqs;

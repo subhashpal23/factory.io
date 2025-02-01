@@ -1,10 +1,10 @@
 import { SolutionOutlined } from '@ant-design/icons';
 import RfqList from '../pages/RfqList';
-import OpenRFQs from '../pages/OpenRFQs';
-import AcceptedRfqs from '../pages/AcceptedRfqs';
-import ManageBuyers from '../pages/ManageBuyers';
-import CreateQuote from '../pages/CreateQuote';
-import ManageCompatibiility from '../pages/ManageCompatibiility';
+import OpenRFQs from '../pages/supplier/OpenRFQs';
+import AcceptedRfqs from '../pages/supplier/AcceptedRfqs';
+import ManageBuyers from '../pages/supplier/ManageBuyers';
+import CreateQuote from '../pages/supplier/CreateQuote';
+import ManageCompatibiility from '../pages/supplier/ManageCompatibiility';
 import HomeConsumer from '../pages/HomeConsumer';
 import CreateRFQ from '../pages/CreateRFQ';
 import POList from '../pages/POList';
@@ -12,7 +12,7 @@ import CreatePO from '../pages/CreatePO';
 import ManageSuppliers from '../pages/ManageSuppliers';
 import ManageItemLibrary from '../pages/ManageItemLibrary';
 import QuotesList from '../pages/QuotesList';
-import RfqReceived from '../pages/RfqReceived';
+import RfqReceived from '../pages/supplier/RfqReceived';
 import AdminRfqList from '../pages/admin/AdminRfqList';
 export const industriesType = [
     'Aerospace',
