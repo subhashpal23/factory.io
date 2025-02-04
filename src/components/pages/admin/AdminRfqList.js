@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Input, Button, Checkbox, Drawer, Dropdown, Menu, Modal } from 'antd';
+import { Table, Input, Button, Checkbox, Drawer, Dropdown, Menu, Modal, Select, Space } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAdminRfqLists } from '../../../redux/actions/rfqAction';
 import { getAllSupplier, getAllConsumer } from '../../../redux/actions/allDataAction';
 import { assignRfqToSupplier, resetAssignRfqStatus } from '../../../redux/actions/assignRfqAction';
 const { Search } = Input;
 const { confirm } = Modal;
-
+const { Option } = Select;
 const AdminRfqList = ({ filter }) => {
   const dispatch = useDispatch();
   const { logindata } = useSelector((state) => state.auth);
@@ -32,7 +32,7 @@ const AdminRfqList = ({ filter }) => {
   const [userList, setUserList] = useState([]);
   const [currentRfqCode, setCurrentRfqCode] = useState('');
   const [currentRfqId,setCurrentRfqId] = useState('');
-
+  const [ filters, setFilters] = useState({})
 
   let rfqList = adminRfqData && adminRfqData?.data ? adminRfqData.data : [];
   console.log('@rfqList',rfqList)
@@ -70,7 +70,8 @@ const AdminRfqList = ({ filter }) => {
     if (rfqList && rfqList.length > 0) {
       fetchData();
     }
-  }, [rfqList, pagination.current, pagination.pageSize, sortOrder, searchValue]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [rfqList, pagination.current, pagination.pageSize, sortOrder, searchValue, filters]);
 
   const getManufacturingProcessValue = (id) => {
     const process = manufacturingProcess.find((d) => d.id === id);
@@ -79,42 +80,61 @@ const AdminRfqList = ({ filter }) => {
 
   const fetchData = () => {
     setLoading(true);
-    const data = rfqList.map((d, index) => {
-      return {
-        rfq_id: d.id,
-        rfqcode: d.rfq_code,
-        key: index,
-        name: d.name,
-        email: d.email,
-        contact: d.mobile,
-        manufacturingProcess: getManufacturingProcessValue(d.manufacturing_process_id),
-        designFiles: d.is_design_file === '1' ? 'Yes' : 'No',
-        comments: d.comments,
-      };
+    const data = rfqList.map((d, index) => ({
+      rfq_id: d.id,
+      rfqcode: d.rfq_code,
+      key: index,
+      name: d.name,
+      email: d.email,
+      contact: d.mobile,
+      manufacturingProcess: getManufacturingProcessValue(d.manufacturing_process_id),
+      designFiles: d.is_design_file === "1" ? "Yes" : "No",
+      comments: d.comments,
+    }));
+  
+    const lowerCaseSearchValue = searchValue ? searchValue.toString().toLowerCase() : "";
+  
+    const filteredData = data.filter((item) => {
+      const matchesSearch = lowerCaseSearchValue
+        ? item.email?.toLowerCase().includes(lowerCaseSearchValue) ||
+          item.contact?.includes(lowerCaseSearchValue) ||
+          item.rfqcode?.toLowerCase().includes(lowerCaseSearchValue) ||
+          item.name?.toLowerCase().includes(lowerCaseSearchValue)
+        : true;
+  
+      const matchesManufacturingProcess = filters.manufacturingProcess
+        ? item.manufacturingProcess === filters.manufacturingProcess
+        : true;
+  
+      const matchesDesignFiles = filters.designFiles?.toLowerCase
+        ? item.designFiles?.toLowerCase() === filters.designFiles?.toLowerCase()
+        : true; 
+  
+      return matchesSearch && matchesManufacturingProcess && matchesDesignFiles;
     });
-
-    const filtered = searchValue
-      ? data.filter(
-        (item) => item.email.includes(searchValue) || item.contact.includes(searchValue)
-      )
-      : data;
-
+  
     const sortedData = sortOrder
-      ? filtered.sort((a, b) => {
-        if (a[sortOrder.columnKey] < b[sortOrder.columnKey])
-          return sortOrder.order === 'ascend' ? -1 : 1;
-        if (a[sortOrder.columnKey] > b[sortOrder.columnKey])
-          return sortOrder.order === 'ascend' ? 1 : -1;
-        return 0;
-      })
-      : filtered;
-
+      ? [...filteredData].sort((a, b) => {
+          const columnKey = sortOrder.columnKey;
+          const aValue = a[columnKey] ?? ""; // Ensure undefined values don't cause issues
+          const bValue = b[columnKey] ?? "";
+  
+          return sortOrder.order === "ascend"
+            ? aValue.localeCompare(bValue, undefined, { numeric: true })
+            : bValue.localeCompare(aValue, undefined, { numeric: true });
+        })
+      : filteredData;
+  
     const start = (pagination.current - 1) * pagination.pageSize;
     const end = start + pagination.pageSize;
     const pageData = sortedData.slice(start, end);
 
     setFilteredData(pageData);
-    setPagination({ ...pagination, total: filtered.length });
+    setPagination((prev) => ({
+      ...prev,
+      total: filteredData.length,
+    }));
+  
     setLoading(false);
   };
 
@@ -242,6 +262,30 @@ const AdminRfqList = ({ filter }) => {
   return (
     <div>
       <h1 style={{ marginBottom: '20px' }}>Rfq List</h1>
+      <Space style={{ marginBottom: 16, gap: 16 }}>
+        <Search
+          placeholder="Search by RFQ Code/ Email / Name / Contact"
+          onChange={(e)=> setSearchValue(e.target?.value)}
+          style={{ width: 300 }}
+          value={searchValue}
+        />
+        <Select placeholder="--Manufacturing Process--"  style={{ minWidth: 200 }} onSelect={(value) => setFilters({ ...filters, manufacturingProcess: value })} value={filters?.manufacturingProcess} >
+          {manufacturingProcess.map((process) => (
+            <Option key={process.id} value={process.process_name} >{process.process_name}</Option>
+          ))}
+        </Select>
+        <Select placeholder="--Design Files--" style={{ minWidth: 100 }} onSelect={(value)=>setFilters({...filters, designFiles:value})} value={filters?.designFiles}>
+          <Option value="yes">Yes</Option>
+          <Option value="no">No</Option>
+        </Select>
+        <Button
+            type="primary"
+            onClick={()=>{setSearchValue(""); setFilters({})}}
+            style={{ display: 'block', margin: '0 auto' }}
+          >
+            Reset
+          </Button>
+      </Space>
       <Table
         columns={columns}
         dataSource={filteredData}
