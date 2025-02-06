@@ -12,7 +12,7 @@ const { SubMenu } = Menu;
 const ResponsiveSidebar = ({ userType }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [selectedKey, setSelectedKey] = useState(MenuItems.filter(i => i.role_type === userType).reduce((min, item) => {
+  const [selectedKey, setSelectedKey] = useState( localStorage?.getItem('selectedKey') ?? MenuItems.filter(i => i.role_type === userType).reduce((min, item) => {
     return item.id < min ? item.id : min;
   }, Infinity));
   const [collapsed, setCollapsed] = useState(false);
@@ -67,6 +67,7 @@ const ResponsiveSidebar = ({ userType }) => {
 
   const handleSideMenuClick = ({ key }) => {
     setSelectedKey(key);
+    localStorage.setItem('selectedKey', key)
   };
 
   const handleProfileMenuClick = ({ key }) => {

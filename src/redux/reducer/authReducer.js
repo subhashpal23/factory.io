@@ -1,5 +1,5 @@
 const initialState = {
-    logindata: undefined,
+    logindata: JSON.parse(localStorage.getItem('logindata')) || undefined, // Load from localStorag
     loginError: null,
     registrationData: undefined, 
     registrationError: null,
@@ -36,10 +36,31 @@ const authReducer = (state = initialState, action) => {
                 laoding: true,
             };
         case  'LOGIN_USER_SUCCESS':
+           
+            localStorage.removeItem('logindata');
+            
+            const newLoginData = {
+                ...action?.payload,
+                token: action.payload.token,
+                expires_at: action.payload.expires_at,
+                data: {
+                    id: action.payload.data.id,
+                    is_validated: action.payload.data.is_validated,
+                    marketing_consent: action.payload.data.marketing_consent,
+                    industry: action.payload.data.industry,
+                    role_type: action.payload.data.role_type,
+                    email_verify: action.payload.data.email_verify,
+                    email_verify_date: action.payload.data.email_verify_date,
+                }
+            };
+        
+
+            localStorage.setItem('logindata', JSON.stringify(newLoginData));
+
             return {
                 ...state,
                 laoding: false,
-                logindata: action.payload
+                logindata: newLoginData,
             };
         case  'LOGIN_USER_FAILURE' : 
         return {
@@ -49,6 +70,8 @@ const authReducer = (state = initialState, action) => {
         };
         
         case 'USER_LOGOUT':
+            localStorage.removeItem('logindata');
+
             return {
                 ...state,
                 logindata: undefined,
