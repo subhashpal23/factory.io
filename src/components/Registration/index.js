@@ -93,8 +93,8 @@ const RegistrationPage = ({user_type}) => {
     <Container>
       {/* Left Section */}
       <LeftSection>
-        <h1>Factory.IO</h1>
-        <p>Manufacturing is easy with Factory.io</p>
+        <h1>DigiFactory.io</h1>
+        <p>Manufacturing is easy with DigiFactory.io</p>
         <div>
           <Feature>
             <Icon>

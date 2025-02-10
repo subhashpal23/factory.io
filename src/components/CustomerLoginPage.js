@@ -49,7 +49,7 @@ const CustomerLoginPage = () => {
     <Container>
       {/* Left Section */}
       <LeftSection>
-        <h1 style={{fontSize:"36px !important", marginBottom:"20px"}}>Manufacturing is easy with Karkhana.io</h1>
+        <h1 style={{fontSize:"36px !important", marginBottom:"20px"}}>Manufacturing is easy with DigiFactory.io</h1>
         <List>
           <ListItem>
             <Icon>💵</Icon>

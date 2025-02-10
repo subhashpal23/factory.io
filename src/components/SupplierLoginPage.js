@@ -167,7 +167,7 @@ const SupplierLoginPage = () => {
       {/* Left Section */}
       <LeftSection>
         <div style={{ maxWidth: '28rem', margin: 'auto' }}>
-          <Heading>Grow Your Business With Kkonnect.io</Heading>
+          <Heading>Grow Your Business With DigiFactory.io</Heading>
           <List>
             <ListItem>
               <Icon>📦</Icon>

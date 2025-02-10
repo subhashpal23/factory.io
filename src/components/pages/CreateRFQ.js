@@ -5,7 +5,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import { createRfq ,resetRfcCreateStatus } from '../../redux/actions/rfqAction';
 import '@ant-design/v5-patch-for-react-19';
-import { notification } from 'antd';
+import { MinusCircleOutlined, PlusOutlined, UploadOutlined  } from '@ant-design/icons';
+import { notification, Space, Upload, UploadProps } from 'antd';
 const { Option } = Select;
 const { TextArea } = Input;
 
@@ -78,6 +79,25 @@ const CreateRFQ = () => {
     message.error('Please complete all required fields.');
   };
 
+  const props = {
+    name: 'file',
+    action: 'https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload',
+    headers: {
+      authorization: 'authorization-text',
+    },
+    onChange(info) {
+      if (info.file.status !== 'uploading') {
+        console.log(info.file, info.fileList);
+      }
+      if (info.file.status === 'done') {
+        message.success(`${info.file.name} file uploaded successfully`);
+      } else if (info.file.status === 'error') {
+        message.error(`${info.file.name} file upload failed.`);
+      }
+    },
+  };
+  
+  
   return (
     <>
       <h1 style={{ padding: "20px 250px" }}>Create RFQ</h1>
@@ -156,18 +176,53 @@ const CreateRFQ = () => {
           name="designFiles"
           rules={[{ required: true, message: 'Do you have any design files?' }]}
         >
-          <Select placeholder="--Please choose an option--">
+          <Select placeholder="--Please choose an option--" onChange={(value)=> setFormData({...formData, is_design_file: value ==='yes' ? true : false})}>
             <Option value="yes">Yes</Option>
             <Option value="no">No</Option>
           </Select>
         </Form.Item>
-
+        {formData?.is_design_file && (
+        <Form.List name="files">
+          {(fields, { add, remove }) => (
+            <>
+              {fields.map(({ key, name, ...restField }) => (
+                <Space key={key} style={{ display: 'flex', marginBottom: 8 }} align="baseline">
+                  <Form.Item
+                    {...restField}
+                    name={[name, 'product']}
+                    rules={[{ required: true, message: 'Missing Product' }]}
+                  >
+                    <Input placeholder="Product" />
+                  </Form.Item>
+                  <Form.Item
+                    {...restField}
+                    name={[name, 'quantity']}
+                    rules={[{ required: true, message: 'Missing Quantity' }]}
+                  >
+                    <Input placeholder="Quantity" />
+                  </Form.Item>
+                  <Form.Item>
+                  <Upload {...props}>
+                    <Button icon={<UploadOutlined />}>Click to Upload</Button>
+                </Upload>
+                </Form.Item>
+                  <MinusCircleOutlined onClick={() => remove(name)} />
+                </Space>
+              ))}
+              <Form.Item>
+                <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />} disabled={fields.length >= 10}>
+                  Add Files
+                </Button>
+              </Form.Item>
+            </>
+          )}
+        </Form.List>)}
         <Form.Item
           label="Comments"
           name="comments"
-          rules={[{ required: true, message: 'Type your message here' }]}
+          rules={[{ required: true, message: 'Type your message here', }]}
         >
-          <TextArea rows={4} placeholder="Type your message here" />
+          <TextArea rows={4} placeholder="Type your message here"  maxLength={1024} showCount />
         </Form.Item>
 
         <Form.Item>

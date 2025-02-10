@@ -126,7 +126,7 @@ const Dashboard = () => {
     return <>
         <header>
             <Header>
-                <HeaderText>Factory.io</HeaderText>
+                <HeaderText>DigiFactory.io</HeaderText>
                 <StyledDropdownContainer> 
                     <DropdownMenu />
                 </StyledDropdownContainer>

@@ -21,7 +21,7 @@ const AppHeader = () =>{
     return(<>
         <header>
             <Header>
-                <HeaderText>Factory.io</HeaderText>
+                <HeaderText>DigiFactory.io</HeaderText>
                 { !isUserLoggedIn ? <StyledDropdownContainer> 
                     <DropdownMenu />
                 </StyledDropdownContainer>: <></> }

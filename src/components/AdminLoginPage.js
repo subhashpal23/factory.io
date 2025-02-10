@@ -45,7 +45,7 @@ const AdminLoginPage = () => {
       {/* Left Section */}
       <LeftSection>
         <h1 style={{ fontSize: "36px !important", marginBottom: "20px" }}>
-          Manufacturing is easy with Karkhana.io
+          Manufacturing is easy with DigiFactory.io
         </h1>
         <List>
           <ListItem>
