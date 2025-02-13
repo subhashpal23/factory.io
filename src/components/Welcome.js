@@ -1,11 +1,20 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
-import DropdownMenu from "./DropdownMenu";
-import ContactSalesSection from "./ContactSalesSection";
-import { useNavigate } from 'react-router-dom';
-import AppHeader from "./AppHeader";
-import { notification } from "antd";
+// import DropdownMenu from "./DropdownMenu";
+// import ContactSalesSection from "./ContactSalesSection";
+// import { useNavigate } from 'react-router-dom';
+// import AppHeader from "./AppHeader";
+// import { notification } from "antd";
 import '@ant-design/v5-patch-for-react-19';
+import TopNavigation  from "./TopNavigation";
+import HeroSection  from "./HeroSection";
+import TrustedBy from "./TrustedBy"
+import ManufacturerSearch from "./ManufacturerSearch"
+import PopularSolutions from "./PopularSolutions";
+import StepsToManufacture from "./StepsToManufacture";
+import BottomHero from "./BottomHero";
+import FAQ from "./Faq";
+import Footer from "./Footer";
 
 
 
@@ -118,21 +127,30 @@ const StyledSectionDiv = styled.div`
 
 
 const Welcome = () => {
-    const navigate = useNavigate();
-    const token = localStorage.getItem('access_token');
-    const isUserLoggedIn = !!token;
+    //const navigate = useNavigate();
+    //const token = localStorage.getItem('access_token');
+    //const isUserLoggedIn = !!token;
 
   
 
     return <>
-        <AppHeader />
-        <section>
+        {/* <AppHeader /> */}
+        <TopNavigation />
+        {/* <section>
             <StyledSection>
                 <StyledSectionDiv>
                     <ContactSalesSection />
                 </StyledSectionDiv>
             </StyledSection>
-        </section>
+        </section> */}
+        <HeroSection />
+        <TrustedBy logos={["dod", "nissan", "gm", "honeywell", "us-army"]}/>
+        <ManufacturerSearch/>
+        <PopularSolutions/>
+        <StepsToManufacture/>
+        <BottomHero/>
+        <FAQ/>
+        <Footer/>
     </>
 };
 
