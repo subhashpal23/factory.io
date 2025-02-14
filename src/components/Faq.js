@@ -27,7 +27,7 @@ const faqs = [
 
 const FAQ = () => {
   return (
-    <div style={{ padding: "50px", background: "#0D0D0D", color: "white" }}>
+    <div style={{ padding: "80px 50px", background: "#0D0D0D", color: "white" }}>
       <Title level={2} style={{ color: "white", textAlign: "center" }}>Frequently Asked Questions</Title>
       <Collapse 
         accordion 

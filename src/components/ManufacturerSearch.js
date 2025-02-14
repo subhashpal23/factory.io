@@ -73,7 +73,7 @@ const ManufacturerSearch = () => {
 
         <div style={{ position: 'relative' }}>
           <img
-            src={`/images/Interface_Parts.png`}
+            src={`/images/interface-parts.png`}
             style={{ height: '35vw' }}
             alt=""
           />

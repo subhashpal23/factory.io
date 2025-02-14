@@ -165,7 +165,7 @@ const SupplierLoginPage = () => {
   return (
     <Container>
       {/* Left Section */}
-      <LeftSection>
+      {/* <LeftSection>
         <div style={{ maxWidth: '28rem', margin: 'auto' }}>
           <Heading>Grow Your Business With DigiFactory.io</Heading>
           <List>
@@ -191,7 +191,7 @@ const SupplierLoginPage = () => {
             </ListItem>
           </List>
         </div>
-      </LeftSection>
+      </LeftSection> */}
 
       {/* Right Section */}
       <RightSection>

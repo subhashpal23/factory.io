@@ -48,7 +48,7 @@ const CustomerLoginPage = () => {
   return (
     <Container>
       {/* Left Section */}
-      <LeftSection>
+      {/* <LeftSection>
         <h1 style={{fontSize:"36px !important", marginBottom:"20px"}}>Manufacturing is easy with DigiFactory.io</h1>
         <List>
           <ListItem>
@@ -68,7 +68,7 @@ const CustomerLoginPage = () => {
             <span>Massive Manufacturing Capacity</span>
           </ListItem>
         </List>
-      </LeftSection>
+      </LeftSection> */}
 
       {/* Right Section */}
       <RightSection>
@@ -195,7 +195,7 @@ const Icon = styled.div`
 `;
 
 const RightSection = styled.div`
-  width: 50%;
+  width: 100%;
   background-color: white;
   display: flex;
   justify-content: center;
