@@ -87,7 +87,7 @@ const MegaMenu = () => {
       </div>
 
       <div style={{ flex: 1, padding: "40px 50px", width:"80%", borderLeft: "1px solid #ddd", alignItems: "start", backgroundColor:"#F7F7F8" }}>
-        <img src="/images/production_order_cnc_machining-1-1.jpg" alt="Production" style={{ width: "100%", borderRadius: "5px" }} />
+        <img src="/images/production-order.jpg" alt="Production" style={{ width: "100%", borderRadius: "5px" }} />
         <h2 style={{marginTop:"25px"}}>Ready for Full-Service Production?</h2>
         <p style={{marginTop:"25px", fontSize: "15px" , fontWeight: "semibold"}}>We are your manufacturing partner to scale projects to production. Get complete program management with a team who can tailor our capabilities to optimize cost, quantity, and quality control of your production order.</p>
         <Button type="primary" block style={{marginTop:"40px", background:"#F7F7F8", padding:"24px", border:"1px solid #0068AD", color:"#0068AD"}}>Explore Production</Button>
