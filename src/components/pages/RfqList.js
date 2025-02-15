@@ -47,6 +47,7 @@ const HomeConsumer = () => {
   setLoading(true);
   const data = rfqList.map((d, index) => ({
     key: index,
+    rfqcode: d.rfq_code,
     name: d.name,
     email: d.email,
     contact: d.mobile,

@@ -2,6 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Table, Input, Button, Checkbox, Drawer, Menu, Modal, Select, Space } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { getSupplierRfqReceivedList, changeRfqStatus } from '../../../redux/actions/supplierRfqAction';
+import {
+  EyeOutlined
+} from '@ant-design/icons';
+import ViewRFQModal from "./../../ViewRFQModal";
 //import { getAdminRfqLists } from '../../../redux/actions/rfqAction';
 //import { getAllSupplier, getAllConsumer } from '../../../redux/actions/allDataAction';
 //import { assignRfqToSupplier, resetAssignRfqStatus } from '../../../redux/actions/assignRfqAction';
@@ -37,8 +41,19 @@ const RfqReceived = ({ filter }) => {
   const [currentRfqCode, setCurrentRfqCode] = useState('');
   const [currentRfqId,setCurrentRfqId] = useState('');
   const [ filters, setFilters] = useState({})
-  
-  //let rfqList = rfqReceivedData && rfqReceivedData?.data ? rfqReceivedData.data : [];
+
+  const [open, setOpen] = React.useState(false);
+  const [viewLoading, setViewLoading] = React.useState(false);
+  const [currentRfqData, setCurrentRfqData] = React.useState({});
+  const showLoading = () => {
+    setOpen(true);
+    setViewLoading(true);
+
+    setTimeout(() => {
+      setViewLoading(false);
+    }, 300);
+  };
+
   useEffect(()=>{
     if(rfqReceivedData)
       setRfqList(rfqReceivedData.data || [])
@@ -255,7 +270,7 @@ const RfqReceived = ({ filter }) => {
       dataIndex: 'rfqcode',
       key: 'rfqcode',
     },
-    {
+    /*{
       title: 'Name',
       dataIndex: 'name',
       key: 'name',
@@ -269,7 +284,7 @@ const RfqReceived = ({ filter }) => {
       title: 'Contact',
       dataIndex: 'contact',
       key: 'contact',
-    },
+    },*/
     {
       title: 'Manufacturing Process',
       dataIndex: 'manufacturingProcess',
@@ -307,13 +322,22 @@ const RfqReceived = ({ filter }) => {
               {/* Reject RFQ Button */}
               <Button
                 type="danger"
-                style={{ backgroundColor: '#E32227', borderColor: 'white', color:'white' }}
+                style={{ backgroundColor: '#E32227', borderColor: 'white', color:'white', marginRight: '8px' }}
                 onClick={() => {
-                  //setCurrentRfqId(record.rfq_id);
                   handleReject(record.rfq_id);
                 }}
               >
                 Reject RFQ
+              </Button>
+              <Button
+                type="primary"
+                style={{ borderColor: 'white', color:'white' }}
+                onClick={() => {
+                  showLoading();
+                  setCurrentRfqData({...record})
+                }}
+              >
+                View <EyeOutlined/>
               </Button>
             </>
           )}
@@ -322,9 +346,11 @@ const RfqReceived = ({ filter }) => {
     },
   ];
 
+
   return (
     <div>
       <h1 style={{ marginBottom: '20px' }}>Rfq List</h1>
+      <ViewRFQModal currentRfqData={currentRfqData} open={open} setOpen={setOpen} viewLoading={viewLoading} setViewLoading={setViewLoading} />
       <Space style={{ marginBottom: 16, gap: 16 }}>
         <Search
           placeholder="Search by RFQ Code/ Email / Name / Contact"

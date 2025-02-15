@@ -1,11 +1,32 @@
 import React from "react";
 import { Button, Typography, Card} from "antd";
 import { ClockCircleOutlined, SyncOutlined, DollarOutlined } from "@ant-design/icons";
+import styled from "styled-components";
 
 const { Title, Text } = Typography;
 
+const ManufacturerStyledSearch = styled.div`
+ @media (max-width: 768px) {
+   .text-section {
+    width: 60% !important;
+    display: flex !important;
+    gridTemplateColumns: auto !important;
+   }
+
+   .image-section {
+       display: none;
+   }
+
+   .heading {
+    padding : 0 10%;
+    margin: 0 !important;
+   }
+  }
+`
+
 const ManufacturerSearch = () => {
   return (
+    <ManufacturerStyledSearch>
     <div
       style={{
         minHeight: '100vh',
@@ -28,9 +49,10 @@ const ManufacturerSearch = () => {
           borderRadius: '12px',
           boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
         }}
+        className="text-section"
       >
         <div style={{ margin: '48px 24px' }}>
-          <Title level={2}>Your Manufacturer Search, Simplified</Title>
+          <Title level={2} className="heading">Your Manufacturer Search, Simplified</Title>
           <div style={{ margin: '48px 24px' }}>
             <div style={{ display: 'flex', alignItems: 'center', margin: '30px 16px' }}>
               <ClockCircleOutlined
@@ -71,7 +93,7 @@ const ManufacturerSearch = () => {
           </div>
         </div>
 
-        <div style={{ position: 'relative' }}>
+        <div style={{ position: 'relative' }} className="image-section">
           <img
             src={`/images/interface-parts.png`}
             style={{ height: '35vw' }}
@@ -82,6 +104,7 @@ const ManufacturerSearch = () => {
         </div>
       </div>
     </div>
+   </ManufacturerStyledSearch>
   );
 };
 

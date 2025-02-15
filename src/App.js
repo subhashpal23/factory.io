@@ -13,6 +13,9 @@ import RegistrationPage from "./components/Registration";
 import AdminLoginPage from "./components/AdminLoginPage";
 import Dashboard from "./components/Dashboard";
 import DashboardContainer from "./components/DashboardContainer";
+import ManufactoringProcessPage from "./components/ManufactoringProcessPage";
+import SupplierProfile from "./components/SupplierProfile";
+
 const App = () => {
     return (
         <> 
@@ -26,6 +29,8 @@ const App = () => {
                 <Route path="/supplier-registration" element={<RegistrationPage user_type = "supplier"/>} />
                 <Route path="/consumer-registration" element={<RegistrationPage user_type = "consumer"/>} />
                 <Route path="/dashboard" element={<DashboardContainer />} />
+                <Route path="/manufactoring/:process" element={<ManufactoringProcessPage />}/>
+                <Route path="/supplier-profile" element={<SupplierProfile />} />
                 
                 {/** Protected routes*/}
                 {/* <Route path="/dashboard" element={<Dashboard user_type = "consumer"/>} /> */}

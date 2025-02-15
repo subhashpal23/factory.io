@@ -19,6 +19,7 @@ const MegaMenuWrapper = styled.div`
 `;
 
 const MegaMenu = () => {
+  const navigate = useNavigate();
   const menu = (
     <MegaMenuWrapper>
       <div style={{ flex: 3, display: "flex", justifyContent: "space-between", width: "80%", height: "75vh", padding: "36px 30px", alignItems: "start" }}>
@@ -79,7 +80,7 @@ const MegaMenu = () => {
             <h2 style={{ color: '#0068AD', fontWeight: 'normal', borderBottom: '1px solid #C3C3C3', textAlign: "left"}}>{category.title}</h2>
             <Menu mode="vertical" style={{ boxShadow: "none",  marginTop: "16px", padding: "0px", textAlign: "start" }}>
               {category.items.map((item, i) => (
-                <Menu.Item key={i}>{item}</Menu.Item>
+                <Menu.Item key={i} onClick={()=> navigate(`/manufactoring/cnc-machining`)}>{item}</Menu.Item>
               ))}
             </Menu>
           </div>
@@ -125,8 +126,8 @@ const TopNavigation = () => {
 
   return (
     <div style={{ background: "#fff", padding: "10px 40px", display: "flex", alignItems: "center", boxShadow: "0 2px 4px rgba(0,0,0,0.1)" }}>
-      <div style={{ flex: 1 }}>
-        <HeaderText>DigiFactory.io</HeaderText>
+      <div style={{ flex: 1 , cursor: "pointer"}}>
+        <HeaderText onClick={()=>navigate("/")}>DigiFactory.io</HeaderText>
       </div>
 
       <Menu mode="horizontal" style={{ borderBottom: "none", flex: 2 }}>
@@ -169,14 +170,14 @@ const StyledButton = styled.button`
   border: 1px solid white;
   padding: 0.5rem 1rem;
   border-radius: 0.5rem;
-  background-color: transparent;
+  background-color: #2563eb;
   color: white;
   cursor: pointer;
   transition: all 0.3s ease;
 
   &:hover {
-    background-color: white;
-    color: #1e3a8a;
+    background-color: #2563eb;
+    color: white;
   }
 `;
 

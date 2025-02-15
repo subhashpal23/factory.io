@@ -254,7 +254,7 @@ const AcceptedRfqs = ({ filter }) => {
       dataIndex: 'rfqcode',
       key: 'rfqcode',
     },
-    {
+   /* {
       title: 'Name',
       dataIndex: 'name',
       key: 'name',
@@ -268,7 +268,7 @@ const AcceptedRfqs = ({ filter }) => {
       title: 'Contact',
       dataIndex: 'contact',
       key: 'contact',
-    },
+    },*/
     {
       title: 'Manufacturing Process',
       dataIndex: 'manufacturingProcess',
@@ -362,7 +362,7 @@ const AcceptedRfqs = ({ filter }) => {
           />
         </Form.Item>
         <Form.Item label="Duration">
-          <Input.Group compact>
+          {/* <Input.Group compact>
             <Select
               placeholder="Year"
               style={{ width: '33%' }}
@@ -393,7 +393,12 @@ const AcceptedRfqs = ({ filter }) => {
                 <Option key={i} value={i + 1}>{`${i + 1} Day${i > 0 ? 's' : ''}`}</Option>
               ))}
             </Select>
-          </Input.Group>
+          </Input.Group> */}
+         <DatePicker
+            style={{ width: '100%' }}
+            value={formData.valid_till}
+            onChange={(date) => handleFormChange('duration', date)}
+          />
         </Form.Item>
         <Form.Item label="Documents">
           <Upload
