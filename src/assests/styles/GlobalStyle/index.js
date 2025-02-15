@@ -27,13 +27,13 @@ const GlobalStyle = createGlobalStyle`
     flex-direction: column;
   }
 
- /* main {
+  main {
     width: 100%;
-    display: flex;
-    justify-content: center;
+    //display: flex;
+    //justify-content: center;
     padding: 0 10px; /* Padding for small screens */
     box-sizing: border-box;
-  }*/
+  }
 
   /* Add some responsiveness */
   @media (max-width: 768px) {
