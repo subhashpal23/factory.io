@@ -14,6 +14,8 @@ import ManageItemLibrary from '../pages/ManageItemLibrary';
 import QuotesList from '../pages/QuotesList';
 import RfqReceived from '../pages/supplier/RfqReceived';
 import AdminRfqList from '../pages/admin/AdminRfqList';
+import SupplierAccount from '../pages/supplier/SupplierAccount';
+
 export const industriesType = [
     'Aerospace',
     'Agriculture',
@@ -228,12 +230,14 @@ export const industriesType = [
     {id:13,role_type:'consumer',label:'Manage Item Library',iconLabel:<SolutionOutlined />, component: <ManageItemLibrary />},
     {id:14,role_type:'consumer',label:'Quotes List',iconLabel:<SolutionOutlined />, component: <QuotesList />},
     {id: 15,role_type: 'super_admin',label: 'RFQ Management',iconLabel: <SolutionOutlined />, component: <></>,
+      
       children: [
         { id: 1500, label: 'RFQ List', component: <AdminRfqList /> },
         { id: 1501, label: 'Assigned To Supplier', component: <AdminRfqList />, props: { filter: 'supplierAssigned' } },
         { id: 1502, label: 'Assigned To Consumer', component: <AdminRfqList />, props: { filter: 'consumerAssigned' } }
       ]
     },
+    {id:16,role_type:'supplier',label:'My Account',iconLabel:<SolutionOutlined />, component: <SupplierAccount />},
   ]
 
 
