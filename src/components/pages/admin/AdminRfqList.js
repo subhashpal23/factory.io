@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Input, Button, Checkbox, Drawer, Dropdown, Menu, Modal, Select, Space } from 'antd';
+import { Table, Input, Button, Checkbox, Drawer, Dropdown, Menu, Modal, Select, Space, Typography } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAdminRfqLists } from '../../../redux/actions/rfqAction';
 import { getAllSupplier, getAllConsumer } from '../../../redux/actions/allDataAction';
@@ -7,6 +7,8 @@ import { assignRfqToSupplier, resetAssignRfqStatus } from '../../../redux/action
 const { Search } = Input;
 const { confirm } = Modal;
 const { Option } = Select;
+const { Text } = Typography;
+
 const AdminRfqList = ({ filter }) => {
   const dispatch = useDispatch();
   const { logindata } = useSelector((state) => state.auth);
@@ -85,11 +87,17 @@ const AdminRfqList = ({ filter }) => {
       rfqcode: d.rfq_code,
       key: index,
       name: d.name,
-      email: d.email,
+      email: <div>
+                <Text>{d.email}</Text>
+                   <br />
+                <Text>({d.mobile})</Text>
+            </div>,
       contact: d.mobile,
       manufacturingProcess: getManufacturingProcessValue(d.manufacturing_process_id),
       designFiles: d.is_design_file === "1" ? "Yes" : "No",
       comments: d.comments,
+      grade: d.grade,
+      memberId: d.member_id,
     }));
   
     const lowerCaseSearchValue = searchValue ? searchValue.toString().toLowerCase() : "";
@@ -224,14 +232,19 @@ const AdminRfqList = ({ filter }) => {
       key: 'name',
     },
     {
-      title: 'Email',
+      title: 'Contact Info',
       dataIndex: 'email',
       key: 'email',
     },
     {
-      title: 'Contact',
-      dataIndex: 'contact',
-      key: 'contact',
+      title: `${ filter ==='consumerAssigned' ? 'Consumer' : 'Supplier'} Unique ID`,
+      dataIndex: 'memberId',
+      key: 'memberId',
+    },
+    {
+      title: 'Grade',
+      dataIndex: 'grade',
+      key: 'grade',
     },
     {
       title: 'Manufacturing Process',
