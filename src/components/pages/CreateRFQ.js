@@ -7,6 +7,7 @@ import { createRfq ,resetRfcCreateStatus } from '../../redux/actions/rfqAction';
 import '@ant-design/v5-patch-for-react-19';
 import { MinusCircleOutlined, PlusOutlined, UploadOutlined  } from '@ant-design/icons';
 import { notification, Space, Upload, UploadProps } from 'antd';
+import { getProductList } from '../../redux/actions/rfqAction';
 const { Option } = Select;
 const { TextArea } = Input;
 
@@ -18,6 +19,7 @@ const CreateRFQ = () => {
   const manufacturingProcess = useSelector((state) => state.auth.logindata.manufacturing_process);
   const loggedUserEmail = useSelector((state) => state.auth.logindata.data.email);
   const rfqCreateStatus = useSelector((state) => state.rfq.rfqCreateStatus);
+  const { productList, error } = useSelector((state) => state.rfq); 
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -28,11 +30,15 @@ const CreateRFQ = () => {
     is_design_file: '',
     comments: '',
     add_by: loggedUserEmail,
-    add_date: moment().format('YYYY-MM-DD')
+    add_date: moment().format('YYYY-MM-DD'),
+    files: []
   });
 
-
-
+   useEffect(() => {
+      if (token) {
+        dispatch(getProductList(token));
+      }
+    }, [dispatch, token]);
 
   useEffect(() => {
     if (rfqCreateStatus) {
@@ -46,7 +52,8 @@ const CreateRFQ = () => {
         is_design_file: '',
         comments: '',
         add_by: loggedUserEmail,
-        add_date: moment().format('YYYY-MM-DD')
+        add_date: moment().format('YYYY-MM-DD'),
+        files: []
       });
       
       dispatch(resetRfcCreateStatus())
@@ -65,6 +72,11 @@ const CreateRFQ = () => {
       manufacturing_process_id: values.manufacturingProcess,
       is_design_file: values.designFiles === 'yes' ? '1' : '0',
       comments: values.comments,
+      files: values.files.map((file, index) => ({
+        product: file.product,
+        quantity: file.quantity,
+        files: formData.files[index]?.files || []
+      }))
     };
     setFormData(dataToSend);
     dispatch(createRfq(dataToSend, token));
@@ -79,25 +91,46 @@ const CreateRFQ = () => {
     message.error('Please complete all required fields.');
   };
 
-  const props = {
-    name: 'file',
-    action: 'https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload',
-    headers: {
-      authorization: 'authorization-text',
-    },
-    onChange(info) {
-      if (info.file.status !== 'uploading') {
-        console.log(info.file, info.fileList);
+  const handleFileUpload = async (file, fieldKey) => {
+    const formData = new FormData();
+    formData.append('upload[0]', file);
+  
+    try {
+      const response = await fetch('https://factory.demosite.name/api/Api/multipleDocUpload', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+        body: formData
+      });
+  
+      const result = await response.json();
+      if (response.ok) {
+        message.success(`${file.name} file uploaded successfully`);
+        setFormData(prevState => {
+          const updatedFiles = [...prevState.files];
+          if (!updatedFiles[fieldKey]) {
+            updatedFiles[fieldKey] = { files: [] };
+          }
+          updatedFiles[fieldKey].files.push(result[0]);
+          return { ...prevState, files: updatedFiles };
+        });
+      } else {
+        message.error(`${file.name} file upload failed.`);
       }
-      if (info.file.status === 'done') {
-        message.success(`${info.file.name} file uploaded successfully`);
-      } else if (info.file.status === 'error') {
-        message.error(`${info.file.name} file upload failed.`);
-      }
-    },
+    } catch (error) {
+      message.error(`${file.name} file upload failed.`);
+    }
   };
-  
-  
+
+  const props = (fieldKey) => ({
+    name: 'file',
+    customRequest: ({ file, onSuccess }) => {
+      handleFileUpload(file, fieldKey);
+      onSuccess("ok");
+    }
+  });
+
   return (
     <>
       <h1 style={{ padding: "20px 250px" }}>Create RFQ</h1>
@@ -156,7 +189,7 @@ const CreateRFQ = () => {
           name="company"
           rules={[{ required: true, message: 'Company name is required!' }]}
         >
-          <Input placeholder="company" />
+          <Input placeholder="Company" />
         </Form.Item>
 
         <Form.Item
@@ -192,7 +225,11 @@ const CreateRFQ = () => {
                     name={[name, 'product']}
                     rules={[{ required: true, message: 'Missing Product' }]}
                   >
-                    <Input placeholder="Product" />
+                  <Select placeholder="--Please choose an option--">
+                    {productList.map((product) => (
+                      <Option key={product.id} value={product.id}>{product.product_name}</Option>
+                    ))}
+                  </Select>
                   </Form.Item>
                   <Form.Item
                     {...restField}
@@ -202,7 +239,7 @@ const CreateRFQ = () => {
                     <Input placeholder="Quantity" />
                   </Form.Item>
                   <Form.Item>
-                  <Upload {...props}>
+                  <Upload {...props(key)} multiple={true} showUploadList={true} >
                     <Button icon={<UploadOutlined />}>Click to Upload</Button>
                 </Upload>
                 </Form.Item>

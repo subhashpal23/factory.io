@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Table, Input, Button, Checkbox, Drawer, Menu, Modal, Select, Space } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { getSupplierRfqReceivedList, changeRfqStatus } from '../../../redux/actions/supplierRfqAction';
+import { getProductList } from '../../../redux/actions/rfqAction';
 import {
   EyeOutlined
 } from '@ant-design/icons';
@@ -19,6 +20,7 @@ const RfqReceived = ({ filter }) => {
   const [rfqList, setRfqList] = useState([])
   const { logindata } = useSelector((state) => state.auth);
   const { rfqReceivedData } = useSelector((state) => state.supplierRfq);
+   const { productList } = useSelector((state) => state.rfq);
   const allSupplier = useSelector((state) => state.dataSet.allSupplier);
   const allConsumer = useSelector((state) => state.dataSet.allConsumer);
   const manufacturingProcess = useSelector((state) => state.auth.logindata.manufacturing_process);
@@ -84,6 +86,7 @@ const RfqReceived = ({ filter }) => {
   useEffect(() => {
     if (logindata && logindata.token) {
         dispatch(getSupplierRfqReceivedList(logindata.token));
+        dispatch(getProductList(logindata.token));
      // dispatch(getAllConsumer(logindata.token));
     //  dispatch(getAllSupplier(logindata.token));
     }
@@ -113,6 +116,7 @@ const RfqReceived = ({ filter }) => {
       manufacturingProcess: getManufacturingProcessValue(d.manufacturing_process_id),
       designFiles: d.is_design_file === "1" ? "Yes" : "No",
       comments: d.comments,
+      files: d.files,
     }));
   
     const lowerCaseSearchValue = searchValue ? searchValue.toString().toLowerCase() : "";
@@ -350,7 +354,7 @@ const RfqReceived = ({ filter }) => {
   return (
     <div>
       <h1 style={{ marginBottom: '20px' }}>Rfq List</h1>
-      <ViewRFQModal currentRfqData={currentRfqData} open={open} setOpen={setOpen} viewLoading={viewLoading} setViewLoading={setViewLoading} />
+      <ViewRFQModal currentRfqData={currentRfqData} open={open} setOpen={setOpen} viewLoading={viewLoading} setViewLoading={setViewLoading} productList={productList}/>
       <Space style={{ marginBottom: 16, gap: 16 }}>
         <Search
           placeholder="Search by RFQ Code/ Email / Name / Contact"

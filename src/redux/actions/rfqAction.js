@@ -77,6 +77,29 @@ export const createRfq = (rfq, token) => {
     };
 }
 
+export const getProductList = (token) => {
+    return async (dispatch) => {
+        dispatch({ type: 'GET_PRODUCT_LIST_REQUEST' });
+        try {
+            const response = await fetch('https://factory.demosite.name/api/Api/getProducts', {
+                method: 'GET', 
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}` 
+                },
+                // Send the data as JSON
+            });
+
+            if (!response.ok) {
+                throw new Error(`Error: ${response.status} ${response.statusText}`);
+            }
+            const data = await response.json();
+            dispatch({ type: 'GET_PRODUCT_LIST_SUCCESS', payload: data });
+        } catch (error) {
+            dispatch({ type: 'GET_PRODUCT_LIST_FAILURE', payload: error.message });
+        }
+    };
+}
 
 export const resetRfcCreateStatus = () => {
     return async (dispatch) => {

@@ -5,6 +5,7 @@ const initialState = {
     loading: false,
     rfqCreateStatus: false,
     rfqCreateError: null,
+    productList: undefined
   };
   
   const rfqReducer = (state = initialState, action) => {
@@ -14,6 +15,13 @@ const initialState = {
       case 'GET_RFQ_SUCCESS':
         return { ...state, loading: false, rfqData: action.payload || [] };
       case 'GET_RFQ_FAILURE':
+        return { ...state, loading: false, error: action.payload };
+
+     case 'GET_PRODUCT_LIST_REQUEST':
+          return { ...state, loading: true, error: null };
+      case 'GET_PRODUCT_LIST_SUCCESS':
+        return { ...state, loading: false, productList: action.payload?.data || [] };
+      case 'GET_PRODUCT_LIST_FAILURE':
         return { ...state, loading: false, error: action.payload };
       
       case 'CREATE_RFQ_REQUEST':
