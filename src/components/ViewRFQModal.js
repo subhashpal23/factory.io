@@ -67,7 +67,7 @@ const ViewRFQModal = ({ currentRfqData, open, setOpen, viewLoading, showLoading,
             </Paragraph>
             <Paragraph style={{ marginBottom: 8 }}>
             <Text strong large>Design Files:</Text>
-              {currentRfqData?.files?.length > 0 ? ( <Table dataSource={data} columns={columns} />) : "  NA"}
+              {currentRfqData?.files?.length > 0 ? ( <Table dataSource={data} columns={columns} pagination={false}/>) : "  NA"}
             </Paragraph>
           </Typography>
         </div>
