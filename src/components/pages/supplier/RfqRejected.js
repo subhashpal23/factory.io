@@ -1,18 +1,26 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Input, Button, Checkbox, Drawer, Dropdown, Menu, Modal, Select, Space, Typography } from 'antd';
+import { Table, Input, Button, Checkbox, Drawer, Dropdown, Menu, Modal, DatePicker, Select, Upload, Form, Space } from 'antd'
 import { useDispatch, useSelector } from 'react-redux';
-import { getAdminRfqLists } from '../../../redux/actions/rfqAction';
-import { getAllSupplier, getAllConsumer } from '../../../redux/actions/allDataAction';
-import { assignRfqToSupplier, resetAssignRfqStatus } from '../../../redux/actions/assignRfqAction';
+import { getSupplierRfqRejectedList, changeRfqStatus } from '../../../redux/actions/supplierRfqAction';
+import { getProductList } from '../../../redux/actions/rfqAction';
+import {
+  EyeOutlined
+} from '@ant-design/icons';
+import ViewRFQModal from "../../ViewRFQModal";
+//import { getAdminRfqLists } from '../../../redux/actions/rfqAction';
+//import { getAllSupplier, getAllConsumer } from '../../../redux/actions/allDataAction';
+//import { assignRfqToSupplier, resetAssignRfqStatus } from '../../../redux/actions/assignRfqAction';
 const { Search } = Input;
 const { confirm } = Modal;
 const { Option } = Select;
-const { Text } = Typography;
 
-const AdminRfqList = ({ filter }) => {
+
+const RfqRejected = ({ filter }) => {
   const dispatch = useDispatch();
+  const [rfqList, setRfqList] = useState([])
   const { logindata } = useSelector((state) => state.auth);
-  const { adminRfqData } = useSelector((state) => state.rfq);
+  const { rfqRejectedData } = useSelector((state) => state.supplierRfq);
+   const { productList } = useSelector((state) => state.rfq);
   const allSupplier = useSelector((state) => state.dataSet.allSupplier);
   const allConsumer = useSelector((state) => state.dataSet.allConsumer);
   const manufacturingProcess = useSelector((state) => state.auth.logindata.manufacturing_process);
@@ -35,16 +43,39 @@ const AdminRfqList = ({ filter }) => {
   const [currentRfqCode, setCurrentRfqCode] = useState('');
   const [currentRfqId,setCurrentRfqId] = useState('');
   const [ filters, setFilters] = useState({})
+const [formData, setFormData] = useState({
+    total_cost: '',
+    valid_till: null,
+    duration_year: '',
+    duration_month: '',
+    duration_day: '',
+    documents: [],
+    payment_term: '',
+  });
+  const [open, setOpen] = React.useState(false);
+  const [viewLoading, setViewLoading] = React.useState(false);
+  const [currentRfqData, setCurrentRfqData] = React.useState({});
+  const showLoading = () => {
+    setOpen(true);
+    setViewLoading(true);
 
-  let rfqList = adminRfqData && adminRfqData?.data ? adminRfqData.data : [];
-  console.log('@rfqList',rfqList)
+    setTimeout(() => {
+      setViewLoading(false);
+    }, 300);
+  };
+
+  useEffect(()=>{
+    if(rfqRejectedData)
+      setRfqList(rfqRejectedData.data || [])
+  },[rfqRejectedData])
+
   useEffect(()=>{
     if(rfqAssignStatus){
       setTimeout(() => {
         setDrawerVisible(false);
         setSelectedUsers([]);
         setUserSearchValue('');
-        dispatch(resetAssignRfqStatus())  
+        //dispatch(resetAssignRfqStatus())  
       }, 2000);
     }
   },[rfqAssignStatus])
@@ -62,9 +93,10 @@ const AdminRfqList = ({ filter }) => {
 
   useEffect(() => {
     if (logindata && logindata.token) {
-      dispatch(getAdminRfqLists(logindata.token));
-      dispatch(getAllConsumer(logindata.token));
-      dispatch(getAllSupplier(logindata.token));
+        dispatch(getSupplierRfqRejectedList(logindata.token));
+        dispatch(getProductList(logindata.token));
+     // dispatch(getAllConsumer(logindata.token));
+    //  dispatch(getAllSupplier(logindata.token));
     }
   }, [dispatch, logindata]);
 
@@ -87,17 +119,12 @@ const AdminRfqList = ({ filter }) => {
       rfqcode: d.rfq_code,
       key: index,
       name: d.name,
-      email: <div>
-                <Text>{d.email}</Text>
-                   <br />
-                <Text>({d.mobile})</Text>
-            </div>,
+      email: d.email,
       contact: d.mobile,
       manufacturingProcess: getManufacturingProcessValue(d.manufacturing_process_id),
       designFiles: d.is_design_file === "1" ? "Yes" : "No",
       comments: d.comments,
-      grade: d.grade,
-      memberId: d.member_id,
+      files: d.files,
     }));
   
     const lowerCaseSearchValue = searchValue ? searchValue.toString().toLowerCase() : "";
@@ -198,9 +225,62 @@ const AdminRfqList = ({ filter }) => {
       supplier_id: selectedUsers
     }
     if(request && request?.rfq_id && request?.rfq_code && request?.supplier_id && request.supplier_id.length){
-      dispatch(assignRfqToSupplier(request, logindata.token))
+     // dispatch(assignRfqToSupplier(request, logindata.token))
     }
   };
+
+  const handleAccept = (rfqId) => {
+    if (rfqId && rfqList) {
+      const selectedRfq = rfqList.find(rf => rf.id === rfqId)
+      const request = { rfq_id: selectedRfq["id"], rfq_code: selectedRfq["rfq_code"], status: 'accept' }
+      dispatch(changeRfqStatus(logindata.token, request));
+      setTimeout(()=>{
+        dispatch(getSupplierRfqRejectedList(logindata.token));
+      },1500)
+      
+    }
+  };
+
+  const handleReject = (rfqId) => {
+    confirm({
+      title: 'Are you sure to Reject RFQ?',
+      onOk() {
+        if (rfqId && rfqList) {
+          const selectedRfq = rfqList.find(rf => rf.id === rfqId)
+          const request = { rfq_id: selectedRfq["id"], rfq_code: selectedRfq["rfq_code"], status: 'reject' }
+          dispatch(changeRfqStatus(logindata.token, request));
+          setTimeout(()=>{
+            dispatch(getSupplierRfqRejectedList(logindata.token));
+          },1500)
+        }
+      },
+    });
+  };
+
+  const handleFormChange = (key, value) => {
+    setFormData({
+      ...formData,
+      [key]: value,
+    });
+  };
+
+  const handleReset = () => {
+    setFormData({
+      total_cost: '',
+      valid_till: null,
+      duration_year: '',
+      duration_month: '',
+      duration_day: '',
+      documents: [],
+      payment_term: '',
+    });
+  };
+
+  const handleSubmit = () => {
+    console.log('Form Data:', formData);
+  };
+
+
 
   const filteredUserList = userSearchValue
     ? userList.filter((user) =>
@@ -226,26 +306,21 @@ const AdminRfqList = ({ filter }) => {
       dataIndex: 'rfqcode',
       key: 'rfqcode',
     },
-    {
+    /*{
       title: 'Name',
       dataIndex: 'name',
       key: 'name',
     },
     {
-      title: 'Contact Info',
+      title: 'Email',
       dataIndex: 'email',
       key: 'email',
     },
     {
-      title: `${ filter ? ( filter ==='consumerAssigned' ? 'Consumer' : 'Supplier' ) : ""} Unique ID`,
-      dataIndex: 'memberId',
-      key: 'memberId',
-    },
-    {
-      title: 'Grade',
-      dataIndex: 'grade',
-      key: 'grade',
-    },
+      title: 'Contact',
+      dataIndex: 'contact',
+      key: 'contact',
+    },*/
     {
       title: 'Manufacturing Process',
       dataIndex: 'manufacturingProcess',
@@ -265,16 +340,21 @@ const AdminRfqList = ({ filter }) => {
       title: 'Action',
       key: 'action',
       render: (_, record) => (
-        <Dropdown overlay={menu(record)} trigger={['hover']}>
-          {!filter && <Button type="primary">Assign</Button>}
-        </Dropdown>
-      ),
+              <>
+                  {!filter && <Button type="primary" onClick={() => showDrawer('Generate Quote', 'supplier', record.rfqcode, record.rfq_id)} > Generate Quote</Button>}
+              </>
+              // <Dropdown overlay={menu(record)} trigger={['hover']}>
+                
+              // </Dropdown>
+            ),
     },
   ];
+
 
   return (
     <div>
       <h1 style={{ marginBottom: '20px' }}>Rfq List</h1>
+      <ViewRFQModal currentRfqData={currentRfqData} open={open} setOpen={setOpen} viewLoading={viewLoading} setViewLoading={setViewLoading} productList={productList}/>
       <Space style={{ marginBottom: 16, gap: 16 }}>
         <Search
           placeholder="Search by RFQ Code/ Email / Name / Contact"
@@ -283,9 +363,9 @@ const AdminRfqList = ({ filter }) => {
           value={searchValue}
         />
         <Select placeholder="--Manufacturing Process--"  style={{ minWidth: 200 }} onSelect={(value) => setFilters({ ...filters, manufacturingProcess: value })} value={filters?.manufacturingProcess} >
-          {manufacturingProcess.map((process) => (
-            <Option key={process.id} value={process.process_name} >{process.process_name}</Option>
-          ))}
+                  {manufacturingProcess.map((process) => (
+                    <Option key={process.id} value={process.process_name} >{process.process_name}</Option>
+                  ))}
         </Select>
         <Select placeholder="--Design Files--" style={{ minWidth: 100 }} onSelect={(value)=>setFilters({...filters, designFiles:value})} value={filters?.designFiles}>
           <Option value="yes">Yes</Option>
@@ -309,7 +389,7 @@ const AdminRfqList = ({ filter }) => {
           index % 2 === 0 ? 'table-row-light' : 'table-row-dark'
         }
       />
-      <Drawer
+      {/* <Drawer
         title={drawerTitle}
         width={500}
         onClose={closeDrawer}
@@ -346,6 +426,101 @@ const AdminRfqList = ({ filter }) => {
         >
           Assign and Save
         </Button>
+      </Drawer> */}
+       <Drawer
+        title={drawerTitle}
+        width={500}
+        onClose={closeDrawer}
+        visible={drawerVisible}
+        bodyStyle={{ paddingBottom: 80 }}
+      >
+        <h2 style={{margin:"0px 10px 10px 0px"}}>{`RFQ Code  :  ${currentRfqCode}`}</h2>
+        <div style={{ textAlign: 'right', marginBottom: '10px' }}>
+            <Button type="link" onClick={handleReset}>Reset Fields</Button>
+      </div>
+        <Form layout="vertical">
+        <Form.Item label="Cost" required>
+          <Input
+            type="number"
+            value={formData.total_cost}
+            onChange={(e) => handleFormChange('total_cost', e.target.value)}
+          />
+        </Form.Item>
+        <Form.Item label="Valid Upto">
+          <DatePicker
+            style={{ width: '100%' }}
+            value={formData.valid_till}
+            onChange={(date) => handleFormChange('valid_till', date)}
+          />
+        </Form.Item>
+        <Form.Item label="Duration">
+          {/* <Input.Group compact>
+            <Select
+              placeholder="Year"
+              style={{ width: '33%' }}
+              value={formData.duration_year}
+              onChange={(value) => handleFormChange('duration_year', value)}
+            >
+              {Array.from({ length: 10 }, (_, i) => (
+                <Option key={i} value={i + 1}>{`${i + 1} Year${i > 0 ? 's' : ''}`}</Option>
+              ))}
+            </Select>
+            <Select
+              placeholder="Month"
+              style={{ width: '33%' }}
+              value={formData.duration_month}
+              onChange={(value) => handleFormChange('duration_month', value)}
+            >
+              {Array.from({ length: 12 }, (_, i) => (
+                <Option key={i} value={i}>{`${i + 1} Month${i > 0 ? 's' : ''}`}</Option>
+              ))}
+            </Select>
+            <Select
+              placeholder="Day"
+              style={{ width: '33%' }}
+              value={formData.duration_day}
+              onChange={(value) => handleFormChange('duration_day', value)}
+            >
+              {Array.from({ length: 31 }, (_, i) => (
+                <Option key={i} value={i + 1}>{`${i + 1} Day${i > 0 ? 's' : ''}`}</Option>
+              ))}
+            </Select>
+          </Input.Group> */}
+         <DatePicker
+            style={{ width: '100%' }}
+            value={formData.valid_till}
+            onChange={(date) => handleFormChange('duration', date)}
+          />
+        </Form.Item>
+        <Form.Item label="Documents">
+          <Upload
+            multiple
+            beforeUpload={() => false} // Prevent automatic upload
+            fileList={formData.documents}
+            onChange={({ fileList }) => handleFormChange('documents', fileList)}
+          >
+            <Button>Upload</Button>
+          </Upload>
+        </Form.Item>
+        <Form.Item label="Payment Term">
+          <Input
+            value={formData.payment_term}
+            onChange={(e) => handleFormChange('payment_term', e.target.value)}
+          />
+        </Form.Item>
+        {/* <Button type="primary" onClick={handleSubmit} style={{ position: 'absolute', right: 20, bottom: 20 }}>
+          Generate Quote
+        </Button> */}
+        <Form.Item>
+          <Button
+            type="primary"
+            onClick={handleSubmit}
+            style={{ display: 'block', margin: '0 auto' }}
+          >
+            Generate Quote
+          </Button>
+        </Form.Item>
+      </Form>
       </Drawer>
       <style>
         {`
@@ -361,4 +536,4 @@ const AdminRfqList = ({ filter }) => {
   );
 };
 
-export default AdminRfqList;
+export default RfqRejected;

@@ -2,6 +2,7 @@ import { SolutionOutlined } from '@ant-design/icons';
 import RfqList from '../pages/RfqList';
 import OpenRFQs from '../pages/supplier/OpenRFQs';
 import AcceptedRfqs from '../pages/supplier/AcceptedRfqs';
+import RfqRejected from '../pages/supplier/RfqRejected';
 import ManageBuyers from '../pages/supplier/ManageBuyers';
 import CreateQuote from '../pages/supplier/CreateQuote';
 import ManageCompatibiility from '../pages/supplier/ManageCompatibiility';
@@ -218,6 +219,7 @@ export const industriesType = [
     {id:1,role_type:'supplier',label:'RFQs Received',iconLabel: <SolutionOutlined />, component: <RfqReceived />},
     {id:2,role_type:'supplier',label:'Open RFQs',iconLabel:<SolutionOutlined />, component: <OpenRFQs />},
     {id:3,role_type:'supplier',label:'Accepted RFQs',iconLabel:<SolutionOutlined />, component: <AcceptedRfqs />},
+    {id:17,role_type:'supplier',label:'Rejected RFQs',iconLabel:<SolutionOutlined />, component: <RfqRejected />},
     {id:4,role_type:'supplier',label:'Manage Buyers',iconLabel:<SolutionOutlined />, component: <ManageBuyers />},
     {id:5,role_type:'supplier',label:'Create Quote',iconLabel:<SolutionOutlined />, component: <CreateQuote />},
     {id:6,role_type:'supplier',label:'Manage Compatibiility',iconLabel:<SolutionOutlined />, component: <ManageCompatibiility />},
