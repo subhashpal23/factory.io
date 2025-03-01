@@ -1,6 +1,7 @@
 import React from "react";
 import { Button, Typography, Row, Col } from "antd";
 import styled from "styled-components";
+import { useNavigate } from 'react-router-dom';
 
 const { Title, Text } = Typography;
 
@@ -97,6 +98,8 @@ const HeroContent = styled.div`
 
 
 const HeroSection = () => {
+  const navigate = useNavigate();
+
   return (
     <HeroContainer>
       <HeroContent>
@@ -110,12 +113,12 @@ const HeroSection = () => {
         <br />
         <Row gutter={[16, 16]} justify="center" style={{ marginTop: "20px" }}>
           <Col xs={12} sm={12} md={10}>
-            <Button type="primary" size="large" block>
+            <Button type="primary" size="large" block onClick={() => navigate("/consumer-registration")}>
               Find a Manufacturer
             </Button>
           </Col>
           <Col xs={12} sm={12} md={10}>
-            <Button size="large" block>
+            <Button size="large" block onClick={() => navigate("/supplier-registration")}>
               Find Manufacturing Customers
             </Button>
           </Col>

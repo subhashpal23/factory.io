@@ -2,6 +2,7 @@ import React from "react";
 import { Button, Typography, Card} from "antd";
 import { ClockCircleOutlined, SyncOutlined, DollarOutlined } from "@ant-design/icons";
 import styled from "styled-components";
+import { useNavigate } from 'react-router-dom';
 
 const { Title, Text } = Typography;
 
@@ -25,6 +26,8 @@ const ManufacturerStyledSearch = styled.div`
 `
 
 const ManufacturerSearch = () => {
+  const navigate = useNavigate();
+
   return (
     <ManufacturerStyledSearch>
     <div
@@ -87,7 +90,7 @@ const ManufacturerSearch = () => {
 
           {/* Center the button */}
           <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
-            <Button type="primary" size="large" style={{ width: '200px' }}>
+            <Button type="primary" size="large" style={{ width: '200px' }} onClick={() => navigate("/consumer-registration")}>
               Find a Manufacturer
             </Button>
           </div>

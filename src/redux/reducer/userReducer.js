@@ -1,7 +1,9 @@
 const initialState = {
     users: [],
     laoding: false,
-    error: null
+    error: null,
+    accountUpdateStatus: false,
+    userDetail: {},
 }
 
 const userReducer = (state = initialState, action) => {
@@ -23,8 +25,23 @@ const userReducer = (state = initialState, action) => {
                 laoding: false,
                 error: action.payload
             };
+
+        case 'UPDATE_ACCOUNT_REQUEST':
+        return { ...state, loading: true};
+        case 'UPDATE_ACCOUNT_SUCCESS':
+          return { ...state, loading: false, accountUpdateStatus: true };
+        case 'UPDATE_ACCOUNT_FAILURE':
+            return { ...state, loading: false, accountUpdateStatus: false };
+
+        case 'FETCH_ACCOUNT_REQUEST':
+        return { ...state, loading: true};
+        case 'FETCH_ACCOUNT_SUCCESS':
+          return { ...state, loading: false, userDetail: action.payload?.data  };
+        case 'FETCH_ACCOUNT_FAILURE':
+            return { ...state, loading: false, userDetail: {} };
+
         default : 
-            return state;
+                return state;
     }
 }
 
