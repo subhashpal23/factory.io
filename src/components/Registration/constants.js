@@ -16,6 +16,7 @@ import QuotesList from '../pages/QuotesList';
 import RfqReceived from '../pages/supplier/RfqReceived';
 import AdminRfqList from '../pages/admin/AdminRfqList';
 import SupplierAccount from '../pages/supplier/SupplierAccount';
+import SupplierQuotesList from '../pages/supplier/SupplierQuotesList';
 
 export const industriesType = [
     'Aerospace',
@@ -221,7 +222,7 @@ export const industriesType = [
     {id:3,role_type:'supplier',label:'Accepted RFQs',iconLabel:<SolutionOutlined />, component: <AcceptedRfqs />},
     {id:17,role_type:'supplier',label:'Rejected RFQs',iconLabel:<SolutionOutlined />, component: <RfqRejected />},
     {id:4,role_type:'supplier',label:'Manage Buyers',iconLabel:<SolutionOutlined />, component: <ManageBuyers />},
-    {id:5,role_type:'supplier',label:'Create Quote',iconLabel:<SolutionOutlined />, component: <CreateQuote />},
+    {id:5,role_type:'supplier',label:'Quote List',iconLabel:<SolutionOutlined />, component: <SupplierQuotesList />},
     {id:6,role_type:'supplier',label:'Manage Compatibiility',iconLabel:<SolutionOutlined />, component: <ManageCompatibiility />},
     {id:7,role_type:'consumer',label:'Home(Dashboard)',iconLabel:<SolutionOutlined />, component: <HomeConsumer />},
     {id:8,role_type:'consumer',label:'RFQ List',iconLabel:<SolutionOutlined />, component: <RfqList />},

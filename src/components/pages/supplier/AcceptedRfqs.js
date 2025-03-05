@@ -1,20 +1,27 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Input, Button, Checkbox, Drawer, Dropdown, Menu, Modal, DatePicker, Select, Upload, Form, Space } from 'antd';
+import { Table, Input, Button, Checkbox, message, Drawer, Dropdown, Menu, Modal, DatePicker, Select, Upload, Form, Space, Col, Row } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAdminRfqLists } from '../../../redux/actions/rfqAction';
+import { createQuote, getAdminRfqLists, getProductList } from '../../../redux/actions/rfqAction';
 import { getAllSupplier, getAllConsumer } from '../../../redux/actions/allDataAction';
 import { assignRfqToSupplier, resetAssignRfqStatus } from '../../../redux/actions/assignRfqAction';
+import { MinusCircleOutlined, PlusOutlined, UploadOutlined } from '@ant-design/icons';
+import {  useNavigate } from 'react-router-dom';
 const { Search } = Input;
 const { confirm } = Modal;
 const { Option } = Select;
+const { TextArea } = Input;
+
 const AcceptedRfqs = ({ filter }) => {
+  const navigate = useNavigate();
+  const [form] = Form.useForm();
   const dispatch = useDispatch();
   const { logindata } = useSelector((state) => state.auth);
-  const { adminRfqData } = useSelector((state) => state.rfq);
+  const { adminRfqData, productList } = useSelector((state) => state.rfq);
   const allSupplier = useSelector((state) => state.dataSet.allSupplier);
   const allConsumer = useSelector((state) => state.dataSet.allConsumer);
   const manufacturingProcess = useSelector((state) => state.auth.logindata.manufacturing_process);
   const rfqAssignStatus = useSelector((state)=> state.assignRfq.assignStatus)
+  const quoteCreateStatus = useSelector((state) => state.rfq.quoteCreateStatus);
   const [filteredData, setFilteredData] = useState([]);
   const [searchValue, setSearchValue] = useState('');
   const [pagination, setPagination] = useState({
@@ -33,20 +40,19 @@ const AcceptedRfqs = ({ filter }) => {
   const [currentRfqCode, setCurrentRfqCode] = useState('');
   const [currentRfqId,setCurrentRfqId] = useState('');
   const [ filters, setFilters] = useState({})
+  const [currentRfq, setCurrentRfq] = useState(null);
   
   const [formData, setFormData] = useState({
     total_cost: '',
     valid_till: null,
-    duration_year: '',
-    duration_month: '',
-    duration_day: '',
+    duration: '',
     documents: [],
     payment_term: '',
+    terms_conditions: '',
+    parts: [],
   });
 
-
   let rfqList = adminRfqData && adminRfqData?.data ? adminRfqData.data : [];
-  console.log('@rfqList',rfqList)
   useEffect(()=>{
     if(rfqAssignStatus){
       setTimeout(() => {
@@ -74,6 +80,7 @@ const AcceptedRfqs = ({ filter }) => {
       dispatch(getAdminRfqLists(logindata.token));
       dispatch(getAllConsumer(logindata.token));
       dispatch(getAllSupplier(logindata.token));
+      dispatch(getProductList(logindata?.token));
     }
   }, [dispatch, logindata]);
 
@@ -84,16 +91,35 @@ const AcceptedRfqs = ({ filter }) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [rfqList, pagination.current, pagination.pageSize, sortOrder, searchValue, filters]);
 
+  useEffect(() => {
+      if (quoteCreateStatus) {
+        form.resetFields(); 
+        handleReset();
+        setDrawerVisible(false);
+      }
+    }, [quoteCreateStatus]);
+
+
   const getManufacturingProcessValue = (id) => {
     const process = manufacturingProcess.find((d) => d.id === id);
     return process?.process_name || '';
   };
 
-
-  const handleFormChange = (key, value) => {
-    setFormData({
-      ...formData,
-      [key]: value,
+  const handleFormChange = (key, value, file) => {
+    setFormData(prev => {
+      const updatedFormData = {
+        ...prev,
+        [key]: value,
+      };
+  
+      const quantity = updatedFormData[`qty_${file?.product_id}`] || 0;
+      const rate = updatedFormData[`rate_${file?.product_id}`] || 0;
+      const amount = quantity * rate;
+  
+      return {
+        ...updatedFormData,
+        [`amount_${file?.product_id}`]: amount,
+      };
     });
   };
 
@@ -101,18 +127,82 @@ const AcceptedRfqs = ({ filter }) => {
     setFormData({
       total_cost: '',
       valid_till: null,
-      duration_year: '',
-      duration_month: '',
-      duration_day: '',
+      duration: '',
       documents: [],
       payment_term: '',
+      terms_conditions: '',
+      parts: [],
+        ...currentRfq,
+        ...currentRfq?.files?.reduce((acc, item) => ({
+          ...acc,
+          [`qty_${item.product_id}`]: item.qty ?? "",
+        }), {})
     });
   };
 
-  const handleSubmit = () => {
-    console.log('Form Data:', formData);
+  const transformFormData = (formData, productList) => {
+    const files = Object.keys(formData)
+      .filter(key => key.startsWith('qty_') || key.startsWith('rate_') || key.startsWith('amount_'))
+      .reduce((acc, key) => {
+        const [, productId] = key.split('_');
+        if (!productId || productId === 'undefined') return acc;
+  
+        let item = acc.find(i => i.product_id === productId);
+  
+        if (!item) {
+          const product = productList.find(p => p.id === productId);
+          item = {
+            product: product ? product.product_name : `Unknown Product (${productId})`,
+            product_id: productId,
+            quantity: "",
+            rate: "",
+            total_cost: ""
+          };
+          acc.push(item);
+        }
+  
+        if (key.startsWith('qty_')) item.quantity = formData[key];
+        if (key.startsWith('rate_')) item.rate = formData[key];
+        if (key.startsWith('amount_')) item.total_cost = formData[key];
+  
+        return acc;
+      }, []);
+  
+    const uniqueFiles = files.filter((file, index, self) => 
+      index === self.findIndex(f => f.product_id === file.product_id)
+    );
+  
+    const transformedData = {
+      ...formData,
+      files: uniqueFiles
+    };
+  
+    Object.keys(formData).forEach(key => {
+      if (key.startsWith('qty_') || key.startsWith('cost_') || key.startsWith('rate_') || key.startsWith('amount_')) {
+        delete transformedData[key];
+      }
+    });
+  
+    return transformedData;
   };
 
+  const handleSubmit = () => {
+    const tranformData = transformFormData(formData, productList)
+    const dataToSend = {
+      addcomument : formData?.document,
+      files: tranformData?.files,
+      payment_term: tranformData?.payment_term,
+      term_and_cond: tranformData?.term_and_cond,
+      timeline_unit: tranformData?.timeline_unit,
+      timeline_val: tranformData?.timeline_val,
+      rfq_id: tranformData?.rfq_id,
+      rfq_code: tranformData?.rfqcode,
+      valid_till:  tranformData?.valid_till,
+    };
+
+    console.log('@@dataToSend',dataToSend)
+     dispatch(createQuote(dataToSend, logindata?.token));
+  };
 
   const fetchData = () => {
     setLoading(true);
@@ -126,6 +216,7 @@ const AcceptedRfqs = ({ filter }) => {
       manufacturingProcess: getManufacturingProcessValue(d.manufacturing_process_id),
       designFiles: d.is_design_file === "1" ? "Yes" : "No",
       comments: d.comments,
+      files: d.files,
     }));
   
     const lowerCaseSearchValue = searchValue ? searchValue.toString().toLowerCase() : "";
@@ -184,13 +275,22 @@ const AcceptedRfqs = ({ filter }) => {
     setSortOrder(sorter);
   };
 
-  const showDrawer = (title, dataset, rfqCode, rfqId ) => {
+  const showDrawer = (title, dataset, rfqCode, rfqId, rfq ) => {
     if(dataset==='supplier'){ 
       setDrawerTitle(title);
       setDrawerVisible(true);
       setDrawerActiveDataSet(dataset);
       setCurrentRfqCode(rfqCode);
-      setCurrentRfqId(rfqId)
+      setCurrentRfqId(rfqId);
+      setCurrentRfq(rfq);
+      setFormData({
+        ...formData,
+        ...rfq,
+        ...rfq?.files?.reduce((acc, item) => ({
+          ...acc,
+          [`qty_${item.product_id}`]: item.qty ?? "",
+        }), {})
+      });
     }
   };
 
@@ -202,6 +302,15 @@ const AcceptedRfqs = ({ filter }) => {
         setDrawerVisible(false);
         setSelectedUsers([]);
         setUserSearchValue('');
+        setFormData({
+          total_cost: '',
+          valid_till: null,
+          duration: '',
+          documents: [],
+          payment_term: '',
+          terms_conditions: '',
+          parts: [],
+        })
       },
     });
   };
@@ -239,10 +348,10 @@ const AcceptedRfqs = ({ filter }) => {
 
   const menu = (record) => (
     <Menu>
-      <Menu.Item key="supplier" onClick={() => showDrawer('Assign to Supplier', 'supplier', record.rfqcode, record.rfq_id)}>
+      <Menu.Item key="supplier" onClick={() => showDrawer('Assign to Supplier', 'supplier', record.rfqcode, record.rfq_id, record)}>
         Assign to Supplier
       </Menu.Item>
-      <Menu.Item key="consumer" onClick={() => showDrawer('Assign to Consumer', 'consumer', record.rfqcode, record.rfq_id)}>
+      <Menu.Item key="consumer" onClick={() => showDrawer('Assign to Consumer', 'consumer', record.rfqcode, record.rfq_id, record)}>
         Assign to Consumer
       </Menu.Item>
     </Menu>
@@ -254,21 +363,6 @@ const AcceptedRfqs = ({ filter }) => {
       dataIndex: 'rfqcode',
       key: 'rfqcode',
     },
-   /* {
-      title: 'Name',
-      dataIndex: 'name',
-      key: 'name',
-    },
-    {
-      title: 'Email',
-      dataIndex: 'email',
-      key: 'email',
-    },
-    {
-      title: 'Contact',
-      dataIndex: 'contact',
-      key: 'contact',
-    },*/
     {
       title: 'Manufacturing Process',
       dataIndex: 'manufacturingProcess',
@@ -289,41 +383,107 @@ const AcceptedRfqs = ({ filter }) => {
       key: 'action',
       render: (_, record) => (
         <>
-            {!filter && <Button type="primary" onClick={() => showDrawer('Generate Quote', 'supplier', record.rfqcode, record.rfq_id)} > Generate Quote</Button>}
+            {!filter && <Button type="primary" onClick={() => showDrawer('Generate Quote', 'supplier', record.rfqcode, record.rfq_id, record)} > Generate Quote</Button>}
         </>
-        // <Dropdown overlay={menu(record)} trigger={['hover']}>
-          
-        // </Dropdown>
       ),
     },
   ];
 
+  const props = (fieldKey) => ({
+    name: 'file',
+    customRequest: ({ file, onSuccess }) => {
+      handleFileUpload(file, fieldKey);
+      onSuccess("ok");
+    }
+  });
+
+  const handleFileUpload = async (file, fieldKey) => {
+    const formData = new FormData();
+    formData.append('upload[0]', file);
+  
+    try {
+      const response = await fetch('https://factory.demosite.name/api/Api/multipleDocUpload', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${logindata?.token}`,
+        },
+        body: formData
+      });
+  
+      const result = await response.json();
+      if (response.ok) {
+        message.success(`${file.name} file uploaded successfully`);
+        setFormData(prevState => {
+          return { ...prevState, document: result[0]};
+        });
+      } else {
+        message.error(`${file.name} file upload failed.`);
+      }
+    } catch (error) {
+      message.error(`${file.name} file upload failed.`);
+    }
+  };
+
+
+   const onFinish = (values) => {
+        console.log("values", values, formData);
+        //  //setLoading(true);
+        //   const dataToSend = {
+        //     ...formData,
+        //     employeeCount: values.employeeCount,
+        //     facilities: values.facilities,
+        //     location: values.location,
+        //     iso_certification: values.iso_certification,
+        //     files: formData.files[0],
+        //   };
+        //   setFormData(dataToSend);
+        //   console.log('@@dataToSend',dataToSend)
+        //   //dispatch(updateAccount(dataToSend, token));
+      };
+
+  console.log('@@formData', formData);
+  ///console.log('@productList', productList)
   return (
     <div>
       <h1 style={{ marginBottom: '20px' }}>Rfq List</h1>
       <Space style={{ marginBottom: 16, gap: 16 }}>
         <Search
           placeholder="Search by RFQ Code/ Email / Name / Contact"
-          onChange={(e)=> setSearchValue(e.target?.value)}
+          onChange={(e) => setSearchValue(e.target?.value)}
           style={{ width: 300 }}
           value={searchValue}
         />
-        <Select placeholder="--Manufacturing Process--"  style={{ minWidth: 200 }} onSelect={(value) => setFilters({ ...filters, manufacturingProcess: value })} value={filters?.manufacturingProcess} >
-                  {manufacturingProcess.map((process) => (
-                    <Option key={process.id} value={process.process_name} >{process.process_name}</Option>
-                  ))}
+        <Select
+          placeholder="--Manufacturing Process--"
+          style={{ minWidth: 200 }}
+          onSelect={(value) => setFilters({ ...filters, manufacturingProcess: value })}
+          value={filters?.manufacturingProcess}
+        >
+          {manufacturingProcess.map((process) => (
+            <Option key={process.id} value={process.process_name}>
+              {process.process_name}
+            </Option>
+          ))}
         </Select>
-        <Select placeholder="--Design Files--" style={{ minWidth: 100 }} onSelect={(value)=>setFilters({...filters, designFiles:value})} value={filters?.designFiles}>
+        <Select
+          placeholder="--Design Files--"
+          style={{ minWidth: 100 }}
+          onSelect={(value) => setFilters({ ...filters, designFiles: value })}
+          value={filters?.designFiles}
+        >
           <Option value="yes">Yes</Option>
           <Option value="no">No</Option>
         </Select>
         <Button
-            type="primary"
-            onClick={()=>{setSearchValue(""); setFilters({})}}
-            style={{ display: 'block', margin: '0 auto' }}
-          >
-            Reset
-          </Button>
+          type="primary"
+          onClick={() => {
+            setSearchValue('');
+            setFilters({});
+          }}
+          style={{ display: 'block', margin: '0 auto' }}
+        >
+          Reset
+        </Button>
       </Space>
       <Table
         columns={columns}
@@ -331,9 +491,7 @@ const AcceptedRfqs = ({ filter }) => {
         pagination={pagination}
         loading={loading}
         onChange={handleTableChange}
-        rowClassName={(record, index) =>
-          index % 2 === 0 ? 'table-row-light' : 'table-row-dark'
-        }
+        rowClassName={(record, index) => (index % 2 === 0 ? 'table-row-light' : 'table-row-dark')}
       />
       <Drawer
         title={drawerTitle}
@@ -342,106 +500,151 @@ const AcceptedRfqs = ({ filter }) => {
         visible={drawerVisible}
         bodyStyle={{ paddingBottom: 80 }}
       >
-        <h2 style={{margin:"0px 10px 10px 0px"}}>{`RFQ Code  :  ${currentRfqCode}`}</h2>
+        <h2 style={{ margin: '0px 10px 10px 0px' }}>{`RFQ Code  :  ${currentRfqCode}`}</h2>
         <div style={{ textAlign: 'right', marginBottom: '10px' }}>
-            <Button type="link" onClick={handleReset}>Reset Fields</Button>
-      </div>
-        <Form layout="vertical">
-        <Form.Item label="Cost" required>
-          <Input
-            type="number"
-            value={formData.total_cost}
-            onChange={(e) => handleFormChange('total_cost', e.target.value)}
-          />
-        </Form.Item>
-        <Form.Item label="Valid Upto">
-          <DatePicker
-            style={{ width: '100%' }}
-            value={formData.valid_till}
-            onChange={(date) => handleFormChange('valid_till', date)}
-          />
-        </Form.Item>
-        <Form.Item label="Duration">
-          {/* <Input.Group compact>
-            <Select
-              placeholder="Year"
-              style={{ width: '33%' }}
-              value={formData.duration_year}
-              onChange={(value) => handleFormChange('duration_year', value)}
-            >
-              {Array.from({ length: 10 }, (_, i) => (
-                <Option key={i} value={i + 1}>{`${i + 1} Year${i > 0 ? 's' : ''}`}</Option>
-              ))}
-            </Select>
-            <Select
-              placeholder="Month"
-              style={{ width: '33%' }}
-              value={formData.duration_month}
-              onChange={(value) => handleFormChange('duration_month', value)}
-            >
-              {Array.from({ length: 12 }, (_, i) => (
-                <Option key={i} value={i}>{`${i + 1} Month${i > 0 ? 's' : ''}`}</Option>
-              ))}
-            </Select>
-            <Select
-              placeholder="Day"
-              style={{ width: '33%' }}
-              value={formData.duration_day}
-              onChange={(value) => handleFormChange('duration_day', value)}
-            >
-              {Array.from({ length: 31 }, (_, i) => (
-                <Option key={i} value={i + 1}>{`${i + 1} Day${i > 0 ? 's' : ''}`}</Option>
-              ))}
-            </Select>
-          </Input.Group> */}
-         <DatePicker
-            style={{ width: '100%' }}
-            value={formData.valid_till}
-            onChange={(date) => handleFormChange('duration', date)}
-          />
-        </Form.Item>
-        <Form.Item label="Documents">
-          <Upload
-            multiple
-            beforeUpload={() => false} // Prevent automatic upload
-            fileList={formData.documents}
-            onChange={({ fileList }) => handleFormChange('documents', fileList)}
-          >
-            <Button>Upload</Button>
-          </Upload>
-        </Form.Item>
-        <Form.Item label="Payment Term">
-          <Input
-            value={formData.payment_term}
-            onChange={(e) => handleFormChange('payment_term', e.target.value)}
-          />
-        </Form.Item>
-        {/* <Button type="primary" onClick={handleSubmit} style={{ position: 'absolute', right: 20, bottom: 20 }}>
-          Generate Quote
-        </Button> */}
-        <Form.Item>
-          <Button
-            type="primary"
-            onClick={handleSubmit}
-            style={{ display: 'block', margin: '0 auto' }}
-          >
-            Generate Quote
+          <Button type="link" onClick={handleReset}>
+            Reset Fields
           </Button>
+        </div>
+      <Form layout="vertical" onFinish={onFinish} form={form} >
+        {formData?.designFiles ==='Yes' && (
+        <Form.List name="files">
+            {() => (
+              <>
+                {formData?.files?.map((file, index) => (
+                 <Space style={{ marginBottom: 2, gap: 8 }}>
+                    <Form.Item 
+                    label="Product"
+                    name={`product_${file?.product_id}`}
+                    //rules={[{ required: true, message: 'Missing Product' }]}
+                    >
+                      <Select placeholder="--Please choose an option--" defaultValue={file?.product_id} disabled>
+                      {productList?.map((product) => (
+                        <Option key={product.id} value={product.id} >{product.product_name}</Option>
+                      ))}
+                      </Select>
+                    </Form.Item>
+                    <Form.Item
+                         label="Quantity"
+                        name={`qty_${file?.product_id}`}
+                        //rules={[{ required: true, message: 'Missing Quantity' }]}
+                      >
+                      <Input placeholder="Quantity" defaultValue={file?.qty} onChange={(e) => handleFormChange(`quantity_${file?.product_id}`, e.target.value, file)}/>
+                    </Form.Item>
+                    <Form.Item
+                        label="Cost"
+                        name={`cost_${file?.product_id}`}
+                        rules={[{ required: true, message: 'Missing Cost' }]}
+                      >
+                      <Input placeholder="Target Cost" onChange={(e) => handleFormChange(`cost_${file?.product_id}`, e.target.value)}/>
+                    </Form.Item>
+                    <Form.Item
+                       label="Rate"
+                        name={`rate_${file?.product_id}`}
+                        rules={[{ required: true, message: 'Missing Rate' }]}
+                      >
+                     <Input placeholder="Rate" onChange={(e) => {
+                        handleFormChange(`rate_${file?.product_id}`, e.target.value, file);
+                      }}/>
+                    </Form.Item>
+                    <Form.Item
+                      label="Amount"
+                      name={`amount_${file?.product_id}`}
+                      //rules={[{ required: true, message: 'Missing Quantity' }]}
+                      style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+                  >
+                    <span   style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>{formData?.[`amount_${file?.product_id}`] ?? 0}</span>
+                  </Form.Item>
+                  </Space>
+                  ))} 
+                  </>
+                )}
+        </Form.List>)}
+      <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+        <Form.Item label="Timeline" required>
+          <Input
+            value={formData.timeline_val}
+            type="number"
+            onChange={(e) => handleFormChange('timeline_val', e.target.value)}
+            style={{ width: '200px' }}
+          />
         </Form.Item>
-      </Form>
+          <Form.Item
+            label="Unit"
+            required
+          >
+            <Select
+              value={formData.timeline_unit}
+              onChange={(value) => handleFormChange('timeline_unit', value)}
+              options={[
+                { value: 'Days', label: 'Days' },
+                { value: 'Weeks', label: 'Weeks' },
+                { value: 'Months', label: 'Months' },
+              ]}
+              style={{ width: '200px' }}
+            />
+         </Form.Item>
+        </div>
+          <Form.Item label="Quote valid till" required>
+            <DatePicker
+              style={{ width: '100%' }}
+              value={formData.valid_till}
+              onChange={(date) => handleFormChange('valid_till', date)}
+            />
+          </Form.Item>
+          <Form.Item
+            label="Payment terms"
+            name="payment_term"
+            rules={[{ required: true, message: 'Type payment terms here', }]}
+           >
+            <TextArea rows={4} placeholder="Type payment terms  here"  maxLength={1024} showCount 
+            onChange={(e) => handleFormChange('payment_term', e.target.value)}/>
+          </Form.Item>
+
+          <Form.Item
+            label="Terms & Conditions"
+            name="term_and_cond"
+            rules={[{ required: true, message: 'Type terms & conditions here', }]}
+           >
+            <TextArea rows={4} placeholder="Type terms & conditions here"  maxLength={1024} showCount 
+            onChange={(e) => handleFormChange('term_and_cond', e.target.value)}/>
+          </Form.Item>
+    
+          <Form.Item
+          name="addcomument"
+          label="Documents"
+          //rules={[{ required: true, message: "Please upload a document" }]}
+          valuePropName="file"
+        >
+           <Upload {...props('addcomument')} multiple={true} showUploadList={true} >
+              <Button icon={<UploadOutlined />}>Upload Document</Button>
+            </Upload>
+            {/* {formData?.files} */}
+        </Form.Item>
+          <Form.Item>
+            <Button
+              type="primary" htmlType="submit" 
+              onClick={handleSubmit}
+              style={{ display: 'block', margin: '0 auto' }}
+            >
+              Send Quote to Buyer
+            </Button>
+          </Form.Item>
+        </Form>
       </Drawer>
       <style>
         {`
           .table-row-light {
-            background-color: #e0f7fa; /* Light cyan */
+            background-color: #e0f7fa;
           }
           .table-row-dark {
-            background-color: #ffffff; /* White */
+            background-color: #ffffff;
           }
         `}
       </style>
     </div>
   );
+  
 };
 
 export default AcceptedRfqs;

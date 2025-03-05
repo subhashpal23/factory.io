@@ -5,6 +5,7 @@ const initialState = {
     changeRfqStatus: false,
     changeRfqStatusError: null,
     rfqRejectedData: undefined,
+    quoteData: undefined,
   };
   
   // https://factory.demosite.name/api/Api/getSupplierRFQList
@@ -23,6 +24,13 @@ const initialState = {
           return { ...state, loading: false, rfqRejectedData: action.payload || [] };
         case 'GET_SUPPLIER_RFQ_REJECTED_LIST_FAILURE':
           return { ...state, loading: false, error: action.payload };
+
+          case 'GET_SUPPLIER_QUOTE_LIST_REQUEST':
+            return { ...state, loading: true, error: null };
+          case 'GET_SUPPLIER_QUOTE_LIST_SUCCESS':
+            return { ...state, loading: false, quoteData: action.payload || [] };
+          case 'GET_SUPPLIER_QUOTE_LIST_FAILURE':
+            return { ...state, loading: false, error: action.payload };
       
       case 'CHANGE_RFQ_STATUS_REQUEST':
         return { ...state, loading: true, error: null };

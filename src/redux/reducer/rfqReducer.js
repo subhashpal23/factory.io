@@ -5,7 +5,9 @@ const initialState = {
     loading: false,
     rfqCreateStatus: false,
     rfqCreateError: null,
-    productList: undefined
+    productList: undefined,
+    quoteCreateStatus: false,
+    quoteCreateError: null,
   };
   
   const rfqReducer = (state = initialState, action) => {
@@ -30,6 +32,13 @@ const initialState = {
         return { ...state, loading: false, rfqCreateStatus: true };
       case 'CREATE_RFQ_FAILURE':
         return { ...state, loading: false, rfqCreateError: action.payload };
+
+      case 'CREATE_QUOTE_REQUEST':
+        return { ...state, loading: true};
+      case 'CREATE_QUOTE_SUCCESS':
+        return { ...state, loading: false, quoteCreateStatus: true };
+      case 'CREATE_QUOTE_FAILURE':
+        return { ...state, loading: false, quoteCreateError: action.payload };
 
       case 'GET_ADMIN_RFQ_REQUEST':
         return { ...state, loading: true};
