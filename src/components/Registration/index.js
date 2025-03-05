@@ -5,6 +5,8 @@ import { UserRole } from '../../types/enums';
 import styled from 'styled-components';
 import { userRegister,refreshRegistrationState, userLogout } from "./../../redux/actions/authAction";
 import { CountryCodes, industriesType } from './constants';
+import TopNavigation  from "../../components/TopNavigation";
+import Footer from "../../components/Footer";
 
 const RegistrationPage = ({user_type}) => {
   const dispatch = useDispatch();
@@ -90,6 +92,8 @@ const RegistrationPage = ({user_type}) => {
   }
 
   return (
+    <>
+    <TopNavigation />
     <Container>
       {/* Left Section */}
       <LeftSection>
@@ -318,6 +322,8 @@ const RegistrationPage = ({user_type}) => {
         </FormContainer>
       </RightSection>
     </Container>
+    <Footer/>
+    </>
   );
 };
 

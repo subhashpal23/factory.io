@@ -72,11 +72,11 @@ const CreateRFQ = () => {
       manufacturing_process_id: values.manufacturingProcess,
       is_design_file: values.designFiles === 'yes' ? '1' : '0',
       comments: values.comments,
-      files: values.files.map((file, index) => ({
+      files: values?.files?.map((file, index) => ({
         product: file.product,
         quantity: file.quantity,
         files: formData.files[index]?.files || []
-      }))
+      } || []))
     };
     setFormData(dataToSend);
     dispatch(createRfq(dataToSend, token));

@@ -12,11 +12,12 @@ import POList from '../pages/POList';
 import CreatePO from '../pages/CreatePO';
 import ManageSuppliers from '../pages/ManageSuppliers';
 import ManageItemLibrary from '../pages/ManageItemLibrary';
-import QuotesList from '../pages/QuotesList';
+import ConsumerQuotesList from '../pages/ConsumerQuotesList';
 import RfqReceived from '../pages/supplier/RfqReceived';
 import AdminRfqList from '../pages/admin/AdminRfqList';
 import SupplierAccount from '../pages/supplier/SupplierAccount';
 import SupplierQuotesList from '../pages/supplier/SupplierQuotesList';
+import AdminQuotesList from '../pages/admin/AdminQuotesList';
 
 export const industriesType = [
     'Aerospace',
@@ -231,16 +232,18 @@ export const industriesType = [
     {id:11,role_type:'consumer',label:'Create PO',iconLabel:<SolutionOutlined />, component: <CreatePO />},
     {id:12,role_type:'consumer',label:'Manage Suppliers',iconLabel:<SolutionOutlined />, component: <ManageSuppliers />},
     {id:13,role_type:'consumer',label:'Manage Item Library',iconLabel:<SolutionOutlined />, component: <ManageItemLibrary />},
-    {id:14,role_type:'consumer',label:'Quotes List',iconLabel:<SolutionOutlined />, component: <QuotesList />},
+    {id:14,role_type:'consumer',label:'Quotes List',iconLabel:<SolutionOutlined />, component: <ConsumerQuotesList />},
     {id: 15,role_type: 'super_admin',label: 'RFQ Management',iconLabel: <SolutionOutlined />, component: <></>,
       
       children: [
         { id: 1500, label: 'RFQ List', component: <AdminRfqList /> },
         { id: 1501, label: 'Assigned To Supplier', component: <AdminRfqList />, props: { filter: 'supplierAssigned' } },
-        { id: 1502, label: 'Assigned To Consumer', component: <AdminRfqList />, props: { filter: 'consumerAssigned' } }
+        { id: 1502, label: 'Assigned To Consumer', component: <AdminRfqList />, props: { filter: 'consumerAssigned' } },
+        { id: 1503, label: 'Quote List', component: <AdminQuotesList />, props: { filter: 'consumerAssigned' } }
+
       ]
     },
-    {id:16,role_type:'supplier',label:'My Account',iconLabel:<SolutionOutlined />, component: <SupplierAccount />},
+    {id:16,role_type:'supplier',label:'My Account',iconLabel:<SolutionOutlined />, component: <SupplierQuotesList />},
   ]
 
 

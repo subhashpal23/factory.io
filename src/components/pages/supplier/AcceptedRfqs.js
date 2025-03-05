@@ -531,13 +531,13 @@ const AcceptedRfqs = ({ filter }) => {
                       >
                       <Input placeholder="Quantity" defaultValue={file?.qty} onChange={(e) => handleFormChange(`quantity_${file?.product_id}`, e.target.value, file)}/>
                     </Form.Item>
-                    <Form.Item
+                    {/* <Form.Item
                         label="Cost"
                         name={`cost_${file?.product_id}`}
                         rules={[{ required: true, message: 'Missing Cost' }]}
                       >
                       <Input placeholder="Target Cost" onChange={(e) => handleFormChange(`cost_${file?.product_id}`, e.target.value)}/>
-                    </Form.Item>
+                    </Form.Item> */}
                     <Form.Item
                        label="Rate"
                         name={`rate_${file?.product_id}`}

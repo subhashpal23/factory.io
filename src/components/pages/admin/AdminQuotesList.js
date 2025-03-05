@@ -15,7 +15,7 @@ const { confirm } = Modal;
 const { Option } = Select;
 
 
-const SupplierQuotesList = ({ filter }) => {
+const AdminQuotesList = ({ filter }) => {
   const dispatch = useDispatch();
   const [rfqList, setRfqList] = useState([])
   const { logindata } = useSelector((state) => state.auth);
@@ -132,7 +132,7 @@ const [formData, setFormData] = useState({
     }));
   
     const lowerCaseSearchValue = searchValue ? searchValue.toString().toLowerCase() : "";
-   
+  
     const filteredData = data.filter((item) => {
       const matchesSearch = lowerCaseSearchValue
         ? item.email?.toLowerCase().includes(lowerCaseSearchValue) ||
@@ -141,7 +141,15 @@ const [formData, setFormData] = useState({
           item.name?.toLowerCase().includes(lowerCaseSearchValue)
         : true;
   
-      return matchesSearch
+      const matchesManufacturingProcess = filters.manufacturingProcess
+        ? item.manufacturingProcess === filters.manufacturingProcess
+        : true;
+  
+      const matchesDesignFiles = filters.designFiles?.toLowerCase
+        ? item.designFiles?.toLowerCase() === filters.designFiles?.toLowerCase()
+        : true; 
+  
+      return matchesSearch && matchesManufacturingProcess && matchesDesignFiles;
     });
   
     const sortedData = sortOrder
@@ -330,6 +338,28 @@ const [formData, setFormData] = useState({
             <div>
               {!filter && (
                 <>
+                  {/* Accept RFQ Button */}
+                  <Button
+                    type="primary"
+                    onClick={() => {
+                      //setCurrentRfqId(record.rfq_id);
+                      handleAccept(record.rfq_id);
+                    }}
+                    // style={{ marginRight: '8px' }}
+                    style={{ backgroundColor: '#2E6F40', borderColor: 'white',marginRight: '8px' }}
+                  >
+                    Accept RFQ
+                  </Button>
+                  {/* Reject RFQ Button */}
+                  <Button
+                    type="danger"
+                    style={{ backgroundColor: '#E32227', borderColor: 'white', color:'white', marginRight: '8px' }}
+                    onClick={() => {
+                      handleReject(record.rfq_id);
+                    }}
+                  >
+                    Reject RFQ
+                  </Button>
                   <Button
                     type="primary"
                     style={{ borderColor: 'white', color:'white' }}
@@ -533,4 +563,4 @@ const [formData, setFormData] = useState({
   );
 };
 
-export default SupplierQuotesList;
+export default AdminQuotesList;
