@@ -19,7 +19,7 @@ const SupplierQuotesList = ({ filter }) => {
   const dispatch = useDispatch();
   const [rfqList, setRfqList] = useState([])
   const { logindata } = useSelector((state) => state.auth);
-  const { quoteData } = useSelector((state) => state.supplierRfq);
+  const { quoteSupplierData } = useSelector((state) => state.supplierRfq);
    const { productList } = useSelector((state) => state.rfq);
   const allSupplier = useSelector((state) => state.dataSet.allSupplier);
   const allConsumer = useSelector((state) => state.dataSet.allConsumer);
@@ -65,9 +65,9 @@ const [formData, setFormData] = useState({
   };
 
   useEffect(()=>{
-    if(quoteData)
-      setRfqList(quoteData.data || [])
-  },[quoteData])
+    if(quoteSupplierData)
+      setRfqList(quoteSupplierData.data || [])
+  },[quoteSupplierData])
 
   useEffect(()=>{
     if(rfqAssignStatus){

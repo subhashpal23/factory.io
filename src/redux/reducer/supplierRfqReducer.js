@@ -5,7 +5,9 @@ const initialState = {
     changeRfqStatus: false,
     changeRfqStatusError: null,
     rfqRejectedData: undefined,
-    quoteData: undefined,
+    quoteAllData: undefined,
+    quoteSupplierData: undefined,
+    quoteConsumerData: undefined,
   };
   
   // https://factory.demosite.name/api/Api/getSupplierRFQList
@@ -25,13 +27,26 @@ const initialState = {
         case 'GET_SUPPLIER_RFQ_REJECTED_LIST_FAILURE':
           return { ...state, loading: false, error: action.payload };
 
-          case 'GET_SUPPLIER_QUOTE_LIST_REQUEST':
-            return { ...state, loading: true, error: null };
-          case 'GET_SUPPLIER_QUOTE_LIST_SUCCESS':
-            return { ...state, loading: false, quoteData: action.payload || [] };
-          case 'GET_SUPPLIER_QUOTE_LIST_FAILURE':
-            return { ...state, loading: false, error: action.payload };
+        case 'GET_SUPPLIER_QUOTE_LIST_REQUEST':
+          return { ...state, loading: true, error: null };
+        case 'GET_SUPPLIER_QUOTE_LIST_SUCCESS':
+          return { ...state, loading: false, quoteSupplierData: action.payload || [] };
+        case 'GET_SUPPLIER_QUOTE_LIST_FAILURE':
+          return { ...state, loading: false, error: action.payload };
+
+        case 'GET_ALL_QUOTE_LIST_REQUEST':
+          return { ...state, loading: true, error: null };
+        case 'GET_ALL_QUOTE_LIST_SUCCESS':
+          return { ...state, loading: false, quoteAllData: action.payload || [] };
+        case 'GET_ALL_QUOTE_LIST_FAILURE':
+          return { ...state, loading: false, error: action.payload };
       
+        case 'GET_CONSUMER_QUOTE_LIST_REQUEST':
+          return { ...state, loading: true, error: null };
+        case 'GET_CONSUMER_QUOTE_LIST_SUCCESS':
+          return { ...state, loading: false, quoteConsumerData: action.payload || [] };
+        case 'GET_CONSUMER_QUOTE_LIST_FAILURE':
+          return { ...state, loading: false, error: action.payload };
       case 'CHANGE_RFQ_STATUS_REQUEST':
         return { ...state, loading: true, error: null };
       case 'CHANGE_RFQ_STATUS_SUCCESS':

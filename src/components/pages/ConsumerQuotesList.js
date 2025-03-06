@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Input, Button, Checkbox, Drawer, Dropdown, Menu, Modal, DatePicker, Select, Upload, Form, Space } from 'antd'
 import { useDispatch, useSelector } from 'react-redux';
-import { getSupplierQuoteList, changeRfqStatus } from '../../redux/actions/supplierRfqAction';
+import { getConsumerQuoteList, changeRfqStatus } from '../../redux/actions/supplierRfqAction';
 import { getProductList } from '../../redux/actions/rfqAction';
 import {
   EyeOutlined
@@ -19,7 +19,7 @@ const ConsumerQuotesList = ({ filter }) => {
   const dispatch = useDispatch();
   const [rfqList, setRfqList] = useState([])
   const { logindata } = useSelector((state) => state.auth);
-  const { quoteData } = useSelector((state) => state.supplierRfq);
+  const { quoteConsumerData } = useSelector((state) => state.supplierRfq);
    const { productList } = useSelector((state) => state.rfq);
   const allSupplier = useSelector((state) => state.dataSet.allSupplier);
   const allConsumer = useSelector((state) => state.dataSet.allConsumer);
@@ -65,9 +65,9 @@ const [formData, setFormData] = useState({
   };
 
   useEffect(()=>{
-    if(quoteData)
-      setRfqList(quoteData.data || [])
-  },[quoteData])
+    if(quoteConsumerData)
+      setRfqList(quoteConsumerData.data || [])
+  },[quoteConsumerData])
 
   useEffect(()=>{
     if(rfqAssignStatus){
@@ -93,7 +93,7 @@ const [formData, setFormData] = useState({
 
   useEffect(() => {
     if (logindata && logindata.token) {
-        dispatch(getSupplierQuoteList(logindata.token));
+        dispatch(getConsumerQuoteList(logindata.token));
         dispatch(getProductList(logindata.token));
      // dispatch(getAllConsumer(logindata.token));
     //  dispatch(getAllSupplier(logindata.token));
@@ -239,7 +239,7 @@ const [formData, setFormData] = useState({
       const request = { rfq_id: selectedRfq["id"], rfq_code: selectedRfq["rfq_code"], status: 'accept' }
       dispatch(changeRfqStatus(logindata.token, request));
       setTimeout(()=>{
-        dispatch(getSupplierQuoteList(logindata.token));
+        dispatch(getConsumerQuoteList(logindata.token));
       },1500)
       
     }
@@ -254,7 +254,7 @@ const [formData, setFormData] = useState({
           const request = { rfq_id: selectedRfq["id"], rfq_code: selectedRfq["rfq_code"], status: 'reject' }
           dispatch(changeRfqStatus(logindata.token, request));
           setTimeout(()=>{
-            dispatch(getSupplierQuoteList(logindata.token));
+            dispatch(getConsumerQuoteList(logindata.token));
           },1500)
         }
       },
