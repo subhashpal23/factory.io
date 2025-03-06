@@ -8,6 +8,8 @@ const initialState = {
     quoteAllData: undefined,
     quoteSupplierData: undefined,
     quoteConsumerData: undefined,
+    acceptRejectQuoteStatus: false,
+    acceptRejectQuoteStatusError: null,
   };
   
   // https://factory.demosite.name/api/Api/getSupplierRFQList
@@ -53,6 +55,12 @@ const initialState = {
         return { ...state, loading: false, changeRfqStatus: action.payload || [] };
       case 'CHANGE_RFQ_STATUS_FAILURE':
         return { ...state, loading: false, changeRfqStatusError: action.payload };
+        case 'ACCEPT_REJECT_QUOTE_REQUEST':
+          return { ...state, loading: true, error: null };
+        case 'ACCEPT_REJECT_QUOTE_SUCCESS':
+          return { ...state, loading: false, acceptRejectQuoteStatus: action.payload || [] };
+        case 'ACCEPT_REJECT_QUOTE_FAILURE':
+          return { ...state, loading: false, acceptRejectQuoteStatusError: action.payload };
         
 
       /*case 'CREATE_RFQ_REQUEST':

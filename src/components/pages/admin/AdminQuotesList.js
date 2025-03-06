@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Input, Button, Checkbox, Drawer, Dropdown, Menu, Modal, DatePicker, Select, Upload, Form, Space } from 'antd'
 import { useDispatch, useSelector } from 'react-redux';
-import { getAllQuoteList, changeRfqStatus } from '../../../redux/actions/supplierRfqAction';
+import { getAllQuoteList, changeRfqStatus, acceptRejectQuote } from '../../../redux/actions/supplierRfqAction';
 import { getProductList } from '../../../redux/actions/rfqAction';
 import {
   EyeOutlined
@@ -236,8 +236,8 @@ const [formData, setFormData] = useState({
   const handleAccept = (rfqId) => {
     if (rfqId && rfqList) {
       const selectedRfq = rfqList.find(rf => rf.id === rfqId)
-      const request = { rfq_id: selectedRfq["id"], rfq_code: selectedRfq["rfq_code"], status: 'accept' }
-      dispatch(changeRfqStatus(logindata.token, request));
+      const request = { quote_id: selectedRfq["id"], status: 1 }
+      dispatch(acceptRejectQuote(logindata.token, request));
       setTimeout(()=>{
         dispatch(getAllQuoteList(logindata.token));
       },1500)
@@ -247,12 +247,12 @@ const [formData, setFormData] = useState({
 
   const handleReject = (rfqId) => {
     confirm({
-      title: 'Are you sure to Reject RFQ?',
+      title: 'Are you sure to Reject Quote?',
       onOk() {
         if (rfqId && rfqList) {
           const selectedRfq = rfqList.find(rf => rf.id === rfqId)
-          const request = { rfq_id: selectedRfq["id"], rfq_code: selectedRfq["rfq_code"], status: 'reject' }
-          dispatch(changeRfqStatus(logindata.token, request));
+          const request = { quote_id: selectedRfq["id"], status: 0 }
+          dispatch(acceptRejectQuote(logindata.token, request));
           setTimeout(()=>{
             dispatch(getAllQuoteList(logindata.token));
           },1500)
@@ -283,8 +283,6 @@ const [formData, setFormData] = useState({
   const handleSubmit = () => {
     console.log('Form Data:', formData);
   };
-
-
 
   const filteredUserList = userSearchValue
     ? userList.filter((user) =>
