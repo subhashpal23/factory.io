@@ -427,22 +427,8 @@ const AcceptedRfqs = ({ filter }) => {
 
    const onFinish = (values) => {
         console.log("values", values, formData);
-        //  //setLoading(true);
-        //   const dataToSend = {
-        //     ...formData,
-        //     employeeCount: values.employeeCount,
-        //     facilities: values.facilities,
-        //     location: values.location,
-        //     iso_certification: values.iso_certification,
-        //     files: formData.files[0],
-        //   };
-        //   setFormData(dataToSend);
-        //   console.log('@@dataToSend',dataToSend)
-        //   //dispatch(updateAccount(dataToSend, token));
       };
-
-  console.log('@@formData', formData);
-  ///console.log('@productList', productList)
+      
   return (
     <div>
       <h1 style={{ marginBottom: '20px' }}>Rfq List</h1>
