@@ -138,11 +138,11 @@ const RegistrationPage = ({user_type}) => {
       {/* Right Section */}
       <RightSection>
         <FormContainer>
-          <h2 style={{marginBottom:"38px", color:"#1F2937"}}>Sign up for an account</h2>
+          <h2 style={{marginBottom:"16px", color:"#1F2937"}}>Sign up for an account</h2>
           <form onSubmit={registerUser}>
             {/* Name */}
             <InputField>
-              <Label style={{ marginBottom: "8px" }}>Name *</Label>
+              <Label style={{ marginBottom: "6px" }}>Name *</Label>
               <Input
                 type="text"
                 placeholder="Your name"
@@ -155,8 +155,8 @@ const RegistrationPage = ({user_type}) => {
                   fontSize: '13px',
                   backgroundColor: '#f9fafb',
                   color: '#333',
-                  height: '38px',
-                  marginBottom: "8px"
+                  height: '36px',
+                  //marginBottom: "5px"
               }}
             />
           {errors.name && <Error>{errors.name}</Error>}
@@ -178,7 +178,7 @@ const RegistrationPage = ({user_type}) => {
                   backgroundColor: '#f9fafb',
                   color: '#333',
                   height: '38px',
-                  marginBottom: "8px"
+                  //marginBottom: "8px"
               }}
               />
               {errors.company && <Error>{errors.company}</Error>}
@@ -200,7 +200,7 @@ const RegistrationPage = ({user_type}) => {
                   backgroundColor: '#f9fafb',
                   color: '#333',
                   height: '38px',
-                  marginBottom: "8px"
+                  //marginBottom: "8px"
               }}
               />
               {errors.email && <Error>{errors.email}</Error>}
@@ -222,7 +222,7 @@ const RegistrationPage = ({user_type}) => {
                   backgroundColor: '#f9fafb',
                   color: '#333',
                   height: '38px',
-                  marginBottom: "8px"
+                  //marginBottom: "8px"
                 }}
               />
               {errors.password && <Error>{errors.password}</Error>}
@@ -284,7 +284,7 @@ const RegistrationPage = ({user_type}) => {
                   backgroundColor: '#f9fafb',
                   color: '#333',
                   height: '38px',
-                  marginBottom: "8px"
+                  //marginBottom: "8px"
               }}
               >
                 <option value="">Select</option>
@@ -330,6 +330,11 @@ const RegistrationPage = ({user_type}) => {
 const Container = styled.div`
   display: flex;
   height: 100vh;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    height: auto;
+  }
 `;
 
 const LeftSection = styled.div`
@@ -340,6 +345,9 @@ const LeftSection = styled.div`
   flex-direction: column;
   justify-content: center;
   padding: 2rem;
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;
 
 const Feature = styled.div`
@@ -362,6 +370,12 @@ const RightSection = styled.div`
   justify-content: center;
   align-items: center;
   background-color: #f9fafb;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    margin: 0 auto;
+    padding: 1rem; /* Add some padding for better spacing */
+  }
 `;
 
 const FormContainer = styled.div`
@@ -371,6 +385,14 @@ const FormContainer = styled.div`
   padding: 2rem;
   border-radius: 10px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  height: 90%;
+  overflow: auto;
+  max-height:700px;
+  @media (max-width: 768px) {
+    width: 80vw;
+    height: auto;
+    margin: 4%;
+  }
 `;
 
 const InputField = styled.div`
