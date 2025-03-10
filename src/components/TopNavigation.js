@@ -3,8 +3,9 @@ import { Menu, Dropdown, Button } from "antd";
 import { DownOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { userLogout } from "../redux/actions/authAction";
+import MobileNavigation  from "../components/MobileNavigation";
 
 const MegaMenuWrapper = styled.div`
   background: #fff;
@@ -16,6 +17,30 @@ const MegaMenuWrapper = styled.div`
   left: 0;
   top: 100%;
   marginTop: 10px;
+`;
+
+const TopMenuContainer = styled.div`
+  background: #fff;
+  padding: 10px 40px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  @media (max-width: 768px) {
+    display: none;
+  }
+`;
+
+const MobileMenuContainer = styled.div`
+  display: none;
+  @media (max-width: 768px) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Optional: for distributing space evenly */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background: #fff;
+    padding: 10px;
+    width: 100%; /* Ensure full width of the screen on mobile */
+  }
 `;
 
 const MegaMenu = () => {
@@ -125,7 +150,8 @@ const TopNavigation = () => {
   };
 
   return (
-    <div style={{ background: "#fff", padding: "10px 40px", display: "flex", alignItems: "center", boxShadow: "0 2px 4px rgba(0,0,0,0.1)" }}>
+    <>
+    <TopMenuContainer>
       <div style={{ flex: 1 , cursor: "pointer"}}>
         <HeaderText onClick={()=>navigate("/")}>DigiFactory.io</HeaderText>
       </div>
@@ -150,7 +176,11 @@ const TopNavigation = () => {
           </ButtonLoginWrapper>
         )}
       </div>
-    </div>
+    </TopMenuContainer>
+     <MobileMenuContainer>
+      <MobileNavigation/>
+     </MobileMenuContainer>
+    </>
   );
 };
 
