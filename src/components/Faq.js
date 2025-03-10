@@ -1,6 +1,7 @@
 import React from "react";
 import { Collapse, Typography } from "antd";
-import { CaretDownOutlined, CaretRightOutlined } from '@ant-design/icons';  // Import the icons
+import { CaretDownOutlined, CaretRightOutlined } from '@ant-design/icons';
+import styled from "styled-components";
 
 const { Panel } = Collapse;
 const { Title } = Typography;
@@ -25,28 +26,59 @@ const faqs = [
   },
 ];
 
+const Container = styled.div`
+  padding: 80px 5%;
+  background: #0d0d0d;
+  color: white;
+
+  @media (max-width: 768px) {
+    padding: 50px 12%;
+    margin : 0 15%;
+  }
+`;
+
+const StyledTitle = styled(Title)`
+  color: white !important;
+  text-align: center;
+  font-size: 1.5rem !important;
+`;
+
+const StyledPanel = styled(Panel)`
+  text-align: left;
+  border-bottom: 1px solid #444 !important;
+
+  .ant-collapse-header {
+    color: white !important;
+    font-size: 18px !important;
+    font-weight: bold !important;
+  }
+
+  p {
+    color: #cccccc;
+    font-size: 16px;
+  }
+`;
+
 const FAQ = () => {
   return (
-    <div style={{ padding: "80px 50px", background: "#0D0D0D", color: "white" }}>
-      <Title level={2} style={{ color: "white", textAlign: "center" }}>Frequently Asked Questions</Title>
-      <Collapse 
-        accordion 
-        ghost 
-        expandIconPosition="left" // Move the icons to the left
+    <Container>
+      <StyledTitle level={2}>Frequently Asked Questions</StyledTitle>
+      <Collapse
+        accordion
+        ghost
+        expandIconPosition="left"
         style={{ maxWidth: "1000px", margin: "auto" }}
-        expandIcon={({ isActive }) => isActive ? <CaretDownOutlined style={{ color: "white" }} /> : <CaretRightOutlined style={{ color: "white" }} />}
+        expandIcon={({ isActive }) =>
+          isActive ? <CaretDownOutlined style={{ color: "white" }} /> : <CaretRightOutlined style={{ color: "white" }} />
+        }
       >
         {faqs.map((faq, index) => (
-          <Panel 
-            header={<span style={{ color: "white", fontSize: "18px", fontWeight: "bold" }}>{faq.question}</span>} 
-            key={index}
-            style={{ textAlign: "left", borderBottom: "1px solid #444"}}
-          >
-            <p style={{ color: "#CCCCCC", fontSize: "16px" }}>{faq.answer}</p>
-          </Panel>
+          <StyledPanel header={faq.question} key={index}>
+            <p>{faq.answer}</p>
+          </StyledPanel>
         ))}
       </Collapse>
-    </div>
+    </Container>
   );
 };
 
