@@ -10,6 +10,10 @@ const initialState = {
     quoteConsumerData: undefined,
     acceptRejectQuoteStatus: false,
     acceptRejectQuoteStatusError: null,
+    acceptRejectPOAdminStatus: false,
+    acceptRejectPOAdminStatusError: null,
+    acceptRejectPOSupplierStatus: false,
+    acceptRejectPOSupplierStatusError: null,
   };
   
   // https://factory.demosite.name/api/Api/getSupplierRFQList
@@ -55,13 +59,26 @@ const initialState = {
         return { ...state, loading: false, changeRfqStatus: action.payload || [] };
       case 'CHANGE_RFQ_STATUS_FAILURE':
         return { ...state, loading: false, changeRfqStatusError: action.payload };
-        case 'ACCEPT_REJECT_QUOTE_REQUEST':
-          return { ...state, loading: true, error: null };
-        case 'ACCEPT_REJECT_QUOTE_SUCCESS':
-          return { ...state, loading: false, acceptRejectQuoteStatus: action.payload || [] };
-        case 'ACCEPT_REJECT_QUOTE_FAILURE':
-          return { ...state, loading: false, acceptRejectQuoteStatusError: action.payload };
+      case 'ACCEPT_REJECT_QUOTE_REQUEST':
+        return { ...state, loading: true, error: null };
+      case 'ACCEPT_REJECT_QUOTE_SUCCESS':
+        return { ...state, loading: false, acceptRejectQuoteStatus: action.payload || [] };
+      case 'ACCEPT_REJECT_QUOTE_FAILURE':
+        return { ...state, loading: false, acceptRejectQuoteStatusError: action.payload };
+
+      case 'ACCEPT_REJECT_PO_REQUEST_ADMIN':
+        return { ...state, loading: true, error: null };
+      case 'ACCEPT_REJECT_PO_REQUEST_ADMIN_SUCCESS':
+        return { ...state, loading: false, acceptRejectPOAdminStatus: action.payload || [] };
+      case 'ACCEPT_REJECT_PO_REQUEST_ADMIN_FAILURE':
+        return { ...state, loading: false, acceptRejectPOAdminStatusError: action.payload };
         
+      case 'ACCEPT_REJECT_PO_REQUEST_SUPPLIER':
+        return { ...state, loading: true, error: null };
+      case 'ACCEPT_REJECT_PO_REQUEST_SUPPLIER_SUCCESS':
+        return { ...state, loading: false, acceptRejectPOSupplierStatus: action.payload || [] };
+      case 'ACCEPT_REJECT_PO_REQUEST_SUPPLIER_FAILURE':
+        return { ...state, loading: false, acceptRejectPOSupplierStatusError: action.payload };
 
       /*case 'CREATE_RFQ_REQUEST':
         return { ...state, loading: true};

@@ -214,9 +214,9 @@ const AdminRfqList = ({ filter }) => {
       <Menu.Item key="supplier" onClick={() => showDrawer('Assign to Supplier', 'supplier', record.rfqcode, record.rfq_id)}>
         Assign to Supplier
       </Menu.Item>
-      <Menu.Item key="consumer" onClick={() => showDrawer('Assign to Consumer', 'consumer', record.rfqcode, record.rfq_id)}>
+      {/* <Menu.Item key="consumer" onClick={() => showDrawer('Assign to Consumer', 'consumer', record.rfqcode, record.rfq_id)}>
         Assign to Consumer
-      </Menu.Item>
+      </Menu.Item> */}
     </Menu>
   );
 

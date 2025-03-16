@@ -8,6 +8,11 @@ const initialState = {
     productList: undefined,
     quoteCreateStatus: false,
     quoteCreateError: null,
+    poCreateStatus: false,
+    poCreateError: null,
+    poData: undefined,
+    supplierpoData: undefined,
+    allpoData: undefined,
   };
   
   const rfqReducer = (state = initialState, action) => {
@@ -17,6 +22,27 @@ const initialState = {
       case 'GET_RFQ_SUCCESS':
         return { ...state, loading: false, rfqData: action.payload || [] };
       case 'GET_RFQ_FAILURE':
+        return { ...state, loading: false, error: action.payload };
+
+      case 'GET_PO_REQUEST':
+        return { ...state, loading: true, error: null };
+      case 'GET_PO_SUCCESS':
+        return { ...state, loading: false, poData: action.payload || [] };
+      case 'GET_PO_FAILURE':
+        return { ...state, loading: false, error: action.payload };
+
+      case 'GET_SUPPLIER_PO_REQUEST':
+          return { ...state, loading: true, error: null };
+      case 'GET_SUPPLIER_PO_SUCCESS':
+          return { ...state, loading: false, supplierpoData: action.payload || [] };
+      case 'GET_SUPPLIER_PO_FAILURE':
+        return { ...state, loading: false, error: action.payload };
+
+      case 'GET_ALL_PO_REQUEST':
+          return { ...state, loading: true, error: null };
+      case 'GET_ALL_PO_SUCCESS':
+          return { ...state, loading: false, allpoData: action.payload || [] };
+      case 'GET_ALL_PO_FAILURE':
         return { ...state, loading: false, error: action.payload };
 
      case 'GET_PRODUCT_LIST_REQUEST':
@@ -39,6 +65,13 @@ const initialState = {
         return { ...state, loading: false, quoteCreateStatus: true };
       case 'CREATE_QUOTE_FAILURE':
         return { ...state, loading: false, quoteCreateError: action.payload };
+
+      case 'CREATE_PO_REQUEST':
+        return { ...state, loading: true};
+      case 'CREATE_PO_SUCCESS':
+        return { ...state, loading: false, poCreateStatus: true };
+      case 'CREATE_PO_FAILURE':
+        return { ...state, loading: false, poCreateError: action.payload };
 
       case 'GET_ADMIN_RFQ_REQUEST':
         return { ...state, loading: true};

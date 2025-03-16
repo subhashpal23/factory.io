@@ -3,7 +3,7 @@ import { Modal, Button, Typography, Spin, Table, Image} from 'antd';
 
 const { Paragraph, Text } = Typography;
 
-const ViewQuoteModal = ({ currentRfqData, open, setOpen, viewLoading, showLoading, productList }) => {
+const ViewPOModal = ({ currentRfqData, open, setOpen, viewLoading, showLoading, productList }) => {
   const products = productList?.reduce((acc, product) => {
     acc[product.id] = product?.product_name;
     return acc;
@@ -51,7 +51,7 @@ console.log('@@products', products)
 
   return (
     <Modal
-      title={<Text strong>Quote For RFQ - {currentRfqData?.rfqcode}</Text>} // Make title bold
+      title={<Text strong>PO - {currentRfqData?.po_code}</Text>} // Make title bold
       loading={viewLoading}
       open={open}
       onCancel={() => setOpen(false)}
@@ -61,13 +61,13 @@ console.log('@@products', products)
         <div style={{ padding: "10px 20px" }}>
           <Typography>
             <Paragraph style={{ marginBottom: 8 }}>
-              <Text strong large>RFQ Code:</Text> {currentRfqData?.rfqcode}
+              <Text strong large>PO Code:</Text> {currentRfqData?.po_code}
             </Paragraph>
             <Paragraph style={{ marginBottom: 8 }}>
-              <Text strong>Timeline:</Text> {currentRfqData?.timeline}
+              <Text strong large>PO Date:</Text> {currentRfqData?.po_date}
             </Paragraph>
             <Paragraph style={{ marginBottom: 8 }}>
-              <Text strong>Valid Till:</Text> {currentRfqData.validTill}
+              <Text strong>Tax Category:</Text> {currentRfqData?.tax_category}
             </Paragraph>
             <Paragraph style={{ marginBottom: 8 }}>
               <Text strong>Payment Terms:</Text> {currentRfqData?.payment_term}
@@ -75,14 +75,14 @@ console.log('@@products', products)
             <Paragraph style={{ marginBottom: 8 }}>
               <Text strong>Terms & Conditions:</Text> {currentRfqData?.term_and_cond}
             </Paragraph>
-            <Paragraph style={{ marginBottom: 8 }}>
+            {/* <Paragraph style={{ marginBottom: 8 }}>
             <Text strong large>Products:</Text>
               {currentRfqData?.files?.length > 0 ? ( <Table dataSource={data} columns={columns} pagination={false}/>) : "  NA"}
-            </Paragraph>
+            </Paragraph> */}
           </Typography>
         </div>
     </Modal>
   );
 };
 
-export default ViewQuoteModal;
+export default ViewPOModal;

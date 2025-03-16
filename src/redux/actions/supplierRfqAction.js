@@ -188,6 +188,67 @@ export const acceptRejectQuote = (token, requestRfqStatus) => {
     };
 };
 
+
+export const acceptRejectPObyAdmin = (token, requestRfqStatus) => {
+    return async (dispatch) => {
+        //userData = {...userData, role_type: userType}
+        dispatch({ type: 'ACCEPT_REJECT_PO_REQUEST_ADMIN' });
+        try {
+            const response = await fetch('https://factory.demosite.name/api/Api/acceptRejectPurchaseOrder', {
+                method: 'POST', // Specify the HTTP method
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+
+                },
+                body: JSON.stringify(requestRfqStatus), // Send the data as JSON
+            });
+
+            if (!response.ok) {
+                throw new Error(`Error: ${response.status} ${response.statusText}`);
+            }
+            const data = await response.json();
+            if(data && data?.status) {
+                showSuccessNotification(data.message)
+            }
+            dispatch({ type: 'ACCEPT_REJECT_PO_REQUEST_ADMIN_SUCCESS', payload: data});
+        } catch (error) {
+            showErrorNotification(error.message)
+            dispatch({ type: 'ACCEPT_REJECT_PO_REQUEST_ADMIN_FAILURE', payload: error.message });
+        }
+    };
+};
+
+export const acceptRejectPObySupplier = (token, requestRfqStatus) => {
+    return async (dispatch) => {
+        //userData = {...userData, role_type: userType}
+        dispatch({ type: 'ACCEPT_REJECT_PO_REQUEST_SUPPLIER' });
+        try {
+            const response = await fetch('https://factory.demosite.name/api/Api/acceptRejectPOBySupplier', {
+                method: 'POST', // Specify the HTTP method
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+
+                },
+                body: JSON.stringify(requestRfqStatus), // Send the data as JSON
+            });
+
+            if (!response.ok) {
+                throw new Error(`Error: ${response.status} ${response.statusText}`);
+            }
+            const data = await response.json();
+            if(data && data?.status) {
+                showSuccessNotification(data.message)
+            }
+            dispatch({ type: 'ACCEPT_REJECT_PO_REQUEST_SUPPLIER_SUCCESS', payload: data});
+        } catch (error) {
+            showErrorNotification(error.message)
+            dispatch({ type: 'ACCEPT_REJECT_PO_REQUEST_SUPPLIER_FAILURE', payload: error.message });
+        }
+    };
+};
+
 /**
  * 
  * case 'CHANGE_RFQ_STATUS_REQUEST':

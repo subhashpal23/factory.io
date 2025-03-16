@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import { Table, Input, Button, Checkbox, Drawer, Dropdown, Menu, Modal, DatePicker, Select, Upload, Form, Space } from 'antd'
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllQuoteList, changeRfqStatus, acceptRejectQuote } from '../../../redux/actions/supplierRfqAction';
@@ -129,6 +129,8 @@ const [formData, setFormData] = useState({
       designFiles: d.is_design_file === "1" ? "Yes" : "No",
       comments: d.comments,
       files: d.files,
+      status: d.status,
+      accept_date: d.accept_date,
     }));
   
     const lowerCaseSearchValue = searchValue ? searchValue.toString().toLowerCase() : "";
@@ -323,19 +325,21 @@ const [formData, setFormData] = useState({
       title: 'Payment Terms',
       dataIndex: 'payment_term',
       key: 'payment_term',
+      ellipsis: true,
     },
     {
       title: 'Terms and Conditions',
       dataIndex: 'term_and_cond',
       key: 'term_and_cond',
+      ellipsis: true,
     },
     {
           title: 'Action',
           key: 'action',
           render: (_, record) => (
             <div>
-                <>
-                  {/* Accept RFQ Button */}
+                <> {record?.status === null ?
+                   <Fragment>
                   <Button
                     type="primary"
                     onClick={() => {
@@ -347,7 +351,6 @@ const [formData, setFormData] = useState({
                   >
                     Accept Quote
                   </Button>
-                  {/* Reject RFQ Button */}
                   <Button
                     type="danger"
                     style={{ backgroundColor: '#E32227', borderColor: 'white', color:'white', marginRight: '8px',  width: "100px" }}
@@ -356,7 +359,7 @@ const [formData, setFormData] = useState({
                     }}
                   >
                     Reject Quote
-                  </Button>
+                  </Button></Fragment> : <Fragment><span  style={{ color:`${record?.status === '1' ? `green` : `red`}`}}>{record?.status === '1' ? `Accepted` : `Rejected`} on {record?.accept_date}</span></Fragment> }
                   <Button
                     type="primary"
                     style={{ borderColor: 'white', color:'white' }}

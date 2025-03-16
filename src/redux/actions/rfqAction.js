@@ -136,3 +136,103 @@ export const resetRfcCreateStatus = () => {
         dispatch({type: 'RESET_RFC_CREATE_STATUS'})
     }
 }
+
+export const createPO = (po, token) => {
+    return async (dispatch) => {
+        dispatch({ type: 'CREATE_PO_REQUEST' });
+        try {
+            const response = await fetch('https://factory.demosite.name/api/Api/createPurchaseOrder', {
+                method: 'POST', 
+                headers: {
+                    'Content-Type': 'application/json', 
+                'Authorization': `Bearer ${token}` 
+                },
+                body: JSON.stringify(po), // Send the data as JSON
+            });
+
+            if (!response.ok) {
+                throw new Error(`Error: ${response.status} ${response.statusText}`);
+            }
+            const data = await response.json();
+            dispatch({ type: 'CREATE_PO_SUCCESS', payload: data });
+            notification.success({
+                message: 'PO submitted successfully!',
+                placement: 'topRight',
+              });
+        } catch (error) {
+            dispatch({ type: 'CREATE_PO_FAILURE', payload: error.message });
+        }
+    };
+}
+
+export const getPOList = (token) => {
+    return async (dispatch) => {
+        dispatch({ type: 'GET_PO_REQUEST' });
+        try {
+            const response = await fetch('https://factory.demosite.name/api/Api/ConsumerPurchaseOrder', {
+                method: 'GET', 
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}` 
+                },
+                // Send the data as JSON
+            });
+
+            if (!response.ok) {
+                throw new Error(`Error: ${response.status} ${response.statusText}`);
+            }
+            const data = await response.json();
+            dispatch({ type: 'GET_PO_SUCCESS', payload: data });
+        } catch (error) {
+            dispatch({ type: 'GET_PO_FAILURE', payload: error.message });
+        }
+    };
+}
+
+export const getSupplierPOList = (token) => {
+    return async (dispatch) => {
+        dispatch({ type: 'GET_SUPPLIER_PO_REQUEST' });
+        try {
+            const response = await fetch('https://factory.demosite.name/api/Api/SupplierPurchaseOrder', {
+                method: 'GET', 
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}` 
+                },
+                // Send the data as JSON
+            });
+
+            if (!response.ok) {
+                throw new Error(`Error: ${response.status} ${response.statusText}`);
+            }
+            const data = await response.json();
+            dispatch({ type: 'GET_SUPPLIER_PO_SUCCESS', payload: data });
+        } catch (error) {
+            dispatch({ type: 'GET_SUPPLIER_PO_FAILURE', payload: error.message });
+        }
+    };
+}
+
+export const getAdminPOList = (token) => {
+    return async (dispatch) => {
+        dispatch({ type: 'GET_ALL_PO_REQUEST' });
+        try {
+            const response = await fetch('https://factory.demosite.name/api/Api/allPurchaseOrder', {
+                method: 'GET', 
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}` 
+                },
+                // Send the data as JSON
+            });
+
+            if (!response.ok) {
+                throw new Error(`Error: ${response.status} ${response.statusText}`);
+            }
+            const data = await response.json();
+            dispatch({ type: 'GET_ALL_PO_SUCCESS', payload: data });
+        } catch (error) {
+            dispatch({ type: 'GET_ALL_PO_FAILURE', payload: error.message });
+        }
+    };
+}

@@ -9,6 +9,8 @@ import ManageCompatibiility from '../pages/supplier/ManageCompatibiility';
 import HomeConsumer from '../pages/HomeConsumer';
 import CreateRFQ from '../pages/CreateRFQ';
 import POList from '../pages/POList';
+import SupplierPOList from '../pages/supplier/SupplierPOList';
+import AdminPOList from '../pages/admin/AdminPOList';
 import CreatePO from '../pages/CreatePO';
 import ManageSuppliers from '../pages/ManageSuppliers';
 import ManageItemLibrary from '../pages/ManageItemLibrary';
@@ -224,12 +226,13 @@ export const industriesType = [
     {id:17,role_type:'supplier',label:'Rejected RFQs',iconLabel:<SolutionOutlined />, component: <RfqRejected />},
     {id:4,role_type:'supplier',label:'Manage Buyers',iconLabel:<SolutionOutlined />, component: <ManageBuyers />},
     {id:5,role_type:'supplier',label:'Quote List',iconLabel:<SolutionOutlined />, component: <SupplierQuotesList />},
+    {id:18,role_type:'supplier',label:'PO List',iconLabel:<SolutionOutlined />, component: <SupplierPOList />},
     {id:6,role_type:'supplier',label:'Manage Compatibiility',iconLabel:<SolutionOutlined />, component: <ManageCompatibiility />},
     {id:7,role_type:'consumer',label:'Home(Dashboard)',iconLabel:<SolutionOutlined />, component: <HomeConsumer />},
     {id:8,role_type:'consumer',label:'RFQ List',iconLabel:<SolutionOutlined />, component: <RfqList />},
     {id:9,role_type:'consumer',label:'Create RFQ',iconLabel:<SolutionOutlined />, component: <CreateRFQ />},
     {id:10,role_type:'consumer',label:'PO List',iconLabel:<SolutionOutlined />, component: <POList />},
-    {id:11,role_type:'consumer',label:'Create PO',iconLabel:<SolutionOutlined />, component: <CreatePO />},
+    // {id:11,role_type:'consumer',label:'Create PO',iconLabel:<SolutionOutlined />, component: <CreatePO />},
     {id:12,role_type:'consumer',label:'Manage Suppliers',iconLabel:<SolutionOutlined />, component: <ManageSuppliers />},
     {id:13,role_type:'consumer',label:'Manage Item Library',iconLabel:<SolutionOutlined />, component: <ManageItemLibrary />},
     {id:14,role_type:'consumer',label:'Quotes List',iconLabel:<SolutionOutlined />, component: <ConsumerQuotesList />},
@@ -239,11 +242,11 @@ export const industriesType = [
         { id: 1500, label: 'RFQ List', component: <AdminRfqList /> },
         { id: 1501, label: 'Assigned To Supplier', component: <AdminRfqList />, props: { filter: 'supplierAssigned' } },
         { id: 1502, label: 'Assigned To Consumer', component: <AdminRfqList />, props: { filter: 'consumerAssigned' } },
-        { id: 1503, label: 'Quote List', component: <AdminQuotesList />, props: { filter: 'consumerAssigned' } }
-
+        { id: 1503, label: 'Quote List', component: <AdminQuotesList />, props: { filter: 'consumerAssigned' } },
+        { id: 1504, label: 'PO List', component: <AdminPOList />, props: { filter: 'consumerAssigned' } }
       ]
     },
-    {id:16,role_type:'supplier',label:'My Account',iconLabel:<SolutionOutlined />, component: <SupplierQuotesList />},
+    {id:16,role_type:'supplier',label:'My Account',iconLabel:<SolutionOutlined />, component: <SupplierAccount />},
   ]
 
 

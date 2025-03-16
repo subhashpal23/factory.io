@@ -1,19 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import { Table, Input, Button, Select, Space } from 'antd';
+import React, { useState, useEffect, Fragment } from 'react';
+import { Table, Input, Button, Select, Space, Modal } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { getPOList, getProductList } from '../../redux/actions/rfqAction';
-import ViewPOModal from "../ViewPOModal";
+import { getSupplierPOList, getProductList } from '../../../redux/actions/rfqAction';
+import { acceptRejectPObySupplier } from '../../../redux/actions/supplierRfqAction';
+import ViewPOModal from "../../ViewPOModal";
 import {
   EyeOutlined
 } from '@ant-design/icons';
 
 const { Search } = Input;
 const { Option } = Select;
+const { confirm } = Modal;
 
-const POList = () => {
+const SupplierPOList = () => {
   const dispatch = useDispatch();
   const { logindata, loginError } = useSelector((state) => state.auth);
-  const { poData, error } = useSelector((state) => state.rfq); 
+  const { supplierpoData, error } = useSelector((state) => state.rfq); 
   const manufacturingProcess = useSelector((state) => state.auth.logindata.manufacturing_process);
   const [filteredData, setFilteredData] = useState([]);
   const [searchValue, setSearchValue] = useState('');
@@ -38,11 +40,11 @@ const POList = () => {
         }, 300);
     };
   
-  const rfqList = poData && poData?.data ? poData.data : []
+  const rfqList = supplierpoData && supplierpoData?.data ? supplierpoData.data : []
  
   useEffect(() => {
     if (logindata && logindata.token) {
-      dispatch(getPOList(logindata.token));
+      dispatch(getSupplierPOList(logindata.token));
       dispatch(getProductList(logindata.token));
     }
   }, [dispatch, logindata]);
@@ -60,7 +62,6 @@ const POList = () => {
   return process?.process_name || '';
  }
 
- console.log('@@rfqList',rfqList);
  const fetchData = () => {
   setLoading(true);
   const data = rfqList.map((d, index) => ({
@@ -73,7 +74,9 @@ const POList = () => {
     payment_term: d.payment_term,
     term_and_condition: d.term_and_condition,
     po_date: d.po_date,
-    
+    status: d.supplier_status,
+    accept_date: d.supplier_accept_date,
+    accept_by: d.supplier_accept_by,
   }));
 
   const lowerCaseSearchValue = searchValue ? searchValue.toString().toLowerCase() : "";
@@ -123,6 +126,34 @@ const POList = () => {
 };
 
 
+const handleAccept = (rfqId) => {
+    if (rfqId) {
+      //const selectedRfq = rfqList.find(rf => rf.id === rfqId)
+      const request = { quote_id: rfqId, status: 1 }
+      dispatch(acceptRejectPObySupplier(logindata.token, request));
+      setTimeout(()=>{
+        dispatch(getSupplierPOList(logindata.token));
+      },1500)
+      
+    }
+  };
+
+  const handleReject = (rfqId) => {
+    confirm({
+      title: 'Are you sure to Reject PO?',
+      onOk() {
+        if (rfqId) {
+          //const selectedRfq = rfqList.find(rf => rf.id === rfqId)
+          const request = { po_id: rfqId, status: 0 }
+          dispatch(acceptRejectPObySupplier(logindata.token, request));
+          setTimeout(()=>{
+            dispatch(getSupplierPOList(logindata.token));
+          },1500)
+        }
+      },
+    });
+  };
+  
   const handleSearch = (value) => {
     setSearchValue(value);
     setPagination({ ...pagination, current: 1 });
@@ -162,18 +193,43 @@ const POList = () => {
     {
         title: 'Action',
         key: 'action',
-        render: (_, record) => (
-                <Button
-                type="primary"
-                style={{ borderColor: 'white', color:'white', marginLeft: '4px' }}
-                onClick={() => {
-                    showLoading();
-                    setCurrentRfqData({...record})
-                }}
-                >
-                View <EyeOutlined/>
-                </Button>
-            )
+       render: (_, record) => (
+                      <div>
+                          <> {record?.status === null ?
+                             <Fragment>
+                            <Button
+                              type="primary"
+                              onClick={() => {
+                                //setCurrentRfqId(record.rfq_id);
+                                handleAccept(record.po_id);
+                              }}
+                              // style={{ marginRight: '8px' }}
+                              style={{ backgroundColor: '#2E6F40', borderColor: 'white',marginRight: '8px' , width: "100px"}}
+                            >
+                              Accept Quote
+                            </Button>
+                            <Button
+                              type="danger"
+                              style={{ backgroundColor: '#E32227', borderColor: 'white', color:'white', marginRight: '8px',  width: "100px" }}
+                              onClick={() => {
+                                handleReject(record.po_id);
+                              }}
+                            >
+                              Reject Quote
+                            </Button></Fragment> : <Fragment><span  style={{ color:`${record?.status === '1' ? `green` : `red`}`}}>{record?.status === '1' ? `Accepted` : `Rejected`} on {record?.accept_date}</span></Fragment> }
+                            <Button
+                              type="primary"
+                              style={{ borderColor: 'white', color:'white' }}
+                              onClick={() => {
+                                showLoading();
+                                setCurrentRfqData({...record})
+                              }}
+                            >
+                              View <EyeOutlined/>
+                            </Button>
+                          </>
+                      </div>
+                    ),
         }
   ];
 
@@ -229,4 +285,4 @@ const POList = () => {
   );
 };
 
-export default POList;
+export default SupplierPOList;
