@@ -77,6 +77,7 @@ const AdminPOList = () => {
     status: d.status,
     accept_date: d.accept_date,
     accept_by: d.accept_by,
+    files: d.files,
   }));
 
   const lowerCaseSearchValue = searchValue ? searchValue.toString().toLowerCase() : "";
@@ -128,7 +129,7 @@ const AdminPOList = () => {
 const handleAccept = (rfqId) => {
     if (rfqId) {
       //const selectedRfq = rfqList.find(rf => rf.id === rfqId)
-      const request = { quote_id: rfqId, status: 1 }
+      const request = { po_id: rfqId, status: 1 }
       dispatch(acceptRejectPObyAdmin(logindata.token, request));
       setTimeout(()=>{
         dispatch(getAdminPOList(logindata.token));

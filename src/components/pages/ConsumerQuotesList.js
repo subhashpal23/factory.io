@@ -1,7 +1,7 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import { Table, Input, Button, Checkbox, Drawer, Dropdown, Menu, Modal, DatePicker, Select, Upload, Form, Space, message } from 'antd'
 import { useDispatch, useSelector } from 'react-redux';
-import { getConsumerQuoteList, changeRfqStatus } from '../../redux/actions/supplierRfqAction';
+import { getConsumerQuoteList, acceptRejectQuoteByCustomer } from '../../redux/actions/supplierRfqAction';
 import { createPO, getProductList } from '../../redux/actions/rfqAction';
 import {
   EyeOutlined, 
@@ -146,8 +146,8 @@ const ConsumerQuotesList = ({ filter }) => {
       designFiles: d.is_design_file === "1" ? "Yes" : "No",
       comments: d.comments,
       files: d.files,
-      status: d.status,
-      accept_date: d.accept_date,
+      status: d.customer_status,
+      accept_date: d.customer_accept_date,
     }));
   
     const lowerCaseSearchValue = searchValue ? searchValue.toString().toLowerCase() : "";
@@ -264,32 +264,32 @@ const ConsumerQuotesList = ({ filter }) => {
   };
 
   const handleAccept = (rfqId) => {
-    if (rfqId && rfqList) {
-      const selectedRfq = rfqList.find(rf => rf.id === rfqId)
-      const request = { rfq_id: selectedRfq["id"], rfq_code: selectedRfq["rfq_code"], status: 'accept' }
-      dispatch(changeRfqStatus(logindata.token, request));
-      setTimeout(()=>{
-        dispatch(getConsumerQuoteList(logindata.token));
-      },1500)
-      
-    }
-  };
-
-  const handleReject = (rfqId) => {
-    confirm({
-      title: 'Are you sure to Reject RFQ?',
-      onOk() {
-        if (rfqId && rfqList) {
-          const selectedRfq = rfqList.find(rf => rf.id === rfqId)
-          const request = { rfq_id: selectedRfq["id"], rfq_code: selectedRfq["rfq_code"], status: 'reject' }
-          dispatch(changeRfqStatus(logindata.token, request));
-          setTimeout(()=>{
-            dispatch(getConsumerQuoteList(logindata.token));
-          },1500)
-        }
-      },
-    });
-  };
+      if (rfqId && rfqList) {
+        const selectedRfq = rfqList.find(rf => rf.id === rfqId)
+        const request = { quote_id: selectedRfq["id"], status: 1 }
+        dispatch(acceptRejectQuoteByCustomer(logindata.token, request));
+        setTimeout(()=>{
+          dispatch(getConsumerQuoteList(logindata.token));
+        },1500)
+        
+      }
+    };
+  
+    const handleReject = (rfqId) => {
+      confirm({
+        title: 'Are you sure to Reject Quote?',
+        onOk() {
+          if (rfqId && rfqList) {
+            const selectedRfq = rfqList.find(rf => rf.id === rfqId)
+            const request = { quote_id: selectedRfq["id"], status: 0 }
+            dispatch(acceptRejectQuoteByCustomer(logindata.token, request));
+            setTimeout(()=>{
+              dispatch(getConsumerQuoteList(logindata.token));
+            },1500)
+          }
+        },
+      });
+    };
 
   const handleFormChange = (key, value, file) => {
     setFormData(prev => {
@@ -389,8 +389,8 @@ const ConsumerQuotesList = ({ filter }) => {
         tax_category: tranformData?.tax_category,
       };
   
-      console.log('@@dataToSend',dataToSend)
-       dispatch(createPO(dataToSend, logindata?.token));
+      //console.log('@@dataToSend',dataToSend)
+      dispatch(createPO(dataToSend, logindata?.token));
     };
   
 
@@ -470,7 +470,7 @@ const ConsumerQuotesList = ({ filter }) => {
                   </Button>
                   </Fragment>}
                   {record?.status !== null && <Fragment><span  style={{ color:`${record?.status === '1' ? `green` : `red`}`}}>{record?.status === '1' ? `Accepted` : `Rejected`} on {record?.accept_date}</span><br/></Fragment>}
-                 <Button type="primary" onClick={() => showDrawer('Generate PO', 'supplier', record.rfqcode, record.rfq_id , record)} > Generate PO</Button>
+                  {record?.status === '1' && <Button type="primary" onClick={() => showDrawer('Generate PO', 'supplier', record.rfqcode, record.rfq_id , record)} > Generate PO</Button>}
                   <Button
                     type="primary"
                     style={{ borderColor: 'white', color:'white', marginLeft: '4px' }}

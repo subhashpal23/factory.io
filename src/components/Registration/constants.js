@@ -231,11 +231,11 @@ export const industriesType = [
     {id:7,role_type:'consumer',label:'Home(Dashboard)',iconLabel:<SolutionOutlined />, component: <HomeConsumer />},
     {id:8,role_type:'consumer',label:'RFQ List',iconLabel:<SolutionOutlined />, component: <RfqList />},
     {id:9,role_type:'consumer',label:'Create RFQ',iconLabel:<SolutionOutlined />, component: <CreateRFQ />},
+    {id:14,role_type:'consumer',label:'Quotes List',iconLabel:<SolutionOutlined />, component: <ConsumerQuotesList />},
     {id:10,role_type:'consumer',label:'PO List',iconLabel:<SolutionOutlined />, component: <POList />},
     // {id:11,role_type:'consumer',label:'Create PO',iconLabel:<SolutionOutlined />, component: <CreatePO />},
     {id:12,role_type:'consumer',label:'Manage Suppliers',iconLabel:<SolutionOutlined />, component: <ManageSuppliers />},
     {id:13,role_type:'consumer',label:'Manage Item Library',iconLabel:<SolutionOutlined />, component: <ManageItemLibrary />},
-    {id:14,role_type:'consumer',label:'Quotes List',iconLabel:<SolutionOutlined />, component: <ConsumerQuotesList />},
     {id: 15,role_type: 'super_admin',label: 'RFQ Management',iconLabel: <SolutionOutlined />, component: <></>,
       
       children: [

@@ -16,7 +16,7 @@ console.log('@@products', products)
     key: index,
     product_id: file?.product_id,
     product: products[file?.product_id] || "NA",
-    qty: file?.quantity,
+    qty: file?.qty,
     rate: file?.rate ?? 0,
     total_cost: file?.total_cost ?? 0
   }));
@@ -75,10 +75,10 @@ console.log('@@products', products)
             <Paragraph style={{ marginBottom: 8 }}>
               <Text strong>Terms & Conditions:</Text> {currentRfqData?.term_and_cond}
             </Paragraph>
-            {/* <Paragraph style={{ marginBottom: 8 }}>
+            <Paragraph style={{ marginBottom: 8 }}>
             <Text strong large>Products:</Text>
               {currentRfqData?.files?.length > 0 ? ( <Table dataSource={data} columns={columns} pagination={false}/>) : "  NA"}
-            </Paragraph> */}
+            </Paragraph>
           </Typography>
         </div>
     </Modal>

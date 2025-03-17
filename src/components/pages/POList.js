@@ -73,7 +73,7 @@ const POList = () => {
     payment_term: d.payment_term,
     term_and_condition: d.term_and_condition,
     po_date: d.po_date,
-    
+    files: d.files,
   }));
 
   const lowerCaseSearchValue = searchValue ? searchValue.toString().toLowerCase() : "";

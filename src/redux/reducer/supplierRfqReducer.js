@@ -10,6 +10,8 @@ const initialState = {
     quoteConsumerData: undefined,
     acceptRejectQuoteStatus: false,
     acceptRejectQuoteStatusError: null,
+    acceptRejectQuoteCustomerStatus: false,
+    acceptRejectQuoteCustomerStatusError: null,
     acceptRejectPOAdminStatus: false,
     acceptRejectPOAdminStatusError: null,
     acceptRejectPOSupplierStatus: false,
@@ -65,6 +67,13 @@ const initialState = {
         return { ...state, loading: false, acceptRejectQuoteStatus: action.payload || [] };
       case 'ACCEPT_REJECT_QUOTE_FAILURE':
         return { ...state, loading: false, acceptRejectQuoteStatusError: action.payload };
+
+        case 'ACCEPT_REJECT_QUOTE_CUSTOMER_REQUEST':
+          return { ...state, loading: true, error: null };
+        case 'ACCEPT_REJECT_QUOTE_CUSTOMER_SUCCESS':
+          return { ...state, loading: false, acceptRejectQuoteCustomerStatus: action.payload || [] };
+        case 'ACCEPT_REJECT_QUOTE_CUSTOMER_FAILURE':
+          return { ...state, loading: false, acceptRejectQuoteCustomerStatusError: action.payload };
 
       case 'ACCEPT_REJECT_PO_REQUEST_ADMIN':
         return { ...state, loading: true, error: null };

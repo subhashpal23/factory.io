@@ -77,6 +77,7 @@ const SupplierPOList = () => {
     status: d.supplier_status,
     accept_date: d.supplier_accept_date,
     accept_by: d.supplier_accept_by,
+    files: d.files,
   }));
 
   const lowerCaseSearchValue = searchValue ? searchValue.toString().toLowerCase() : "";
@@ -128,8 +129,7 @@ const SupplierPOList = () => {
 
 const handleAccept = (rfqId) => {
     if (rfqId) {
-      //const selectedRfq = rfqList.find(rf => rf.id === rfqId)
-      const request = { quote_id: rfqId, status: 1 }
+      const request = { po_id: rfqId, status: 1 }
       dispatch(acceptRejectPObySupplier(logindata.token, request));
       setTimeout(()=>{
         dispatch(getSupplierPOList(logindata.token));

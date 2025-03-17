@@ -9,7 +9,6 @@ const ViewQuoteModal = ({ currentRfqData, open, setOpen, viewLoading, showLoadin
     return acc;
 }, {});
 
-console.log('@@products', products)
 
   const fileRootPath = 'https://factory.demosite.name/api/';
   const data = currentRfqData?.files?.map((file, index) => ({
