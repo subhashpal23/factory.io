@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import { Table, Input, Button, Select, Space } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPOList, getProductList } from '../../redux/actions/rfqAction';
@@ -74,6 +74,8 @@ const POList = () => {
     term_and_condition: d.term_and_condition,
     po_date: d.po_date,
     files: d.files,
+    status: d.status,
+    supplier_status: d.status,
   }));
 
   const lowerCaseSearchValue = searchValue ? searchValue.toString().toLowerCase() : "";
@@ -163,6 +165,7 @@ const POList = () => {
         title: 'Action',
         key: 'action',
         render: (_, record) => (
+                <Fragment>
                 <Button
                 type="primary"
                 style={{ borderColor: 'white', color:'white', marginLeft: '4px' }}
@@ -173,6 +176,9 @@ const POList = () => {
                 >
                 View <EyeOutlined/>
                 </Button>
+                <br/>
+                {record?.status === '1' && record?.supplier_status === '1' && <span  style={{ color:'green'}}>PO Accepted</span>}
+                </Fragment>
             )
         }
   ];

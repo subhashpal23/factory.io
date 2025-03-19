@@ -108,7 +108,7 @@ const SupplierAccount = () => {
 
   return (
     <div style={{ maxWidth: "600px", background: "#fff", borderRadius: 8 }}>
-      <h1 style={{marginBottom:"20px"}}> My Account</h1>
+      <h1 style={{marginBottom:"20px"}}> Factory Profile</h1>
       <Form layout="vertical" onFinish={onFinish} form={form} >
         {/* Number of Employees */}
         <Form.Item

@@ -3,11 +3,12 @@ import { Form, Input, Select, Button, message } from 'antd';
 import { CountryCodes } from './../Registration/constants';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
-import { createRfq ,resetRfcCreateStatus } from '../../redux/actions/rfqAction';
+import { createRfq ,resetRfcCreateStatus, getProductList } from '../../redux/actions/rfqAction';
+import { getUserInfo } from '../../redux/actions/userActions';
 import '@ant-design/v5-patch-for-react-19';
 import { MinusCircleOutlined, PlusOutlined, UploadOutlined  } from '@ant-design/icons';
 import { notification, Space, Upload, UploadProps } from 'antd';
-import { getProductList } from '../../redux/actions/rfqAction';
+// import { getProductList } from '../../redux/actions/rfqAction';
 const { Option } = Select;
 const { TextArea } = Input;
 
@@ -20,6 +21,8 @@ const CreateRFQ = () => {
   const loggedUserEmail = useSelector((state) => state.auth.logindata.data.email);
   const rfqCreateStatus = useSelector((state) => state.rfq.rfqCreateStatus);
   const { productList, error } = useSelector((state) => state.rfq); 
+  const userDetail = useSelector((state) => state.user.userDetail);
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -37,6 +40,7 @@ const CreateRFQ = () => {
    useEffect(() => {
       if (token) {
         dispatch(getProductList(token));
+        dispatch(getUserInfo(token));
       }
     }, [dispatch, token]);
 
@@ -60,6 +64,13 @@ const CreateRFQ = () => {
       form.resetFields(); 
     }
   }, [rfqCreateStatus]);
+
+  // useEffect(()=>{
+  //    setFormData({...formData, email: userDetail?.email, name: userDetail?.name, countryCode: userDetail?.country_code, 
+  //     phoneNumber: userDetail?.phone_number,
+  //     company:  userDetail?.company
+  //   })
+  // }, [userDetail])
 
   const onFinish = (values) => {
     const dataToSend = {
@@ -140,14 +151,22 @@ const CreateRFQ = () => {
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
         style={{ padding: "50px 250px" }}
+        initialValues={{
+          name: userDetail?.name,
+          email: userDetail?.email,
+          countryCode: userDetail?.country_code, 
+          phoneNumber: userDetail?.phone_number,
+          company:  userDetail?.company
+        }}
       >
         <Form.Item
           label="Name"
           name="name"
           rules={[{ required: true, message: 'Name is required!' }]}
           placeholder="Name"
+          
         >
-          <Input placeholder="Name" />
+          <Input placeholder="Name" disabled />
         </Form.Item>
 
         <Form.Item
@@ -155,7 +174,7 @@ const CreateRFQ = () => {
           name="email"
           rules={[{ required: true, message: 'Email is required!' }]}
         >
-          <Input placeholder="Your email" />
+          <Input placeholder="Your email" disabled />
         </Form.Item>
 
         <Form.Item
@@ -168,7 +187,7 @@ const CreateRFQ = () => {
               noStyle
               rules={[{ required: true, message: 'Country code is required!' }]}
             >
-              <Select style={{ width: '30%' }} placeholder="Code">
+              <Select style={{ width: '30%' }} placeholder="Code" defaultValue={formData?.country_code}>
                 {CountryCodes.map((country, index) => (
                   <Option key={`${country.code}-${index}`} value={country.code}>  {country.name} ({country.code}) </Option>
                 ))}
@@ -179,7 +198,7 @@ const CreateRFQ = () => {
               noStyle
               rules={[{ required: true, message: 'Phone number is required!' }]}
             >
-              <Input style={{ width: '70%' }} placeholder="contact" />
+              <Input style={{ width: '70%' }} placeholder="contact" defaultValue={formData?.mobile} />
             </Form.Item>
           </Input.Group>
         </Form.Item>
@@ -189,7 +208,7 @@ const CreateRFQ = () => {
           name="company"
           rules={[{ required: true, message: 'Company name is required!' }]}
         >
-          <Input placeholder="Company" />
+          <Input placeholder="Company" disabled/>
         </Form.Item>
 
         <Form.Item
@@ -225,11 +244,12 @@ const CreateRFQ = () => {
                     name={[name, 'product']}
                     rules={[{ required: true, message: 'Missing Product' }]}
                   >
-                  <Select placeholder="--Please choose an option--">
+                  {/* <Select placeholder="--Please choose an option--">
                     {productList.map((product) => (
                       <Option key={product.id} value={product.id}>{product.product_name}</Option>
                     ))}
-                  </Select>
+                  </Select> */}
+                   <Input placeholder="Product" />
                   </Form.Item>
                   <Form.Item
                     {...restField}

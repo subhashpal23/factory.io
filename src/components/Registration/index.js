@@ -228,11 +228,53 @@ const RegistrationPage = ({user_type}) => {
               {errors.password && <Error>{errors.password}</Error>}
             </InputField>
 
+            <InputField>
+              <Label>Location *</Label>
+              <PhoneContainer>
+                <Select
+                  onChange={(e) => setRegistration({ ...registration, country_code: e.target.value?.split('@@')?.[0], country: e.target.value?.split('@@')?.[1] })}
+                  style={{
+                    borderRadius: '5px',
+                    border: '1px solid #1A3E8A',
+                    fontSize: '13px',
+                    backgroundColor: '#f9fafb',
+                    color: '#333',
+                    height: '38px',
+                    width:'60%',
+                    marginRight: '2%'
+                    }}
+                >
+                  <option value="">Country</option>
+                  {CountryCodes.map((country, index) => (
+                    <option key={index} value={`${country.code}@@${country.name}`}>
+                      {country.name}
+                    </option>
+                  ))}
+                </Select>
+                <Input
+                  type="text"
+                  placeholder="State"
+                  required
+                  onChange={(e) => setRegistration({ ...registration, state: e.target.value })}
+                  style={{
+                    padding: '0.75rem',
+                    borderRadius: '5px',
+                    border: '1px solid #1A3E8A',
+                    fontSize: '13px',
+                    backgroundColor: '#f9fafb',
+                    color: '#333',
+                    height: '38px',
+                  }}
+                />
+              </PhoneContainer>
+              {errors.country && <Error>{errors.country}</Error>}
+              {errors.state && <Error>{errors.state}</Error>}
+            </InputField>
             {/* Phone Number with Country Code */}
             <InputField>
               <Label>Phone number *</Label>
               <PhoneContainer>
-                <Select
+                {/* <Select
                   onChange={(e) => setRegistration({ ...registration, country_code: e.target.value })}
                   style={{
                     borderRadius: '5px',
@@ -250,7 +292,7 @@ const RegistrationPage = ({user_type}) => {
                       {country.name} ({country.code})
                     </option>
                   ))}
-                </Select>
+                </Select> */}
                 <Input
                   type="text"
                   placeholder="Phone number"

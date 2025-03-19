@@ -539,7 +539,7 @@ const AcceptedRfqs = ({ filter }) => {
                       //rules={[{ required: true, message: 'Missing Quantity' }]}
                       style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
                   >
-                    <span   style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>{formData?.[`amount_${file?.product_id}`] ?? 0}</span>
+                    <span   style={{ display: 'flex', }}>{formData?.[`amount_${file?.product_id}`] ?? 0} AED</span>
                   </Form.Item>
                   </Space>
                   ))} 

@@ -349,7 +349,7 @@ const [formData, setFormData] = useState({
                     // style={{ marginRight: '8px' }}
                     style={{ backgroundColor: '#2E6F40', borderColor: 'white',marginRight: '8px' , width: "100px"}}
                   >
-                    Accept Quote
+                    Accept
                   </Button>
                   <Button
                     type="danger"
@@ -358,7 +358,7 @@ const [formData, setFormData] = useState({
                       handleReject(record.rfq_id);
                     }}
                   >
-                    Reject Quote
+                    Reject
                   </Button></Fragment> : <Fragment><span  style={{ color:`${record?.status === '1' ? `green` : `red`}`}}>{record?.status === '1' ? `Accepted` : `Rejected`} on {record?.accept_date}</span></Fragment> }
                   <Button
                     type="primary"

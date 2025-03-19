@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Layout, Menu, Button, theme, Typography, Avatar, Dropdown } from 'antd';
 import { UnorderedListOutlined, BellOutlined, UserOutlined } from '@ant-design/icons';
 import { MenuItems } from '../Registration/constants';
 import { userLogout } from '../../redux/actions/authAction';
 import { UserRole } from '../../types/enums';
+import { getUserInfo } from '../../redux/actions/userActions';
+import { SettingOutlined, LogoutOutlined, PlusOutlined } from "@ant-design/icons";
 
 const { SubMenu } = Menu;
 
@@ -21,6 +23,15 @@ const ResponsiveSidebar = ({ userType }) => {
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
+  
+  const token = useSelector((state) => state.auth.logindata.token);
+  const userDetail = useSelector((state) => state.user.userDetail);
+
+  useEffect(() => {
+        if (token) {
+          dispatch(getUserInfo(token));
+        }
+  }, [dispatch, token]);
 
   const toggleCollapsed = () => {
     setCollapsed(!collapsed);
@@ -78,12 +89,74 @@ const ResponsiveSidebar = ({ userType }) => {
     }
   };
 
+  // const profileMenu = (
+  //   <Menu onClick={handleProfileMenuClick}>
+  //     <Menu.Item key="logout">
+  //       <div style={{display: 'flex', textAlign: "center"}}>
+  //       <span>{userDetail?.name}</span>
+  //       <span>Logout</span>
+  //       </div>
+  //     </Menu.Item>
+  //   </Menu>
+  // );
+  const getInitials = (name) => {
+    if (!name) return "U"; // Default fallback
+    const words = name.trim().split(" ");
+    return words.length > 1
+      ? words[0][0] + words[1][0] // First letter of first & last word
+      : words[0].substring(0, 2); // First two letters if only one word
+  };
+
   const profileMenu = (
-    <Menu onClick={handleProfileMenuClick}>
-      <Menu.Item key="logout">
-        <span>Logout</span>
+    <Menu onClick={handleProfileMenuClick} style={{ minWidth: 200 }}>
+      {/* User Info */}
+      <Menu.Item key="profile" style={{ display: "flex", alignItems: "center", gap: 10 }}>
+      <Avatar size="small" style={{ backgroundColor: "green", color: "white", fontWeight: "bold" }}>
+      {userDetail?.avatar ? (
+        <img src={userDetail.avatar} alt="Avatar" />
+      ) : (
+        getInitials(userDetail?.name)
+      )}
+    </Avatar>
+        <span style={{margin: '5px'}}>{userDetail?.name}</span>
       </Menu.Item>
+  
+      <Menu.Divider />
+  
+      {/* Notifications */}
+      <Menu.Item key="notifications" icon={<BellOutlined />}>
+        Notifications
+      </Menu.Item>
+  
+      {/* Settings */}
+      <Menu.Item key="settings" icon={<SettingOutlined />}>
+        Settings
+      </Menu.Item>
+  
+      {/* Logout */}
+      <Menu.Item key="logout" icon={<LogoutOutlined />}>
+        Log Out
+      </Menu.Item>
+  
+      <Menu.Divider />
+  
+      {/* Other Profiles */}
+      {userDetail?.profiles?.map((profile) => (
+        <Menu.Item key={profile.id} style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          <Avatar src={profile.avatar} size="small" />
+          <span>{profile.name}</span>
+          {profile.isActive && <span style={{ color: "orange", marginLeft: "auto" }}>●</span>}
+        </Menu.Item>
+      ))}
     </Menu>
+  );
+  
+  const ProfileDropdown = () => (
+    <Dropdown overlay={profileMenu} trigger={["click"]}>
+      <a onClick={(e) => e.preventDefault()}>
+        <Avatar src={userDetail?.avatar} size="large" /> {/* Profile Avatar */}
+      </a>
+    </Dropdown>
   );
 
   return (
