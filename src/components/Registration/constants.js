@@ -15,6 +15,8 @@ import CreatePO from '../pages/CreatePO';
 import ManageSuppliers from '../pages/ManageSuppliers';
 import ManageItemLibrary from '../pages/ManageItemLibrary';
 import ConsumerQuotesList from '../pages/ConsumerQuotesList';
+import ConsumerAcceptedQuotesList from '../pages/ConsumerAcceptedQuotesList';
+import ConsumerRejectedQuotesList from '../pages/ConsumerRejectedQuotesList';
 import RfqReceived from '../pages/supplier/RfqReceived';
 import AdminRfqList from '../pages/admin/AdminRfqList';
 import SupplierAccount from '../pages/supplier/SupplierAccount';
@@ -234,6 +236,8 @@ export const industriesType = [
     {id:9,role_type:'consumer',label:'Create RFQ',iconLabel:<SolutionOutlined />, component: <CreateRFQ />},
     {id:8,role_type:'consumer',label:'RFQ List',iconLabel:<SolutionOutlined />, component: <RfqList />},
     {id:14,role_type:'consumer',label:'Quotes List',iconLabel:<SolutionOutlined />, component: <ConsumerQuotesList />},
+    {id:19,role_type:'consumer',label:'Accepted Quotes',iconLabel:<SolutionOutlined />, component: <ConsumerAcceptedQuotesList />},
+    {id:20,role_type:'consumer',label:'Rejected Quotes',iconLabel:<SolutionOutlined />, component: <ConsumerRejectedQuotesList />},
     {id:10,role_type:'consumer',label:'PO List',iconLabel:<SolutionOutlined />, component: <POList />},
     // {id:11,role_type:'consumer',label:'Create PO',iconLabel:<SolutionOutlined />, component: <CreatePO />},
     {id:12,role_type:'consumer',label:'Manage Suppliers',iconLabel:<SolutionOutlined />, component: <ManageSuppliers />},

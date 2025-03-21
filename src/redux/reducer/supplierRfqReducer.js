@@ -8,6 +8,8 @@ const initialState = {
     quoteAllData: undefined,
     quoteSupplierData: undefined,
     quoteConsumerData: undefined,
+    quoteAcceptedConsumerData: undefined,
+    quoteRejectedConsumerData: undefined,
     acceptRejectQuoteStatus: false,
     acceptRejectQuoteStatusError: null,
     acceptRejectQuoteCustomerStatus: false,
@@ -55,6 +57,21 @@ const initialState = {
           return { ...state, loading: false, quoteConsumerData: action.payload || [] };
         case 'GET_CONSUMER_QUOTE_LIST_FAILURE':
           return { ...state, loading: false, error: action.payload };
+
+        case 'GET_CONSUMER_ACCEPTED_QUOTE_LIST_REQUEST':
+          return { ...state, loading: true, error: null };
+        case 'GET_CONSUMER_ACCEPTED_QUOTE_LIST_SUCCESS':
+          return { ...state, loading: false, quoteAcceptedConsumerData: action.payload || [] };
+        case 'GET_CONSUMER_ACCEPTED_QUOTE_LIST_FAILURE':
+          return { ...state, loading: false, error: action.payload };
+
+        case 'GET_CONSUMER_REJECTED_QUOTE_LIST_REQUEST':
+          return { ...state, loading: true, error: null };
+        case 'GET_CONSUMER_REJECTED_QUOTE_LIST_SUCCESS':
+          return { ...state, loading: false, quoteRejectedConsumerData: action.payload || [] };
+        case 'GET_CONSUMER_REJECTED_QUOTE_LIST_FAILURE':
+          return { ...state, loading: false, error: action.payload };
+
       case 'CHANGE_RFQ_STATUS_REQUEST':
         return { ...state, loading: true, error: null };
       case 'CHANGE_RFQ_STATUS_SUCCESS':

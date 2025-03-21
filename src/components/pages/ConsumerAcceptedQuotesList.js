@@ -1,7 +1,7 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import { Table, Input, Button, Checkbox, Drawer, Dropdown, Menu, Modal, DatePicker, Select, Upload, Form, Space, message } from 'antd'
 import { useDispatch, useSelector } from 'react-redux';
-import { getConsumerQuoteList, acceptRejectQuoteByCustomer } from '../../redux/actions/supplierRfqAction';
+import { getConsumerAcceptedQuoteList, acceptRejectQuoteByCustomer } from '../../redux/actions/supplierRfqAction';
 import { createPO, getProductList } from '../../redux/actions/rfqAction';
 import {
   EyeOutlined, 
@@ -17,12 +17,12 @@ const { Option } = Select;
 const { TextArea } = Input;
 
 
-const ConsumerQuotesList = ({ filter }) => {
+const ConsumerAcceptedQuotesList = ({ filter }) => {
    const [form] = Form.useForm();
   const dispatch = useDispatch();
   const [rfqList, setRfqList] = useState([])
   const { logindata } = useSelector((state) => state.auth);
-  const { quoteConsumerData } = useSelector((state) => state.supplierRfq);
+  const { quoteAcceptedConsumerData } = useSelector((state) => state.supplierRfq);
    const { productList } = useSelector((state) => state.rfq);
   const allSupplier = useSelector((state) => state.dataSet.allSupplier);
   const allConsumer = useSelector((state) => state.dataSet.allConsumer);
@@ -71,9 +71,9 @@ const ConsumerQuotesList = ({ filter }) => {
   };
 
   useEffect(()=>{
-    if(quoteConsumerData)
-      setRfqList(quoteConsumerData.data || [])
-  },[quoteConsumerData])
+    if(quoteAcceptedConsumerData)
+      setRfqList(quoteAcceptedConsumerData.data || [])
+  },[quoteAcceptedConsumerData])
 
   useEffect(()=>{
     if(rfqAssignStatus){
@@ -99,7 +99,7 @@ const ConsumerQuotesList = ({ filter }) => {
 
   useEffect(() => {
     if (logindata && logindata.token) {
-        dispatch(getConsumerQuoteList(logindata.token));
+        dispatch(getConsumerAcceptedQuoteList(logindata.token));
         dispatch(getProductList(logindata.token));
      // dispatch(getAllConsumer(logindata.token));
     //  dispatch(getAllSupplier(logindata.token));
@@ -271,7 +271,7 @@ const ConsumerQuotesList = ({ filter }) => {
         const request = { quote_id: selectedRfq["id"], status: 1 }
         dispatch(acceptRejectQuoteByCustomer(logindata.token, request));
         setTimeout(()=>{
-          dispatch(getConsumerQuoteList(logindata.token));
+          dispatch(getConsumerAcceptedQuoteList(logindata.token));
         },1500)
         
       }
@@ -286,7 +286,7 @@ const ConsumerQuotesList = ({ filter }) => {
             const request = { quote_id: selectedRfq["id"], status: 0 }
             dispatch(acceptRejectQuoteByCustomer(logindata.token, request));
             setTimeout(()=>{
-              dispatch(getConsumerQuoteList(logindata.token));
+              dispatch(getConsumerAcceptedQuoteList(logindata.token));
             },1500)
           }
         },
@@ -783,4 +783,4 @@ const ConsumerQuotesList = ({ filter }) => {
   );
 };
 
-export default ConsumerQuotesList;
+export default ConsumerAcceptedQuotesList;

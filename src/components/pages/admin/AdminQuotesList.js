@@ -131,6 +131,7 @@ const [formData, setFormData] = useState({
       files: d.files,
       status: d.status,
       accept_date: d.accept_date,
+      quote_code: d.quote_code,
     }));
   
     const lowerCaseSearchValue = searchValue ? searchValue.toString().toLowerCase() : "";
@@ -305,6 +306,11 @@ const [formData, setFormData] = useState({
   );
 
   const columns = [
+    {
+      title: 'Quote ID',
+      dataIndex: 'quote_code',
+      key: 'quote_code',
+    },
     {
       title: 'RFQ Code',
       dataIndex: 'rfqcode',

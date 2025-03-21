@@ -126,6 +126,56 @@ export const getConsumerQuoteList = (token) => {
     };
 }
 
+export const getConsumerAcceptedQuoteList = (token) => {
+    return async (dispatch) => {
+        dispatch({ type: 'GET_CONSUMER_ACCEPTED_QUOTE_LIST_REQUEST' });
+        try {
+            const response = await fetch('https://factory.demosite.name/api/Api/acceptedQuotationListForConsumer', {
+                method: 'GET', 
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}` 
+                },
+                // Send the data as JSON
+            });
+
+            if (!response.ok) {
+                throw new Error(`Error: ${response.status} ${response.statusText}`);
+            }
+            const data = await response.json();
+            dispatch({ type: 'GET_CONSUMER_ACCEPTED_QUOTE_LIST_SUCCESS', payload: data });
+            
+        } catch (error) {
+            dispatch({ type: 'GET_CONSUMER_ACCEPTED_QUOTE_LIST_FAILURE', payload: error.message });
+        }
+    };
+}
+
+export const getConsumerRejectedQuoteList = (token) => {
+    return async (dispatch) => {
+        dispatch({ type: 'GET_CONSUMER_REJECTED_QUOTE_LIST_REQUEST' });
+        try {
+            const response = await fetch('https://factory.demosite.name/api/Api/rejectedQuotationListForConsumer', {
+                method: 'GET', 
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}` 
+                },
+                // Send the data as JSON
+            });
+
+            if (!response.ok) {
+                throw new Error(`Error: ${response.status} ${response.statusText}`);
+            }
+            const data = await response.json();
+            dispatch({ type: 'GET_CONSUMER_REJECTED_QUOTE_LIST_SUCCESS', payload: data });
+            
+        } catch (error) {
+            dispatch({ type: 'GET_CONSUMER_REJECTED_QUOTE_LIST_FAILURE', payload: error.message });
+        }
+    };
+}
+
 
 export const changeRfqStatus = (token,requestRfqStatus) => {
     return async (dispatch) => {
