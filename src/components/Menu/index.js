@@ -124,9 +124,9 @@ const ResponsiveSidebar = ({ userType }) => {
       <Menu.Divider />
   
       {/* Notifications */}
-      <Menu.Item key="notifications" icon={<BellOutlined />}>
+      {/* <Menu.Item key="notifications" icon={<BellOutlined />}>
         Notifications
-      </Menu.Item>
+      </Menu.Item> */}
   
       {/* Settings */}
       <Menu.Item key="settings" icon={<SettingOutlined />}>

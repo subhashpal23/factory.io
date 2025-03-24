@@ -329,6 +329,35 @@ export const acceptRejectPObySupplier = (token, requestRfqStatus) => {
     };
 };
 
+export const updateQuoteCommissionAdmin = (token, requestRfqStatus) => {
+    return async (dispatch) => {
+        dispatch({ type: 'UPDATE_QUOTE_COMMISSION_REQUEST_ADMIN' });
+        try {
+            const response = await fetch('https://factory.demosite.name/api/Api/updateQuoteCommission', {
+                method: 'POST', // Specify the HTTP method
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+
+                },
+                body: JSON.stringify(requestRfqStatus), // Send the data as JSON
+            });
+
+            if (!response.ok) {
+                throw new Error(`Error: ${response.status} ${response.statusText}`);
+            }
+            const data = await response.json();
+            if(data && data?.status) {
+                showSuccessNotification(data.message)
+            }
+            dispatch({ type: 'UPDATE_QUOTE_COMMISSION_REQUEST_ADMIN_SUCCESS', payload: data});
+        } catch (error) {
+            showErrorNotification(error.message)
+            dispatch({ type: 'UPDATE_QUOTE_COMMISSION_REQUEST_ADMIN_FAILURE', payload: error.message });
+        }
+    };
+};
+
 /**
  * 
  * case 'CHANGE_RFQ_STATUS_REQUEST':

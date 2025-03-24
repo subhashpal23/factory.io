@@ -1,7 +1,7 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import { Table, Input, Button, Select, Space, Modal } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { getSupplierPOList, getProductList } from '../../../redux/actions/rfqAction';
+import { getSupplierPOList, getProductList, getTaxCategoryList } from '../../../redux/actions/rfqAction';
 import { acceptRejectPObySupplier } from '../../../redux/actions/supplierRfqAction';
 import ViewPOModal from "../../ViewPOModal";
 import {
@@ -15,7 +15,7 @@ const { confirm } = Modal;
 const SupplierPOList = () => {
   const dispatch = useDispatch();
   const { logindata, loginError } = useSelector((state) => state.auth);
-  const { supplierpoData, error } = useSelector((state) => state.rfq); 
+  const { supplierpoData, error , taxCategoryData} = useSelector((state) => state.rfq); 
   const manufacturingProcess = useSelector((state) => state.auth.logindata.manufacturing_process);
   const [filteredData, setFilteredData] = useState([]);
   const [searchValue, setSearchValue] = useState('');
@@ -46,6 +46,7 @@ const SupplierPOList = () => {
     if (logindata && logindata.token) {
       dispatch(getSupplierPOList(logindata.token));
       dispatch(getProductList(logindata.token));
+      dispatch(getTaxCategoryList(logindata.token));
     }
   }, [dispatch, logindata]);
 
@@ -70,7 +71,7 @@ const SupplierPOList = () => {
     rfq_id: d.rfq_id,
     quote_id: d.quote_id,
     po_code: d.po_code,
-    tax_category: d.tax_category,
+    tax_category: taxCategoryData?.data?.filter((tax)=>tax.id === d.tax_category)[0]?.tax_name,
     payment_term: d.payment_term,
     term_and_condition: d.term_and_condition,
     po_date: d.po_date,
@@ -78,6 +79,8 @@ const SupplierPOList = () => {
     accept_date: d.supplier_accept_date,
     accept_by: d.supplier_accept_by,
     files: d.files,
+    total_tax: d.total_tax,
+    total_amount: d.total_amount,
   }));
 
   const lowerCaseSearchValue = searchValue ? searchValue.toString().toLowerCase() : "";

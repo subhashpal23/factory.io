@@ -4,7 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getAllQuoteList, changeRfqStatus, acceptRejectQuote } from '../../../redux/actions/supplierRfqAction';
 import { getProductList } from '../../../redux/actions/rfqAction';
 import {
-  EyeOutlined
+  EyeOutlined,
+  EditOutlined
 } from '@ant-design/icons';
 import ViewQuoteModal from "../../ViewQuoteModal";
 //import { getAdminRfqLists } from '../../../redux/actions/rfqAction';
@@ -55,6 +56,7 @@ const [formData, setFormData] = useState({
   const [open, setOpen] = React.useState(false);
   const [viewLoading, setViewLoading] = React.useState(false);
   const [currentRfqData, setCurrentRfqData] = React.useState({});
+  const [isEdit, setIsEdit] = React.useState(false);
   const showLoading = () => {
     setOpen(true);
     setViewLoading(true);
@@ -132,6 +134,20 @@ const [formData, setFormData] = useState({
       status: d.status,
       accept_date: d.accept_date,
       quote_code: d.quote_code,
+      addcomument: d.addcomument,
+      commission_per: d.commission_per,
+      customer_details: <>
+      <span>{d.customer_name}</span>
+      <br />
+      <span>{d.customer_email}</span>{" "}
+      {d.customer_grade ? `(${d.customer_grade})` : ""}
+    </>,
+      supplier_details: <>
+      <span>{d.supplier_name}</span>
+      <br />
+      <span>{d.supplier_email}</span>{" "}
+      {d.supplier_grade ? `(${d.supplier_grade})` : ""}
+    </>,
     }));
   
     const lowerCaseSearchValue = searchValue ? searchValue.toString().toLowerCase() : "";
@@ -307,14 +323,21 @@ const [formData, setFormData] = useState({
 
   const columns = [
     {
+      title: 'RFQ Code',
+      dataIndex: 'rfqcode',
+      key: 'rfqcode',
+    },
+
+    {
       title: 'Quote ID',
       dataIndex: 'quote_code',
       key: 'quote_code',
     },
+
     {
-      title: 'RFQ Code',
-      dataIndex: 'rfqcode',
-      key: 'rfqcode',
+      title: 'Customer Details',
+      dataIndex: 'customer_details',
+      key: 'customer_details',
     },
 
     {
@@ -322,6 +345,13 @@ const [formData, setFormData] = useState({
       dataIndex: 'timeline',
       key: 'timeline',
     },
+
+    {
+      title: 'Supplier Details',
+      dataIndex: 'supplier_details',
+      key: 'supplier_details',
+    },
+
     {
       title: 'Valid Till',
       dataIndex: 'validTill',
@@ -366,27 +396,49 @@ const [formData, setFormData] = useState({
                   >
                     Reject
                   </Button></Fragment> : <Fragment><span  style={{ color:`${record?.status === '1' ? `green` : `red`}`}}>{record?.status === '1' ? `Accepted` : `Rejected`} on {record?.accept_date}</span></Fragment> }
+                </>
+            </div>
+          ),
+    },
+    {
+          title: 'View / Edit',
+          key: 'view_edit',
+          render: (_, record) => (
+            <div>
+                <> 
                   <Button
                     type="primary"
-                    style={{ borderColor: 'white', color:'white' }}
+                    style={{ borderColor: 'white', color:'white',  width: "80px" }}
                     onClick={() => {
+                      setIsEdit(false);
                       showLoading();
                       setCurrentRfqData({...record})
                     }}
                   >
                     View <EyeOutlined/>
                   </Button>
+                  <Button
+                    type="primary"
+                    style={{ borderColor: 'white', color:'white', width: "80px" }}
+                    onClick={() => {
+                      setIsEdit(true);
+                      showLoading();
+                      setCurrentRfqData({...record})
+                    }}
+                  >
+                    Edit <EditOutlined/>
+                  </Button>
                 </>
             </div>
           ),
-        },
+      },
   ];
 
 
   return (
     <div>
       <h1 style={{ marginBottom: '20px' }}>Quote List</h1>
-      <ViewQuoteModal currentRfqData={currentRfqData} open={open} setOpen={setOpen} viewLoading={viewLoading} setViewLoading={setViewLoading} productList={productList}/>
+      <ViewQuoteModal currentRfqData={currentRfqData} open={open} setOpen={setOpen} viewLoading={viewLoading} setViewLoading={setViewLoading} productList={productList} isEdit={isEdit}/>
       <Space style={{ marginBottom: 16, gap: 16 }}>
         <Search
           placeholder="Search by RFQ Code/ Email / Name / Contact"

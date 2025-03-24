@@ -2,7 +2,7 @@ import React, { useState, useEffect, Fragment } from 'react';
 import { Table, Input, Button, Checkbox, Drawer, Dropdown, Menu, Modal, DatePicker, Select, Upload, Form, Space, message } from 'antd'
 import { useDispatch, useSelector } from 'react-redux';
 import { getConsumerAcceptedQuoteList, acceptRejectQuoteByCustomer } from '../../redux/actions/supplierRfqAction';
-import { createPO, getProductList } from '../../redux/actions/rfqAction';
+import { createPO, getProductList, getTaxCategoryList } from '../../redux/actions/rfqAction';
 import {
   EyeOutlined, 
   UploadOutlined
@@ -23,7 +23,7 @@ const ConsumerAcceptedQuotesList = ({ filter }) => {
   const [rfqList, setRfqList] = useState([])
   const { logindata } = useSelector((state) => state.auth);
   const { quoteAcceptedConsumerData } = useSelector((state) => state.supplierRfq);
-   const { productList } = useSelector((state) => state.rfq);
+   const { productList, taxCategoryData } = useSelector((state) => state.rfq);
   const allSupplier = useSelector((state) => state.dataSet.allSupplier);
   const allConsumer = useSelector((state) => state.dataSet.allConsumer);
   const manufacturingProcess = useSelector((state) => state.auth.logindata.manufacturing_process);
@@ -101,6 +101,7 @@ const ConsumerAcceptedQuotesList = ({ filter }) => {
     if (logindata && logindata.token) {
         dispatch(getConsumerAcceptedQuoteList(logindata.token));
         dispatch(getProductList(logindata.token));
+        dispatch(getTaxCategoryList(logindata.token));
      // dispatch(getAllConsumer(logindata.token));
     //  dispatch(getAllSupplier(logindata.token));
     }
@@ -150,6 +151,8 @@ const ConsumerAcceptedQuotesList = ({ filter }) => {
       accept_date: d.customer_accept_date,
       supplier_grade: d.supplier_grade,
       supplier_uuid: d.supplier_uuid,
+      total_tax: d.total_tax,
+      total_amount: d.total_amount,
     }));
   
     const lowerCaseSearchValue = searchValue ? searchValue.toString().toLowerCase() : "";
@@ -468,7 +471,7 @@ const ConsumerAcceptedQuotesList = ({ filter }) => {
                     // style={{ marginRight: '8px' }}
                     style={{ backgroundColor: '#2E6F40', borderColor: 'white',marginRight: '8px' }}
                   >
-                    Accept RFQ
+                    Accept
                   </Button>
                   <Button
                     type="danger"
@@ -477,7 +480,7 @@ const ConsumerAcceptedQuotesList = ({ filter }) => {
                       handleReject(record.rfq_id);
                     }}
                   >
-                    Reject RFQ
+                    Reject
                   </Button>
                   </Fragment>}
                   {record?.status !== null && <Fragment><span  style={{ color:`${record?.status === '1' ? `green` : `red`}`}}>{record?.status === '1' ? `Accepted` : `Rejected`} on {record?.accept_date}</span><br/></Fragment>}
@@ -684,7 +687,7 @@ const ConsumerAcceptedQuotesList = ({ filter }) => {
                   </>
                 )}
         </Form.List>)}
-        <Form.Item
+        {/* <Form.Item
             label="Tax Category"
             required
           >
@@ -694,7 +697,17 @@ const ConsumerAcceptedQuotesList = ({ filter }) => {
             onChange={(e) => handleFormChange('tax_category', e.target.value)}
             style={{ width: '200px' }}
           />
-         </Form.Item>
+         </Form.Item> */}
+          <Form.Item 
+        label="Tax Category"
+        name={`tax_category`}
+        >
+          <Select placeholder="--Please choose an option--" onChange={(value) => handleFormChange('tax_category', value)}>
+          {taxCategoryData?.data?.map((tax) => (
+            <Option key={tax.id} value={tax.id} >{tax.tax_name}</Option>
+          ))}
+          </Select>
+        </Form.Item>
       <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
         <Form.Item label="Timeline" required>
           <Input

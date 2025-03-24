@@ -129,6 +129,8 @@ const [formData, setFormData] = useState({
       designFiles: d.is_design_file === "1" ? "Yes" : "No",
       comments: d.comments,
       files: d.files,
+      total_tax: d.total_tax,
+      total_amount: d.total_amount,
     }));
   
     const lowerCaseSearchValue = searchValue ? searchValue.toString().toLowerCase() : "";

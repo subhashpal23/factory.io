@@ -11,6 +11,7 @@ const SupplierAccount = () => {
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
   const token = useSelector((state) => state.auth.logindata.token);
+  const manufacturingProcess = useSelector((state) => state.auth.logindata.manufacturing_process);
   const accountUpdateStatus = useSelector((state) => state.user.accountUpdateStatus);
   const userDetail = useSelector((state) => state.user.userDetail);
 
@@ -32,8 +33,11 @@ const SupplierAccount = () => {
           facilities: values.facilities,
           location: values.location,
           iso_certification: values.iso_certification,
+          freezone: values.freezone,
+          manufacturing_process : values?.manufacturing_process?.join(","),
           files: formData.files[0],
         };
+        //console.log("@@dataToSend", dataToSend);
         setFormData(dataToSend);
         dispatch(updateAccount(dataToSend, token));
       };
@@ -80,6 +84,8 @@ const SupplierAccount = () => {
       facilities: formData.facilities,
       location: formData.location,
       iso_certification: formData.iso_certification,
+      freezone: formData.freezone,
+      manufacturing_process : formData?.manufacturing_process,
       files: formData.files[0],
     });
   }, [formData, form]);
@@ -101,6 +107,8 @@ const SupplierAccount = () => {
         facilities: userDetail?.facilities  || '',
         location: userDetail?.location || '',
         iso_certification: userDetail?.iso_certification || "",
+        freezone: userDetail.freezone,
+        manufacturing_process : userDetail.manufacturing_process?.split(","),
         files: userDetail?.files || []
       });
     }
@@ -127,7 +135,18 @@ const SupplierAccount = () => {
         >
           <Input.TextArea placeholder="Describe the facilities your company offers" rows={3} />
         </Form.Item>
-
+        
+                <Form.Item
+                  label="Manufacturing Available"
+                  name="manufacturing_process"
+                  rules={[{ required: true, message: 'Manufacturing process is required!' }]}
+                >
+                  <Select placeholder="--Please choose an option--" mode= 'multiple'>
+                    {manufacturingProcess.map((process) => (
+                      <Option key={process.id} value={process.id}>{process.process_name}</Option>
+                    ))}
+                  </Select>
+        </Form.Item>
         {/* Location */}
         <Form.Item
           name="location"
@@ -135,6 +154,17 @@ const SupplierAccount = () => {
           rules={[{ required: true, message: "Please enter your company location" }]}
         >
           <Input placeholder="Enter your company location" />
+        </Form.Item>
+
+        <Form.Item
+          name="freezone"
+          label="Freezone"
+          rules={[{ required: true, message: "Please select an option" }]}
+        >
+          <Select placeholder="Select">
+            <Option value="1">Yes</Option>
+            <Option value="0">No</Option>
+          </Select>
         </Form.Item>
 
         {/* ISO Certification */}

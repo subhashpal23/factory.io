@@ -13,6 +13,7 @@ const initialState = {
     poData: undefined,
     supplierpoData: undefined,
     allpoData: undefined,
+    taxCategoryData: undefined,
   };
   
   const rfqReducer = (state = initialState, action) => {
@@ -79,6 +80,14 @@ const initialState = {
         return { ...state, loading: false, adminRfqData: action.payload || [] };
       case 'GET_ADMIN_RFQ_FAILURE':
         return { ...state, loading: false, error: action.payload };
+
+      case 'GET_TAX_CATEGORY_REQUEST':
+        return { ...state, loading: true, error: null };
+      case 'GET_TAX_CATEGORY_SUCCESS':
+        return { ...state, loading: false, taxCategoryData: action.payload || [] };
+      case 'GET_TAX_CATEGORY_REQUEST_FAILURE':
+        return { ...state, loading: false, error: action.payload };
+
      
       case 'RESET_RFC_CREATE_STATUS':
         return {...state, rfqCreateStatus: false}

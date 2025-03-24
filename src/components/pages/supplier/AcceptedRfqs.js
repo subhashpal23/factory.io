@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Input, Button, Checkbox, message, Drawer, Dropdown, Menu, Modal, DatePicker, Select, Upload, Form, Space, Col, Row } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { createQuote, getAdminRfqLists, getProductList } from '../../../redux/actions/rfqAction';
+import { createQuote, getAdminRfqLists, getProductList, getTaxCategoryList } from '../../../redux/actions/rfqAction';
 import { getAllSupplier, getAllConsumer } from '../../../redux/actions/allDataAction';
 import { assignRfqToSupplier, resetAssignRfqStatus } from '../../../redux/actions/assignRfqAction';
 import { MinusCircleOutlined, PlusOutlined, UploadOutlined } from '@ant-design/icons';
@@ -16,7 +16,7 @@ const AcceptedRfqs = ({ filter }) => {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
   const { logindata } = useSelector((state) => state.auth);
-  const { adminRfqData, productList } = useSelector((state) => state.rfq);
+  const { adminRfqData, productList, taxCategoryData } = useSelector((state) => state.rfq);
   const allSupplier = useSelector((state) => state.dataSet.allSupplier);
   const allConsumer = useSelector((state) => state.dataSet.allConsumer);
   const manufacturingProcess = useSelector((state) => state.auth.logindata.manufacturing_process);
@@ -41,6 +41,8 @@ const AcceptedRfqs = ({ filter }) => {
   const [currentRfqId,setCurrentRfqId] = useState('');
   const [ filters, setFilters] = useState({})
   const [currentRfq, setCurrentRfq] = useState(null);
+
+  console.log('@@taxCategoryData',taxCategoryData)
   
   const [formData, setFormData] = useState({
     total_cost: '',
@@ -81,6 +83,7 @@ const AcceptedRfqs = ({ filter }) => {
       dispatch(getAllConsumer(logindata.token));
       dispatch(getAllSupplier(logindata.token));
       dispatch(getProductList(logindata?.token));
+      dispatch(getTaxCategoryList(logindata?.token));
     }
   }, [dispatch, logindata]);
 
@@ -198,10 +201,11 @@ const AcceptedRfqs = ({ filter }) => {
       rfq_id: tranformData?.rfq_id,
       rfq_code: tranformData?.rfqcode,
       valid_till:  tranformData?.valid_till,
+      tax_category: tranformData?.tax_category,
     };
 
-    console.log('@@dataToSend',dataToSend)
-     dispatch(createQuote(dataToSend, logindata?.token));
+    //console.log('@@dataToSend',dataToSend)
+    dispatch(createQuote(dataToSend, logindata?.token));
   };
 
   const fetchData = () => {
@@ -589,6 +593,16 @@ const AcceptedRfqs = ({ filter }) => {
               value={formData.valid_till}
               onChange={(date) => handleFormChange('valid_till', date)}
             />
+          </Form.Item>
+          <Form.Item 
+                    label="Tax Category"
+                    name={`tax_category`}
+                    >
+                      <Select placeholder="--Please choose an option--" onChange={(value) => handleFormChange('tax_category', value)}>
+                      {taxCategoryData?.data?.map((tax) => (
+                        <Option key={tax.id} value={tax.id} >{tax.tax_name}</Option>
+                      ))}
+                      </Select>
           </Form.Item>
           <Form.Item
             label="Payment terms"

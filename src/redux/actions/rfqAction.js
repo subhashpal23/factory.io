@@ -236,3 +236,28 @@ export const getAdminPOList = (token) => {
         }
     };
 }
+
+
+export const getTaxCategoryList = (token) => {
+    return async (dispatch) => {
+        dispatch({ type: 'GET_TAX_CATEGORY_REQUEST' });
+        try {
+            const response = await fetch('https://factory.demosite.name/api/Api/taxCategory', {
+                method: 'GET', 
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}` 
+                },
+                // Send the data as JSON
+            });
+
+            if (!response.ok) {
+                throw new Error(`Error: ${response.status} ${response.statusText}`);
+            }
+            const data = await response.json();
+            dispatch({ type: 'GET_TAX_CATEGORY_SUCCESS', payload: data });
+        } catch (error) {
+            dispatch({ type: 'GET_TAX_CATEGORY_FAILURE', payload: error.message });
+        }
+    };
+}

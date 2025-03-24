@@ -150,6 +150,8 @@ const ConsumerRejectedQuotesList = ({ filter }) => {
       accept_date: d.customer_accept_date,
       supplier_grade: d.supplier_grade,
       supplier_uuid: d.supplier_uuid,
+      total_tax: d.total_tax,
+      total_amount: d.total_amount,
     }));
   
     const lowerCaseSearchValue = searchValue ? searchValue.toString().toLowerCase() : "";
@@ -468,7 +470,7 @@ const ConsumerRejectedQuotesList = ({ filter }) => {
                     // style={{ marginRight: '8px' }}
                     style={{ backgroundColor: '#2E6F40', borderColor: 'white',marginRight: '8px' }}
                   >
-                    Accept RFQ
+                    Accept
                   </Button>
                   <Button
                     type="danger"
@@ -477,7 +479,7 @@ const ConsumerRejectedQuotesList = ({ filter }) => {
                       handleReject(record.rfq_id);
                     }}
                   >
-                    Reject RFQ
+                    Reject
                   </Button>
                   </Fragment>}
                   {record?.status !== null && <Fragment><span  style={{ color:`${record?.status === '1' ? `green` : `red`}`}}>{record?.status === '1' ? `Accepted` : `Rejected`} on {record?.accept_date}</span><br/></Fragment>}

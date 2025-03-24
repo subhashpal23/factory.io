@@ -1,7 +1,7 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import { Table, Input, Button, Select, Space } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { getPOList, getProductList } from '../../redux/actions/rfqAction';
+import { getPOList, getProductList, getTaxCategoryList } from '../../redux/actions/rfqAction';
 import ViewPOModal from "../ViewPOModal";
 import {
   EyeOutlined
@@ -13,7 +13,7 @@ const { Option } = Select;
 const POList = () => {
   const dispatch = useDispatch();
   const { logindata, loginError } = useSelector((state) => state.auth);
-  const { poData, error } = useSelector((state) => state.rfq); 
+  const { poData, error, taxCategoryData } = useSelector((state) => state.rfq); 
   const manufacturingProcess = useSelector((state) => state.auth.logindata.manufacturing_process);
   const [filteredData, setFilteredData] = useState([]);
   const [searchValue, setSearchValue] = useState('');
@@ -44,6 +44,7 @@ const POList = () => {
     if (logindata && logindata.token) {
       dispatch(getPOList(logindata.token));
       dispatch(getProductList(logindata.token));
+      dispatch(getTaxCategoryList(logindata.token));
     }
   }, [dispatch, logindata]);
 
@@ -69,15 +70,18 @@ const POList = () => {
     rfq_id: d.rfq_id,
     quote_id: d.quote_id,
     po_code: d.po_code,
-    tax_category: d.tax_category,
+    tax_category: taxCategoryData?.data?.filter((tax)=>tax.id === d.tax_category)[0]?.tax_name,
     payment_term: d.payment_term,
     term_and_condition: d.term_and_condition,
     po_date: d.po_date,
     files: d.files,
     status: d.status,
     supplier_status: d.status,
+    total_tax: d.total_tax,
+    total_amount: d.total_amount,
   }));
 
+  //console.log('@@data',taxCategoryData?.data, data);
   const lowerCaseSearchValue = searchValue ? searchValue.toString().toLowerCase() : "";
 
   const filteredData = data.filter((item) => {

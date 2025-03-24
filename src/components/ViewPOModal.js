@@ -3,7 +3,7 @@ import { Modal, Button, Typography, Spin, Table, Image} from 'antd';
 
 const { Paragraph, Text } = Typography;
 
-const ViewPOModal = ({ currentRfqData, open, setOpen, viewLoading, showLoading, productList }) => {
+const ViewPOModal = ({ currentRfqData, open, setOpen, viewLoading, showLoading, productList}) => {
   const products = productList?.reduce((acc, product) => {
     acc[product.id] = product?.product_name;
     return acc;
@@ -67,7 +67,7 @@ console.log('@@products', products)
               <Text strong large>PO Date:</Text> {currentRfqData?.po_date}
             </Paragraph>
             <Paragraph style={{ marginBottom: 8 }}>
-              <Text strong>Tax Category:</Text> {currentRfqData?.tax_category}
+              <Text strong>Tax Category:</Text> {currentRfqData?.tax_category} 
             </Paragraph>
             <Paragraph style={{ marginBottom: 8 }}>
               <Text strong>Payment Terms:</Text> {currentRfqData?.payment_term}
@@ -75,6 +75,13 @@ console.log('@@products', products)
             <Paragraph style={{ marginBottom: 8 }}>
               <Text strong>Terms & Conditions:</Text> {currentRfqData?.term_and_cond}
             </Paragraph>
+            {currentRfqData?.total_tax && <Paragraph style={{ marginBottom: 8 }}>
+              <Text strong>Total Tax:</Text> {currentRfqData?.total_tax} AED
+            </Paragraph>}
+            {currentRfqData?.total_amount &&
+            <Paragraph style={{ marginBottom: 8 }}>
+              <Text strong>Total / Final Price:</Text> {currentRfqData?.total_amount} AED
+            </Paragraph>}
             <Paragraph style={{ marginBottom: 8 }}>
             <Text strong large>Products:</Text>
               {currentRfqData?.files?.length > 0 ? ( <Table dataSource={data} columns={columns} pagination={false}/>) : "  NA"}

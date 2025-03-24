@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getAdminRfqLists } from '../../../redux/actions/rfqAction';
 import { getAllSupplier, getAllConsumer } from '../../../redux/actions/allDataAction';
 import { assignRfqToSupplier, resetAssignRfqStatus } from '../../../redux/actions/assignRfqAction';
+import { CountryCodes } from '../../Registration/constants';
 const { Search } = Input;
 const { confirm } = Modal;
 const { Option } = Select;
@@ -29,12 +30,15 @@ const AdminRfqList = ({ filter }) => {
   const [drawerVisible, setDrawerVisible] = useState(false);
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [userSearchValue, setUserSearchValue] = useState('');
+  const [userSearchCountry, setUserSearchCountry] = useState('');
+  const [userSearchManufacturing, setUserSearchManufacturing] = useState('');
   const [drawerTitle, setDrawerTitle] = useState('');
   const [drawarActiveDataSet, setDrawerActiveDataSet] = useState('');
   const [userList, setUserList] = useState([]);
   const [currentRfqCode, setCurrentRfqCode] = useState('');
   const [currentRfqId,setCurrentRfqId] = useState('');
   const [ filters, setFilters] = useState({})
+  
 
   let rfqList = adminRfqData && adminRfqData?.data ? adminRfqData.data : [];
   console.log('@rfqList',rfqList)
@@ -202,12 +206,36 @@ const AdminRfqList = ({ filter }) => {
     }
   };
 
-  const filteredUserList = userSearchValue
-    ? userList.filter((user) =>
-      user.name.toLowerCase().includes(userSearchValue.toLowerCase()) ||
-      user.email.toLowerCase().includes(userSearchValue.toLowerCase())
-    )
-    : userList;
+  // const filteredUserList = userSearchValue
+  //   ? userList.filter((user) =>
+  //     user.name.toLowerCase().includes(userSearchValue.toLowerCase()) ||
+  //     user.email.toLowerCase().includes(userSearchValue.toLowerCase())
+  //   )
+  //   : userList;
+
+  console.log("@@userSearchCountry", userSearchCountry);
+  console.log("@@userSearchManufacturing", userSearchManufacturing);
+  const filteredUserList = userList?.filter((user) => {
+    const matchesSearchValue =
+      userSearchValue &&
+      (user.name.toLowerCase().includes(userSearchValue.toLowerCase()) ||
+        user.email.toLowerCase().includes(userSearchValue.toLowerCase()));
+  
+    const matchesCountry =
+      userSearchCountry && user.country_code?.toLowerCase().includes(userSearchCountry.toLowerCase());
+  
+    const matchesManufacturing =
+      userSearchManufacturing &&
+      user.manufacturing_process?.includes(userSearchManufacturing?.toLowerCase());
+  
+    return (
+      (!userSearchValue || matchesSearchValue) &&
+      (!userSearchCountry || matchesCountry) &&
+      (!userSearchManufacturing || matchesManufacturing)
+    );
+  });
+
+    console.log('@@userList', userList)
 
   const menu = (record) => (
     <Menu>
@@ -311,19 +339,74 @@ const AdminRfqList = ({ filter }) => {
       />
       <Drawer
         title={drawerTitle}
-        width={500}
+        width={600}
         onClose={closeDrawer}
         visible={drawerVisible}
         bodyStyle={{ paddingBottom: 80 }}
       >
         <h2 style={{margin:"0px 10px 10px 0px"}}>{currentRfqCode}</h2>
-        <Search
+        {/* <Search
           placeholder="Search users"
           onSearch={handleUserSearch}
           style={{ marginBottom: 20 }}
           value={userSearchValue}
           onChange={(e) => handleUserSearch(e.target.value)}
-        />
+        /> */}
+
+         <Space style={{ marginBottom: 16, gap: 8 }}>
+              <Search
+                placeholder="Search users"
+                onSearch={handleUserSearch}
+                style={{ marginBottom: 20 , minWidth:100}}
+                value={userSearchValue}
+                onChange={(e) => handleUserSearch(e.target.value)}
+              />
+                <Select
+                  placeholder="--Manufacturing Process--"
+                  style={{ marginBottom: 20,  minWidth:100}}
+                  onSelect={(value) => setUserSearchManufacturing(value)}
+                  value={userSearchManufacturing}
+                >
+                  <option value="">Manufacturing Process</option>
+                  {manufacturingProcess.map((process) => (
+                    <Option key={process.id} value={process.id}>
+                      {process.process_name}
+                    </Option>
+                  ))}
+                </Select>
+                <Select
+                  placeholder="Country"
+                  style={{ marginBottom: 20,  minWidth:100}}
+                  onSelect={(value) => setUserSearchCountry(value)}
+                  value={userSearchCountry}
+                >
+                  <option value="">Country</option>
+                                  {CountryCodes.map((country, index) => (
+                                    <option key={index} value={`${country.code}`}>
+                                      {country.name}
+                                    </option>
+                                  ))}
+                </Select>
+                {/* <Select
+                  placeholder="--Design Files--"
+                  style={{ minWidth: 100 }}
+                  onSelect={(value) => setFilters({ ...filters, designFiles: value })}
+                  value={filters?.designFiles}
+                >
+                  <Option value="yes">Yes</Option>
+                  <Option value="no">No</Option>
+                </Select> */}
+                {/* <Button
+                  type="primary"
+                  onClick={() => {
+                    setSearchValue('');
+                    setFilters({});
+                  }}
+                  style={{ display: 'block', margin: '0 auto' }}
+                >
+                  Reset
+                </Button> */}
+              </Space>
         <div style={{ maxHeight: 'calc(100vh - 200px)', overflowY: 'auto' }}>
         {filteredUserList.map((user) => (
           <div key={user.id} style={{ display: 'flex', padding: '10px', borderBottom: '1px solid #ccc', alignItems: 'center' }}>

@@ -18,6 +18,8 @@ const initialState = {
     acceptRejectPOAdminStatusError: null,
     acceptRejectPOSupplierStatus: false,
     acceptRejectPOSupplierStatusError: null,
+    updateQuoteCommissionStatus: false,
+    updateQuoteCommissionStatusError: null,
   };
   
   // https://factory.demosite.name/api/Api/getSupplierRFQList
@@ -106,6 +108,12 @@ const initialState = {
       case 'ACCEPT_REJECT_PO_REQUEST_SUPPLIER_FAILURE':
         return { ...state, loading: false, acceptRejectPOSupplierStatusError: action.payload };
 
+      case 'UPDATE_QUOTE_COMMISSION_REQUEST_ADMIN':
+        return { ...state, loading: true, error: null };
+      case 'UPDATE_QUOTE_COMMISSION_REQUEST_ADMIN_SUCCESS':
+        return { ...state, loading: false, updateQuoteCommissionStatus: action.payload || [] };
+      case 'UPDATE_QUOTE_COMMISSION_REQUEST_ADMIN_FAILURE':
+        return { ...state, loading: false, updateQuoteCommissionStatusError: action.payload };
       /*case 'CREATE_RFQ_REQUEST':
         return { ...state, loading: true};
       case 'CREATE_RFQ_SUCCESS':
