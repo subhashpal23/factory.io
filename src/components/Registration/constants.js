@@ -248,7 +248,16 @@ export const industriesType = [
         { id: 1500, label: 'RFQ List', component: <AdminRfqList /> },
         { id: 1501, label: 'Assigned To Supplier', component: <AdminRfqList />, props: { filter: 'supplierAssigned' } },
         { id: 1502, label: 'Assigned To Consumer', component: <AdminRfqList />, props: { filter: 'consumerAssigned' } },
+      ]
+    },
+    {id: 21,role_type: 'super_admin',label: 'Quote Management',iconLabel: <SolutionOutlined />, component: <></>,
+      children: [
         { id: 1503, label: 'Quote List', component: <AdminQuotesList />, props: { filter: 'consumerAssigned' } },
+      ]
+    },
+    {id: 22,role_type: 'super_admin',label: 'PO Management',iconLabel: <SolutionOutlined />, component: <></>,
+      
+      children: [
         { id: 1504, label: 'PO List', component: <AdminPOList />, props: { filter: 'consumerAssigned' } }
       ]
     },

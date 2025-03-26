@@ -136,6 +136,8 @@ const [formData, setFormData] = useState({
       quote_code: d.quote_code,
       addcomument: d.addcomument,
       commission_per: d.commission_per,
+      total_tax: d.total_tax,
+      total_amount: d.total_amount,
       customer_details: <>
       <span>{d.customer_name}</span>
       <br />

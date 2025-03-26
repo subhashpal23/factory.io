@@ -117,6 +117,8 @@ const RfqReceived = ({ filter }) => {
       designFiles: d.is_design_file === "1" ? "Yes" : "No",
       comments: d.comments,
       files: d.files,
+      member_id: d.member_id,
+      grade: d.grade,
     }));
   
     const lowerCaseSearchValue = searchValue ? searchValue.toString().toLowerCase() : "";
@@ -273,6 +275,16 @@ const RfqReceived = ({ filter }) => {
       title: 'RFQ Code',
       dataIndex: 'rfqcode',
       key: 'rfqcode',
+    },
+    {
+      title: 'Consumer UID',
+      dataIndex: 'member_id',
+      key: 'member_id',
+    },
+    {
+      title: 'Grade',
+      dataIndex: 'grade',
+      key: 'grade',
     },
     /*{
       title: 'Name',

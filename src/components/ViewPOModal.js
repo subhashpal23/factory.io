@@ -75,17 +75,17 @@ console.log('@@products', products)
             <Paragraph style={{ marginBottom: 8 }}>
               <Text strong>Terms & Conditions:</Text> {currentRfqData?.term_and_cond}
             </Paragraph>
-            {currentRfqData?.total_tax && <Paragraph style={{ marginBottom: 8 }}>
+            {/* {currentRfqData?.total_tax && <Paragraph style={{ marginBottom: 8 }}>
               <Text strong>Total Tax:</Text> {currentRfqData?.total_tax} AED
-            </Paragraph>}
-            {currentRfqData?.total_amount &&
-            <Paragraph style={{ marginBottom: 8 }}>
-              <Text strong>Total / Final Price:</Text> {currentRfqData?.total_amount} AED
-            </Paragraph>}
+            </Paragraph>} */}
             <Paragraph style={{ marginBottom: 8 }}>
             <Text strong large>Products:</Text>
               {currentRfqData?.files?.length > 0 ? ( <Table dataSource={data} columns={columns} pagination={false}/>) : "  NA"}
             </Paragraph>
+            {currentRfqData?.total_amount &&
+            <Paragraph style={{ marginBottom: 8 }}>
+              <Text strong>Total / Final Price:</Text> {currentRfqData?.total_amount} AED
+            </Paragraph>}
           </Typography>
         </div>
     </Modal>

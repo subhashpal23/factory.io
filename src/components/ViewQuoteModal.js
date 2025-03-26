@@ -39,11 +39,11 @@ const ViewQuoteModal = ({ currentRfqData, open, setOpen, viewLoading, showLoadin
   }));
 
   const columns = [
-    {
+    /*{
       title: 'Product ID',
       dataIndex: 'product_id',
       key: 'product_id',
-    },
+    },*/
     {
       title: 'Product',
       dataIndex: 'product',
@@ -92,7 +92,7 @@ const ViewQuoteModal = ({ currentRfqData, open, setOpen, viewLoading, showLoadin
             <Paragraph style={{ marginBottom: 8 }}>
               <Text strong>Terms & Conditions:</Text> {currentRfqData?.term_and_cond}
             </Paragraph>
-            {isEdit && (
+            {isEdit && currentRfqData?.commission_per &&(
             <Paragraph style={{ marginBottom: 8, marginTop: 12 }}>
             <Text strong>Plaform Fee/ Commission ( Percentage % ):</Text>
               <Input
@@ -110,18 +110,14 @@ const ViewQuoteModal = ({ currentRfqData, open, setOpen, viewLoading, showLoadin
                 Update Commission <SaveOutlined/>
              </Button>
             </Paragraph>)}
-            {!isEdit && (
+            {!isEdit && currentRfqData?.commission_per && (
             <Paragraph style={{ marginBottom: 8, marginTop: 12 }}>
-            <Text strong>Plaform Fee/ Commission ( Percentage % ): {commission ?? currentRfqData?.commission_per}</Text>
+             <Text strong>Plaform Fee/ Commission ( Percentage % ): {commission ?? currentRfqData?.commission_per}</Text>
             </Paragraph>)}
 
-            {currentRfqData?.total_tax && <Paragraph style={{ marginBottom: 8 }}>
+            {/* {currentRfqData?.total_tax && <Paragraph style={{ marginBottom: 8 }}>
               <Text strong>Total Tax:</Text> {currentRfqData?.total_tax} AED
-            </Paragraph>}
-            {currentRfqData?.total_amount &&
-            <Paragraph style={{ marginBottom: 8 }}>
-              <Text strong>Total / Final Price:</Text> {currentRfqData?.total_amount} AED
-            </Paragraph>}
+            </Paragraph>} */}
             
             {!isEdit && (
             <Paragraph style={{ marginBottom: 8 }}>
@@ -172,6 +168,10 @@ const ViewQuoteModal = ({ currentRfqData, open, setOpen, viewLoading, showLoadin
             "  NA"
             )}
             </Paragraph>
+            {currentRfqData?.total_amount &&
+            <Paragraph style={{ marginBottom: 8 }}>
+              <Text strong>Total / Final Price:</Text> {currentRfqData?.total_amount} AED
+            </Paragraph>}
           </Typography>
         </div>
     </Modal>
