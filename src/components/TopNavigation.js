@@ -130,8 +130,8 @@ const MegaMenu = () => {
       top: '9vh', // Adjust the top position if necessary
       zIndex: 9999, // Ensure the dropdown appears on top of other elements
     }}>
-      <Button type="text">
-        Services
+      <Button type="text" style={{ fontSize: "20px", fontWeight: "bold", padding: "0px 10px" }}>
+      Manfacturing Hub
       </Button>
     </Dropdown>
   );
@@ -152,15 +152,15 @@ const TopNavigation = () => {
   return (
     <>
     <TopMenuContainer>
-      <div style={{ flex: 1 , cursor: "pointer"}}>
+      <div style={{ flex: 1 , cursor: "pointer", color: "#0056b3", fontWeight: "bold"}}>
         <HeaderText onClick={()=>navigate("/")}>DigiFactory.io</HeaderText>
       </div>
 
-      <Menu mode="horizontal" style={{ borderBottom: "none", flex: 2 }}>
+      <Menu mode="horizontal" style={{ borderBottom: "none", flex: 2 , display: "flex", justifyContent: "flex-end", fontWeight: "bold", fontSize: "20px"}}>
         <Menu.Item key="services"><MegaMenu /></Menu.Item>
-        <Menu.Item key="industries">Industries</Menu.Item>
-        <Menu.Item key="resources">Resources</Menu.Item>
-        <Menu.Item key="company">Company</Menu.Item>
+        <Menu.Item key="industries"><a href="/#industries-we-serve">Industry</a></Menu.Item>
+        <Menu.Item key="resources" ><a href="/#how-it-works">How It Works</a></Menu.Item>
+        {/* <Menu.Item key="company">Company</Menu.Item> */}
         <Menu.Item key="contact">Contact</Menu.Item>
       </Menu>
 

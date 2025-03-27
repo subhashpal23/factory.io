@@ -1,0 +1,216 @@
+[
+    {
+      "id": "casting",
+      "title": "Casting",
+      "description": "Hot and cold forging processes produce durable components with excellent mechanical properties through controlled deformation of metals. Forged parts offer superior strength and structural integrity compared to cast or machined alternatives.",
+      "applications": [
+        "Engine blocks",
+        "Machinery housings",
+        "Artistic components",
+        "Structural parts"
+      ],
+      "materials": ["Aluminum", "Steel", "Bronze", "Zinc", "Magnesium"],
+      "image": "/images/front/casting-2.jpg"
+    },
+    {
+      "id": "forging",
+      "title": "Forging",
+      "description": "Shape metal through controlled deformation to create parts with superior strength and durability. Our forging processes manipulate metal at specific temperatures to achieve optimal grain structure and mechanical properties.",
+      "applications": [
+        "Crankshafts",
+        "Gears and bearings",
+        "Automotive components",
+        "Heavy machinery parts"
+      ],
+      "materials": ["Steel", "Titanium", "Aluminum"],
+      "image": "/images/front/forging.jpg"
+    },
+    {
+      "id": "cnc-machining",
+      "title": "CNC Machining",
+      "description": "CNC machining uses computer-controlled tools to cut and shape materials with high precision. It is ideal for prototypes and production runs with excellent surface finishes.",
+      "applications": [
+        "Aerospace components",
+        "Automotive parts",
+        "Medical devices",
+        "Industrial equipment"
+      ],
+      "materials": ["Aluminum", "Steel", "Brass", "Titanium", "Plastics"],
+      "image": "/images/front/cnc-machining1.png"
+    }, 
+    {
+      "id": "conventional-machining",
+      "title": "Conventional Machining",
+      "description": "Traditional machining processes using lathes, mills, and drills operated by skilled machinists. Perfect for custom parts, prototypes, and specialized components that require hands-on expertise.",
+      "applications": [
+        "Prototype parts",
+        "Custom components",
+        "Repair parts",
+        "Low-volume production"
+      ],
+      "materials": ["Aluminum", "Steel", "Stainless Steel", "Brass", "Bronze", "Plastics"],
+      "image": "/images/front/conventional-machining.jpg"
+    }, 
+    {
+      "id": "metal-fabrication",
+      "title": "Metal Fabrication",
+      "description": "Comprehensive metal forming services including cutting, bending, welding, and assembly. Our metal fabrication capabilities transform sheet metal and structural materials into finished products for a wide range of industries.",
+      "applications": [
+        "Electronic enclosures",
+        "HVAC components",
+        "Automotive panels",
+        "Architectural elements"
+      ],
+      "materials": ["Aluminum", "Steel", "Stainless Steel", "Copper", "Brass"],
+      "image": "/images/front/fabrication1.jpg"
+    },
+    {
+      "id": "tool-die-making",
+      "title": "Tool and Die Making",
+      "description": "Custom design and fabrication of precision tooling for manufacturing processes. Our tool and die making expertise supports injection molding, stamping, and forming operations with high-quality, durable tooling solutions. Essential for consistent part quality and efficient production across high-volume manufacturing applications.",
+      "applications": [
+        "Injection molds",
+        "Stamping dies",
+        "Jigs and fixtures",
+        "Cutting tools"
+      ],
+      "materials": [
+        "Tool steel",
+        "Carbide",
+        "Alloy steels"
+      ],
+      "image": "/images/front/grinding.jpg"
+    },
+    {
+      "id": "anodizing-coating",
+      "title": "Anodizing and Coating",
+      "description": "Improve surface properties and aesthetics with specialized finishing processes. Our surface treatment services include anodizing, powder coating, plating, and passivation to enhance corrosion resistance, wear properties, and visual appeal. Essential for extending component life and improving performance in harsh environments.",
+      "applications": [
+        "Consumer electronics",
+        "Architectural elements",
+        "Automotive parts",
+        "Outdoor equipment"
+      ],
+      "materials": [
+        "Aluminum",
+        "Titanium",
+        "Magnesium",
+        "Steel"
+      ],
+      "image": "/images/front/anodizing.jpg"
+    },{
+      "id": "plasma-cutting",
+      "title": "Plasma Cutting",
+      "description": "Fast and efficient cutting of conductive materials using high-temperature plasma. Our plasma cutting technology handles thick metals with speed and precision. Ideal for industrial fabrication, structural components, and applications requiring efficient processing of heavy materials.",
+      "applications": [
+        "Thick metal cutting",
+        "Industrial fabrication",
+        "Automotive components",
+        "Structural elements"
+      ],
+      "materials": [
+        "Steel",
+        "Aluminum",
+        "Stainless Steel",
+        "Copper",
+        "Brass"
+      ],
+      "image": "/images/front/howard-r-wheeler-EueYQgD7cms-unsplash.jpg"
+    },
+    {
+      "id": "heat-treatment",
+      "title": "Heat Treatment",
+      "description": "Enhance material properties through controlled heating and cooling processes. Our heat treatment services include annealing, hardening, tempering, and stress relieving to optimize material performance. Critical for improving component durability, wear resistance, and mechanical properties in demanding applications.",
+      "applications": [
+        "Tool steels",
+        "Automotive parts",
+        "Machinery components",
+        "Cutting tools"
+      ],
+      "materials": [
+        "Steel",
+        "Aluminum",
+        "Titanium",
+        "Copper alloys"
+      ],
+        "image": "/images/front/howard-r-wheeler-EueYQgD7cms-unsplash.jpg"
+    }, {
+      "id": "laser-cutting",
+      "title": "Laser Cutting",
+      "description": "High-precision thermal cutting technology for intricate designs and clean edges. Our laser cutting services offer exceptional accuracy with minimal material distortion. Perfect for detailed cutouts, custom parts, and applications requiring tight tolerances and superior edge quality across various materials.",
+      "applications": [
+        "Precision parts",
+        "Signs and displays",
+        "Custom panels",
+        "Art and design pieces"
+      ],
+      "materials": ["Steel", "Aluminum", "Acrylic", "Wood", "Leather", "Fabric"],
+      "image": "/images/front/laser-cutting.jpg"
+    },
+    {
+      "id": "waterjet-cutting",
+      "title": "Waterjet Cutting",
+      "description": "Versatile cold-cutting process using high-pressure water, with or without abrasives. Our waterjet cutting technology can process virtually any material without heat-affected zones or thermal distortion. Ideal for cutting thick materials, heat-sensitive components, and materials that require minimal finishing work.",
+      "applications": [
+        "Aerospace components",
+        "Stone inlays",
+        "Artistic pieces",
+        "Thick metal cutting"
+      ],
+      "materials": ["Metals", "Stone", "Glass", "Ceramics", "Composites", "Rubber"],
+      "image": "/images/front/waterjetmachining.jpg"
+    },
+    {
+      "id": "3d-printing",
+      "title": "3D Printing (Additive Manufacturing)",
+      "description": "Build complex parts layer by layer using a range of materials and technologies. Our additive manufacturing services include SLA, SLS, FDM, and metal printing processes. Perfect for rapid prototyping, custom designs, and producing parts with internal features that would be impossible with traditional manufacturing.",
+      "applications": [
+        "Rapid prototyping",
+        "Custom jigs and fixtures",
+        "End-use parts",
+        "Medical models"
+      ],
+      "materials": ["Plastics", "Photopolymers", "Metal powders", "Composites"],
+      "image": "/images/front/3d-printing.jpg"
+    },
+    {
+      "id": "grinding",
+      "title": "Grinding",
+      "description": "Achieve ultra-smooth surfaces and precise dimensions through controlled abrasion. Our grinding services include surface, cylindrical, and centerless grinding to meet the most demanding finish requirements. Essential for components requiring exceptional surface quality and dimensional accuracy in critical applications.",
+      "applications": [
+        "Precision shafts",
+        "Bearing races",
+        "Tool sharpening",
+        "Flat surfaces"
+      ],
+      "materials": ["Hardened steel", "Carbide", "Ceramics", "Composites"],
+      "image": "/images/front/grinding.jpg"
+    },
+    {
+      "id": "wire-edm",
+      "title": "Wire EDM (Electrical Discharge Machining)",
+      "description": "Create precise cuts in conductive materials using electrical discharges. Our Wire EDM technology offers exceptional accuracy for intricate shapes and delicate parts. Ideal for hard materials, complex geometries, and applications where traditional cutting methods would cause material stress or deformation.",
+      "applications": [
+        "Mold and die components",
+        "Precision gears",
+        "Medical instruments",
+        "Micro-components"
+      ],
+      "materials": ["Conductive metals", "Carbide", "Graphite"],
+      "image": "/images/front/waterjetmachining.jpg"
+    },
+    {
+      "id": "injection-molding",
+      "title": "Injection Molding",
+      "description": "High-volume production of consistent plastic parts using precision molds. Our injection molding services deliver repeatable quality for parts with complex geometries and fine details. Cost-effective for medium to high production volumes with a wide range of material options and surface finishes.",
+      "applications": [
+        "Consumer products",
+        "Automotive components",
+        "Medical devices",
+        "Electronic housings"
+      ],
+      "materials": ["Thermoplastics", "Thermosets", "Metal powders"],
+      "image": "/images/front/injection-moulding.jpg"
+    }
+  ]
+  

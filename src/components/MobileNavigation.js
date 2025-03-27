@@ -3,6 +3,8 @@ import { MenuOutlined, CloseOutlined, SearchOutlined, DownOutlined, LeftOutlined
 import { Button, Drawer } from 'antd';
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import ManufacturerSearch from './ManufacturerSearch';
+import HowItWorks from './HowItWorks';
 
 const Container = styled.div`
   display: flex;
@@ -19,7 +21,7 @@ const HeaderText = styled.div`
 `;
 
 const submenus = {
-    Services: [
+    "Manufacturer Hub": [
         {
           title: 'Injection Molding Service',
           items: [
@@ -45,22 +47,17 @@ const submenus = {
         },
         '3D Printing Service'
       ],
-    Materials: [
-      'Metals',
-      'Plastics',
-      'Composites'
-    ],
-    Industries: [
+    Industry: [
       'Automotive',
       'Aerospace',
       'Medical'
     ],
-    Resources: [
+    "How It Works": [
       'Blog',
       'Case Studies',
       'Webinars'
     ],
-    'About Us': [
+    'Contact Us': [
       'Our Story',
       'Careers',
       'Contact Us'

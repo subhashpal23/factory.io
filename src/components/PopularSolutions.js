@@ -1,18 +1,19 @@
 import React from "react";
 import { Row, Col, Typography } from "antd";
 import styled from "styled-components";
+import { useNavigate } from 'react-router-dom';
 
 const { Title } = Typography;
 
 const manufacturingSolutions = [
-  { title: "CNC Machining", image: "/images/manufacturing/Solutions-CNC-@2x.jpg" },
-  { title: "Sheet Metal Assembly", image: "/images/manufacturing/Solutions-Sheet-Metal-@2x.jpg" },
-  { title: "Injection Molding", image: "/images/manufacturing/Solutions-Injection-Molding-@2x.jpg" },
-  { title: "Engineering & Design Services", image: "/images/manufacturing/Solutions-Engineering-@2x.jpg" },
-  { title: "3D Printing", image: "/images/manufacturing/Solutions-3DP-@2x-1.jpg" },
-  { title: "Fabrication", image: "/images/manufacturing/Solutions-Fabrication-@2x.jpg" },
-  { title: "Metal Stamping", image: "/images/manufacturing/Solutions-Metal-Stamping-@2x.jpg" },
-  { title: "Milling & Turning", image: "/images/manufacturing/Solutions-Milling-@2x.jpg" },
+  { title: "Conventional Machining", image: "/images/front/conventional-machining.jpg", href: "/manufacturing/conventional-machining" },
+  { title: "CNC Machining", image: "/images/front/CNC-machining1.png",  href: "/manufacturing/cnc-machining" },
+  { title: "Casting", image: "/images/front/casting-2.jpg", href: "/manufacturing/casting" },
+  { title: "Metal Fabrication", image: "/images/front/fabrication1.jpg", href: "/manufacturing/metal-fabrication" },
+  { title: "Anodizing and Coating", image: "/images/front/anodizing.jpg" , href: "/manufacturing/anodizing-coating"},
+  { title: "Plasma Cutting", image: "/images/front/howard-r-wheeler-EueYQgD7cms-unsplash.jpg",   href: "/manufacturing/plasma-cutting"},
+  { title: "Laser Cutting", image: "/images/front/laser-cutting.jpg",   href: "/manufacturing/laser-cutting"},
+  { title: "Waterjet Cutting", image: "/images/front/waterjetmachining.jpg",   href: "/manufacturing/waterjet-cutting"},
 ];
 
 const Container = styled.div`
@@ -71,12 +72,13 @@ const SolutionTitle = styled.div`
 `;
 
 const PopularSolutions = () => {
+   const navigate = useNavigate();
   return (
     <Container>
-      <Title level={2} style={{ fontWeight: "bold" }}>Popular Manufacturing Solutions</Title>
+      <Title level={2} style={{ fontWeight: "bold", color:'#0056b3' }}>Manufacturing Processes</Title>
       <Row gutter={[24, 24]} justify="center" style={{ marginTop: "50px" }}>
         {manufacturingSolutions.map((solution, index) => (
-          <Col xs={24} sm={12} md={8} lg={6} key={index}>
+          <Col xs={24} sm={12} md={8} lg={6} key={index} onClick={() => navigate(solution.href)}>
             <SolutionCard>
               <SolutionImage src={solution.image} alt={solution.title} />
               <SolutionTitle>{solution.title}</SolutionTitle>

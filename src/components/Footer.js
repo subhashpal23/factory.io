@@ -50,7 +50,7 @@ const Footer = () => {
           <FooterText>Get Started</FooterText>
           <FooterText>Marketplace Pulse</FooterText>
         </Grid>
-        <Grid item xs={12} sm={6} md={3}>
+        {/* <Grid item xs={12} sm={6} md={3}>
           <FooterTitle variant="h5">LOCATIONS</FooterTitle>
           <FooterText>California</FooterText>
           <FooterText>Texas</FooterText>
@@ -58,7 +58,7 @@ const Footer = () => {
           <FooterText>Florida</FooterText>
           <FooterText>Illinois</FooterText>
           <FooterText>More Locations</FooterText>
-        </Grid>
+        </Grid> */}
       </Grid>
     </FooterContainer>
   );

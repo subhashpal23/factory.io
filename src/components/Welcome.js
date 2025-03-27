@@ -8,6 +8,9 @@ import styled from "styled-components";
 import '@ant-design/v5-patch-for-react-19';
 import TopNavigation  from "./TopNavigation";
 import HeroSection  from "./HeroSection";
+import WhyChoose from "./WhyChoose";
+import HowItWorks from "./HowItWorks";
+import PlatformFeatures from "./PlatformFeatures";
 import TrustedBy from "./TrustedBy"
 import ManufacturerSearch from "./ManufacturerSearch"
 import PopularSolutions from "./PopularSolutions";
@@ -15,6 +18,7 @@ import StepsToManufacture from "./StepsToManufacture";
 import BottomHero from "./BottomHero";
 import FAQ from "./Faq";
 import Footer from "./Footer";
+import Industry from "./Industry";
 
 
 
@@ -144,12 +148,16 @@ const Welcome = () => {
             </StyledSection>
         </section> */}
         <HeroSection />
-        <TrustedBy logos={["dod", "nissan", "gm", "honeywell", "us-army"]}/>
-        <ManufacturerSearch/>
+        <WhyChoose />
+        <HowItWorks />
+        <PlatformFeatures />
+        {/* <TrustedBy logos={["dod", "nissan", "gm", "honeywell", "us-army"]}/> */}
+        {/* <ManufacturerSearch/> */}
         <PopularSolutions/>
-        <StepsToManufacture/>
-        <BottomHero/>
-        <FAQ/>
+        <Industry/>
+        {/* <StepsToManufacture/> */}
+        {/* <BottomHero/> */}
+        {/* <FAQ/> */}
         <Footer/>
     </>
 };

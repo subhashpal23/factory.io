@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 const { Title, Text } = Typography;
 
 const HeroContainer = styled.div`
-  background-image: url('https://mfgproductionimages.s3.us-west-1.amazonaws.com/wp-content/uploads/20231206165806/Header-1.png');
+  background-image: url('/images/front/main-image.jpg');
   background-size: cover;
   background-position: center;
   height: 60vh;
@@ -79,7 +79,7 @@ const HeroContainer = styled.div`
     justify-content: center;
     align-items: center;
     height: 100%; /* Ensure it takes full height */
-    width: 50%;
+    width: 100%;
     margin: auto;
   }
 }
@@ -103,23 +103,22 @@ const HeroSection = () => {
   return (
     <HeroContainer>
       <HeroContent>
-        <Title level={2} style={{ fontWeight: "bold", color: "white" }}>
-          Find And Work With Your Best-Fit Manufacturer
+        <Title level={2} style={{ fontSize: "3rem" ,fontWeight: "bold", color: "#0056b3",background: "rgba(211, 211, 211, 0.5)", }}>
+        Welcome to DigiFactory.io
         </Title>
-        <Text style={{ fontSize: "16px", color: "white" }}>
-          Streamline your procurement processes with MFG. Submit a quote request, 
-          find a manufacturer, and manage your order, all in one place.
+        <Text style={{  fontSize: "1.5rem", color: "#0056b3",fontWeight: "bold", background: "rgba(211, 211, 211, 0.59)", }}>
+        Your Digital Marketplace for Seamless Manufacturing Solutions.
         </Text>
         <br />
         <Row gutter={[16, 16]} justify="center" style={{ marginTop: "20px" }}>
           <Col xs={12} sm={12} md={10}>
             <Button type="primary" size="large" block onClick={() => navigate("/consumer-registration")}>
-              Find a Manufacturer
+             I Need Manufacturing
             </Button>
           </Col>
           <Col xs={12} sm={12} md={10}>
             <Button size="large" block onClick={() => navigate("/supplier-registration")}>
-              Find Manufacturing Customers
+            I Provide Manufacturing Services
             </Button>
           </Col>
         </Row>
