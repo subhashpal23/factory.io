@@ -34,7 +34,9 @@ const Container = styled.div`
 `;
 
 const FeatureCard = styled.div`
-  height: 280px;
+  height: auto;
+  max-height: 350px;
+  min-height: 350px;
   background: white;
   border-radius: 15px;
   padding: 50px;
@@ -45,6 +47,12 @@ const FeatureCard = styled.div`
   &:hover {
     transform: translateY(-5px);
     box-shadow: 0px 8px 15px rgba(0, 86, 179, 0.3);
+  }
+  
+  @media (max-width: 768px) {
+    height: auto;
+    max-height: 400px;
+    min-height: 400px;
   }
 `;
 

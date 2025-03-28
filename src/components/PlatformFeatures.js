@@ -34,7 +34,8 @@ const Container = styled.div`
 `;
 
 const FeatureCard = styled.div`
-  height: 280px;
+  height: auto;
+  max-height: 350px;
   background: white;
   border-radius: 15px;
   padding: 50px;

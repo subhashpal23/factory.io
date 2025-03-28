@@ -1,22 +1,48 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Menu, Dropdown, Button } from "antd";
-import { DownOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import { userLogout } from "../redux/actions/authAction";
-import MobileNavigation  from "../components/MobileNavigation";
+import MobileNavigation from "../components/MobileNavigation";
 
 const MegaMenuWrapper = styled.div`
   background: #fff;
-  padding: 0px 10px;
+  padding: 20px;
   width: 100vw;
   display: flex;
+  flex-wrap: wrap;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   position: absolute;
   left: 0;
   top: 100%;
-  marginTop: 10px;
+  margin-top: -7px;
+`;
+
+const CategoryColumn = styled.div`
+  flex: 1 1 calc(33.33% - 20px);
+  margin: 10px;
+  min-width: 250px;
+`;
+
+const CategoryTitle = styled.h3`
+  color: #0068AD;
+  font-weight: medium;
+  border-bottom: 1px solid #C3C3C3;
+  text-align: left;
+  padding-bottom: 5px;
+  cursor: pointer;
+`;
+
+const StyledMenu = styled(Menu)`
+  box-shadow: none;
+  margin-top: 16px;
+  padding: 0px;
+  text-align: start;
+`;
+
+const StyledMenuItem = styled(Menu.Item)`
+  padding: 8px 12px;
 `;
 
 const TopMenuContainer = styled.div`
@@ -35,165 +61,47 @@ const MobileMenuContainer = styled.div`
   @media (max-width: 768px) {
     display: flex;
     align-items: center;
-    justify-content: space-between; /* Optional: for distributing space evenly */
+    justify-content: space-between;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     background: #fff;
     padding: 10px;
-    width: 100%; /* Ensure full width of the screen on mobile */
+    width: 100%;
   }
 `;
 
-const MegaMenu = () => {
+const MegaMenu = ({ data, title }) => {
+  console.log("MegaMenu data:", data);
   const navigate = useNavigate();
   const menu = (
     <MegaMenuWrapper>
-      <div style={{ flex: 3, display: "flex", justifyContent: "space-between", width: "80%", height: "75vh", padding: "36px 30px", alignItems: "start" }}>
-        {[
-          {
-            title: "Injection Molding Service",
-            items: [
-              "Plastic Injection Molding",
-              "Liquid Silicone Rubber Molding",
-              "Overmolding and Insert Molding",
-              "Prototyping",
-              "Production",
-              "Quality",
-              "Secondary Operations",
-            ],
-          },
-          {
-            title: "CNC Machining Service",
-            items: [
-              "CNC Milling",
-              "CNC Turning",
-              "Production Machining",
-              "Precision Machining",
-              "Threading Options",
-              "Finishing Options",
-            ],
-          },
-          {
-            title: "3D Printing Service",
-            items: [
-              "Metal 3D Printing",
-              "Stereolithography",
-              "Multi Jet Fusion",
-              "Selective Laser Sintering",
-              "PolyJet",
-              "Advanced Photopolymers",
-              "Large Format",
-              "Inspections",
-              "Finishing Options",
-            ],
-          },
-          {
-            title: "Sheet Metal Fabrication",
-            items: [
-              "Laser Cutting",
-              "Punching",
-              "Forming and Bending",
-              "Fabricated Assemblies",
-              "Prototyping",
-              "Production",
-              "Design Guidelines",
-              "Quality",
-              "Finishing Options",
-            ],
-          },
-        ].map((category, index) => (
-          <div key={index}>
-            <h2 style={{ color: '#0068AD', fontWeight: 'normal', borderBottom: '1px solid #C3C3C3', textAlign: "left"}}>{category.title}</h2>
-            <Menu mode="vertical" style={{ boxShadow: "none",  marginTop: "16px", padding: "0px", textAlign: "start" }}>
-              {category.items.map((item, i) => (
-                <Menu.Item key={i} onClick={()=> navigate(`/manufactoring/cnc-machining`)}>{item}</Menu.Item>
+      {Array.isArray(data) && data.length > 0 &&
+        data.map((category, index) => (
+          <CategoryColumn key={index}>
+            <CategoryTitle onClick={() => navigate(category.route || '/')}>{category.title}</CategoryTitle>
+            <StyledMenu mode="vertical">
+              {Array.isArray(category.items) && category.items.map((item, i) => (
+                <StyledMenuItem key={i}>
+                  <a href={item.route || '/'}>{item.label}</a>
+                </StyledMenuItem>
               ))}
-            </Menu>
-          </div>
+            </StyledMenu>
+          </CategoryColumn>
         ))}
-      </div>
-
-      <div style={{ flex: 1, padding: "40px 50px", width:"80%", borderLeft: "1px solid #ddd", alignItems: "start", backgroundColor:"#F7F7F8" }}>
-        <img src="/images/production-order.jpg" alt="Production" style={{ width: "100%", borderRadius: "5px" }} />
-        <h2 style={{marginTop:"25px"}}>Ready for Full-Service Production?</h2>
-        <p style={{marginTop:"25px", fontSize: "15px" , fontWeight: "semibold"}}>We are your manufacturing partner to scale projects to production. Get complete program management with a team who can tailor our capabilities to optimize cost, quantity, and quality control of your production order.</p>
-        <Button type="primary" block style={{marginTop:"40px", background:"#F7F7F8", padding:"24px", border:"1px solid #0068AD", color:"#0068AD"}}>Explore Production</Button>
-      </div>
     </MegaMenuWrapper>
   );
 
   return (
-    <Dropdown overlay={menu} trigger={["hover"]} overlayStyle={{
-      width: '100%', // Make the menu take full width
-      position: 'absolute', // Ensure the menu is placed correctly
-      left: '0', // Align the menu to the left of the viewport
-      right: '0', // Align the menu to the right of the viewport
-      top: '9vh', // Adjust the top position if necessary
-      zIndex: 9999, // Ensure the dropdown appears on top of other elements
-    }}>
-      <Button type="text" style={{ fontSize: "20px", fontWeight: "bold", padding: "0px 10px" }}>
-      Manfacturing Hub
-      </Button>
+    <Dropdown overlay={menu} trigger={["hover"]} overlayStyle={{ width: '100%', position: 'absolute', left: '0', right: '0', top: '9vh', zIndex: 9999 }}>
+      <Button type="text" style={{ fontSize: "20px", fontWeight: "bold", padding: "0px 10px" }}>{title}</Button>
     </Dropdown>
   );
 };
 
-const TopNavigation = () => {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const accessToken = localStorage.getItem("access_token");
-  const isUserLoggedIn = !!accessToken;
-
-  const onLogoutClick = () => {
-    localStorage.clear();
-    dispatch(userLogout());
-    navigate("/");
-  };
-
-  return (
-    <>
-    <TopMenuContainer>
-      <div style={{ flex: 1 , cursor: "pointer", color: "#0056b3", fontWeight: "bold"}}>
-        <HeaderText onClick={()=>navigate("/")}>DigiFactory.io</HeaderText>
-      </div>
-
-      <Menu mode="horizontal" style={{ borderBottom: "none", flex: 2 , display: "flex", justifyContent: "flex-end", fontWeight: "bold", fontSize: "20px"}}>
-        <Menu.Item key="services"><MegaMenu /></Menu.Item>
-        <Menu.Item key="industries"><a href="/#industries-we-serve">Industry</a></Menu.Item>
-        <Menu.Item key="resources" ><a href="/#how-it-works">How It Works</a></Menu.Item>
-        {/* <Menu.Item key="company">Company</Menu.Item> */}
-        <Menu.Item key="contact">Contact</Menu.Item>
-      </Menu>
-
-      <div style={{ flex: 1, display: "flex", justifyContent: "flex-end", gap: "15px" }}>
-        {isUserLoggedIn ? (
-          <ButtonWrapper>
-            <StyledButton onClick={onLogoutClick}>Logout</StyledButton>
-          </ButtonWrapper>
-        ) : (
-          <ButtonLoginWrapper>
-            <ConsumerButton onClick={() => navigate("/consumer-login")}>Customer Login</ConsumerButton>
-            <SupplierButton onClick={() => navigate("/supplier-login")}>Supplier Login</SupplierButton>
-          </ButtonLoginWrapper>
-        )}
-      </div>
-    </TopMenuContainer>
-     <MobileMenuContainer>
-      <MobileNavigation/>
-     </MobileMenuContainer>
-    </>
-  );
-};
-
-export default TopNavigation;
-
 const HeaderText = styled.div`
   font-size: 1.6rem;
   font-weight: bolder;
-`;
-
-const ButtonWrapper = styled.div`
-  display: flex;
-  gap: 1rem;
+  cursor: pointer;
+  color: #0056b3;
 `;
 
 const StyledButton = styled.button`
@@ -204,23 +112,15 @@ const StyledButton = styled.button`
   color: white;
   cursor: pointer;
   transition: all 0.3s ease;
-
   &:hover {
-    background-color: #2563eb;
-    color: white;
+    background-color: #1e50c1;
   }
-`;
-
-const ButtonLoginWrapper = styled.div`
-  display: flex;
-  gap: 1rem;
 `;
 
 const ConsumerButton = styled(StyledButton)`
   border: 1px solid #2563eb;
   color: #2563eb;
   background-color: transparent;
-
   &:hover {
     background-color: #2563eb;
     color: white;
@@ -231,9 +131,78 @@ const SupplierButton = styled(StyledButton)`
   border: 1px solid #2563eb;
   background-color: #2563eb;
   color: white;
-
   &:hover {
     background-color: white;
     color: #2563eb;
   }
 `;
+
+const TopNavigation = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const accessToken = localStorage.getItem("access_token");
+  const isUserLoggedIn = !!accessToken;
+  const [manufacturingData, setManufacturingData] = useState([]);
+  const [industryData, setIndustryData] = useState([
+    { title: "Automotive", icon: "🚏" },
+    { title: "Electronics", icon: "⚡" },
+    { title: "Medical", icon: "⚕️" },
+    { title: "Stone Industry", icon: "💎" },
+    { title: "Woodworking", icon: "🪵" },
+    { title: "Heavy Machinery", icon: "🟰" },
+    { title: "Renewable Energy", icon: "🔋" },
+    { title: "Marine Industry", icon: "🪼" },
+    { title: "Defense", icon: "🪖" },
+    { title: "Consumer", icon: "🛍️" },
+    { title: "Oil and Gas", icon: "🛢️" },
+    { title: "Power Generation", icon: "🔌" },
+    { title: "Aerospace", icon: "🚀" },
+    { title: "Consumer Goods", icon: "🏪" },
+    { title: "Robotics", icon: "🤖" }
+]);
+
+  useEffect(() => {
+    fetch("/manufacturingProcesses.json")
+      .then((response) => response.json())
+      .then((data) => setManufacturingData(Array.isArray(data) ? data : []))
+      .catch(() => setManufacturingData([]));
+
+    // fetch("/industryCategories.json")
+    //   .then((response) => response.json())
+    //   .then((data) => setIndustryData(Array.isArray(data) ? data : []))
+    //   .catch(() => setIndustryData([]));
+  }, []);
+
+  return (
+    <>
+      <TopMenuContainer>
+        <HeaderText onClick={() => navigate("/")}>DigiFactory.io</HeaderText>
+        <Menu mode="horizontal" style={{ borderBottom: "none", flex: 2, display: "flex", justifyContent: "flex-end", fontWeight: "bold", fontSize: "20px" }}>
+          <Menu.Item key="services"><MegaMenu data={manufacturingData} title="Manufacturing Hub" /></Menu.Item>
+          <Menu.Item key="industries"><MegaMenu data={industryData} title="Industry" /></Menu.Item>
+          <Menu.Item key="resources"><a href="/#how-it-works">How It Works</a></Menu.Item>
+          <Menu.Item key="contact">Contact</Menu.Item>
+        </Menu>
+        <div style={{ flex: 1, display: "flex", justifyContent: "flex-end", gap: "15px" }}>
+          {isUserLoggedIn ? (
+            <StyledButton onClick={() => {
+              localStorage.clear();
+              dispatch(userLogout());
+              navigate("/");
+            }}>Logout</StyledButton>
+          ) : (
+            <>
+              <ConsumerButton onClick={() => navigate("/consumer-login")}>Customer Login</ConsumerButton>
+              <SupplierButton onClick={() => navigate("/supplier-login")}>Supplier Login</SupplierButton>
+            </>
+          )}
+        </div>
+      </TopMenuContainer>
+      <MobileMenuContainer>
+        <MobileNavigation />
+      </MobileMenuContainer>
+    </>
+  );
+};
+
+export default TopNavigation;

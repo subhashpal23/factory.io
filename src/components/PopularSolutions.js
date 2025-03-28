@@ -44,6 +44,7 @@ const SolutionImage = styled.img`
   width: 100%;
   height: auto;
   max-height: 240px;
+  min-height: 240px;
   object-fit: cover;
   border-radius: 12px;
   display: block;

@@ -149,11 +149,11 @@ const Welcome = () => {
         </section> */}
         <HeroSection />
         <WhyChoose />
+        <PopularSolutions/>
         <HowItWorks />
         <PlatformFeatures />
         {/* <TrustedBy logos={["dod", "nissan", "gm", "honeywell", "us-army"]}/> */}
         {/* <ManufacturerSearch/> */}
-        <PopularSolutions/>
         <Industry/>
         {/* <StepsToManufacture/> */}
         {/* <BottomHero/> */}

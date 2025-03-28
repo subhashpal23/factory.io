@@ -111,12 +111,12 @@ const HeroSection = () => {
         </Text>
         <br />
         <Row gutter={[16, 16]} justify="center" style={{ marginTop: "20px" }}>
-          <Col xs={12} sm={12} md={10}>
+          <Col xs={12} sm={12} md={10}  style={{ minWidth: "300px" }}>
             <Button type="primary" size="large" block onClick={() => navigate("/consumer-registration")}>
              I Need Manufacturing
             </Button>
           </Col>
-          <Col xs={12} sm={12} md={10}>
+          <Col xs={12} sm={12} md={10} style={{ minWidth: "300px" }}>
             <Button size="large" block onClick={() => navigate("/supplier-registration")}>
             I Provide Manufacturing Services
             </Button>
