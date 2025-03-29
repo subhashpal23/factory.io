@@ -103,10 +103,10 @@ const HeroSection = () => {
   return (
     <HeroContainer>
       <HeroContent>
-        <Title level={2} style={{ fontSize: "3rem" ,fontWeight: "bold", color: "#0056b3",background: "rgba(211, 211, 211, 0.5)", }}>
-        Welcome to DigiFactory.io
+        <Title level={2} style={{ fontSize: "3rem" ,fontWeight: "bold", color: "#0056b3",background: "white", }}>
+        Welcome to DigiFactory.ae
         </Title>
-        <Text style={{  fontSize: "1.5rem", color: "#0056b3",fontWeight: "bold", background: "rgba(211, 211, 211, 0.59)", }}>
+        <Text style={{  fontSize: "1.5rem", color: "#0056b3",fontWeight: "bold", background: "white", }}>
         Your Digital Marketplace for Seamless Manufacturing Solutions.
         </Text>
         <br />

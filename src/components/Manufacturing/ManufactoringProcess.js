@@ -5,7 +5,7 @@ import Footer from "./../Footer";
 
 // Styled Components
 const Container = styled.div`
-  padding: 100px 200px;
+  padding: 100px 120px;
   margin: auto;
   display: flex;
   flex-direction: column;
@@ -82,11 +82,14 @@ const ImagePlaceholder = styled.div`
   width: 250px;
   height: 150px;
   display: flex;
-  justify-content: center;
+  //justify-content: center;
   align-items: center;
   color: #4b5563;
   border-radius: 10px;
   font-size: 0.9rem;
+   @media (min-width: 768px) {
+    justify-content: normal;
+  }
 `;
 
 const ManufacturingProcess = ( processId ) => {
@@ -132,7 +135,7 @@ const ManufacturingProcess = ( processId ) => {
         </TextContent>
 
         <ImagePlaceholder>
-          <img height={400} width={800} src={process.image} alt={process.title} />
+          <img height={400} width={500} src={process.image} alt={process.title} />
         </ImagePlaceholder>
       </Container>
       <Footer />

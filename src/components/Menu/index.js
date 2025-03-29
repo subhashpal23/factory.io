@@ -181,7 +181,7 @@ const ResponsiveSidebar = ({ userType }) => {
               fontFamily: 'Roboto, sans-serif',
             }}
           >
-            DigiFactory.io
+            DigiFactory.ae
           </Title>
         </div>
         <Menu

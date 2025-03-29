@@ -2,12 +2,13 @@ import React, { useState, useEffect, Fragment } from 'react';
 import { Table, Input, Button, Checkbox, Drawer, Dropdown, Menu, Modal, DatePicker, Select, Upload, Form, Space } from 'antd'
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllQuoteList, changeRfqStatus, acceptRejectQuote } from '../../../redux/actions/supplierRfqAction';
-import { getProductList } from '../../../redux/actions/rfqAction';
+import { getProductList, getTaxCategoryList } from '../../../redux/actions/rfqAction';
 import {
   EyeOutlined,
   EditOutlined
 } from '@ant-design/icons';
 import ViewQuoteModal from "../../ViewQuoteModal";
+import ViewQuoteReviewModal from "../../ViewQuoteReviewModal";
 //import { getAdminRfqLists } from '../../../redux/actions/rfqAction';
 //import { getAllSupplier, getAllConsumer } from '../../../redux/actions/allDataAction';
 //import { assignRfqToSupplier, resetAssignRfqStatus } from '../../../redux/actions/assignRfqAction';
@@ -21,7 +22,7 @@ const AdminQuotesList = ({ filter }) => {
   const [rfqList, setRfqList] = useState([])
   const { logindata } = useSelector((state) => state.auth);
   const { quoteAllData } = useSelector((state) => state.supplierRfq);
-   const { productList } = useSelector((state) => state.rfq);
+   const { productList, taxCategoryData } = useSelector((state) => state.rfq);
   const allSupplier = useSelector((state) => state.dataSet.allSupplier);
   const allConsumer = useSelector((state) => state.dataSet.allConsumer);
   const manufacturingProcess = useSelector((state) => state.auth.logindata.manufacturing_process);
@@ -57,6 +58,7 @@ const [formData, setFormData] = useState({
   const [viewLoading, setViewLoading] = React.useState(false);
   const [currentRfqData, setCurrentRfqData] = React.useState({});
   const [isEdit, setIsEdit] = React.useState(false);
+  const [isReview, setReview] = React.useState(false);
   const showLoading = () => {
     setOpen(true);
     setViewLoading(true);
@@ -97,6 +99,7 @@ const [formData, setFormData] = useState({
     if (logindata && logindata.token) {
         dispatch(getAllQuoteList(logindata.token));
         dispatch(getProductList(logindata.token));
+        dispatch(getTaxCategoryList(logindata.token))
      // dispatch(getAllConsumer(logindata.token));
     //  dispatch(getAllSupplier(logindata.token));
     }
@@ -131,6 +134,7 @@ const [formData, setFormData] = useState({
       designFiles: d.is_design_file === "1" ? "Yes" : "No",
       comments: d.comments,
       files: d.files,
+      files_review: d.files_review,
       status: d.status,
       accept_date: d.accept_date,
       quote_code: d.quote_code,
@@ -138,6 +142,8 @@ const [formData, setFormData] = useState({
       commission_per: d.commission_per,
       total_tax: d.total_tax,
       total_amount: d.total_amount,
+      total_amount_review: d.total_amount_review,
+      tax_category: taxCategoryData?.data?.filter((tax)=>tax.id === d.tax_category)[0]?.tax_name,
       customer_details: <>
       <span>{d.customer_name}</span>
       <br />
@@ -376,7 +382,20 @@ const [formData, setFormData] = useState({
           key: 'action',
           render: (_, record) => (
             <div>
-                <> {record?.status === null ?
+                <> 
+                {record?.status === null &&<Button
+                    type="primary"
+                    style={{ borderColor: 'white', color:'white',  width: "80px", marginRight: '8px' , width: "100px"}}
+                    onClick={() => {
+                      setIsEdit(false);
+                      setReview(true);
+                      showLoading();
+                      setCurrentRfqData({...record})
+                    }}
+                  >
+                    Review <EyeOutlined/>
+                  </Button>}
+                  {record?.status === null ?
                    <Fragment>
                   <Button
                     type="primary"
@@ -413,6 +432,7 @@ const [formData, setFormData] = useState({
                     style={{ borderColor: 'white', color:'white',  width: "80px" }}
                     onClick={() => {
                       setIsEdit(false);
+                      setReview(false);
                       showLoading();
                       setCurrentRfqData({...record})
                     }}
@@ -424,6 +444,7 @@ const [formData, setFormData] = useState({
                     style={{ borderColor: 'white', color:'white', width: "80px" }}
                     onClick={() => {
                       setIsEdit(true);
+                      setReview(false);
                       showLoading();
                       setCurrentRfqData({...record})
                     }}
@@ -440,7 +461,8 @@ const [formData, setFormData] = useState({
   return (
     <div>
       <h1 style={{ marginBottom: '20px' }}>Quote List</h1>
-      <ViewQuoteModal currentRfqData={currentRfqData} open={open} setOpen={setOpen} viewLoading={viewLoading} setViewLoading={setViewLoading} productList={productList} isEdit={isEdit}/>
+      <ViewQuoteModal currentRfqData={currentRfqData} open={open} setOpen={setOpen} viewLoading={viewLoading} setViewLoading={setViewLoading} productList={productList} isEdit={isEdit} isReview={isReview}/>
+      {/* <ViewQuoteReviewModal currentRfqData={currentRfqData} open={open} setOpen={setOpen} viewLoading={viewLoading} setViewLoading={setViewLoading} productList={productList} isEdit={isEdit}/> */}
       <Space style={{ marginBottom: 16, gap: 16 }}>
         <Search
           placeholder="Search by RFQ Code/ Email / Name / Contact"

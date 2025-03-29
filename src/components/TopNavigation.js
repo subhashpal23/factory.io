@@ -77,7 +77,7 @@ const MegaMenu = ({ data, title }) => {
       {Array.isArray(data) && data.length > 0 &&
         data.map((category, index) => (
           <CategoryColumn key={index}>
-            <CategoryTitle onClick={() => navigate(category.route || '/')}>{category.title}</CategoryTitle>
+            <CategoryTitle onClick={() => category?.id && navigate(`/manufacturing/${category?.id}`|| '/')}>{category.title}</CategoryTitle>
             <StyledMenu mode="vertical">
               {Array.isArray(category.items) && category.items.map((item, i) => (
                 <StyledMenuItem key={i}>
@@ -176,7 +176,7 @@ const TopNavigation = () => {
   return (
     <>
       <TopMenuContainer>
-        <HeaderText onClick={() => navigate("/")}>DigiFactory.io</HeaderText>
+        <HeaderText onClick={() => navigate("/")}>DigiFactory.ae</HeaderText>
         <Menu mode="horizontal" style={{ borderBottom: "none", flex: 2, display: "flex", justifyContent: "flex-end", fontWeight: "bold", fontSize: "20px" }}>
           <Menu.Item key="services"><MegaMenu data={manufacturingData} title="Manufacturing Hub" /></Menu.Item>
           <Menu.Item key="industries"><MegaMenu data={industryData} title="Industry" /></Menu.Item>

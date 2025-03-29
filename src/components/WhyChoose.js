@@ -87,7 +87,7 @@ const FeatureText = styled.p`
 const WhyChoose = () => {
   return (
     <Container>
-      <Title level={2} style={{ fontWeight: "bold", color: "#0056b3" }}>Why Choose DigiFactory.io?</Title>
+      <Title level={2} style={{ fontWeight: "bold", color: "#0056b3" }}>Why Choose DigiFactory.ae?</Title>
       <Row gutter={[24, 24]} justify="center" style={{ marginTop: "30px" }}>
         {platformFeatures.map((feature, index) => (
           <Col xs={24} sm={12} md={8} lg={6} key={index}>

@@ -153,6 +153,7 @@ const ConsumerAcceptedQuotesList = ({ filter }) => {
       supplier_uuid: d.supplier_uuid,
       total_tax: d.total_tax,
       total_amount: d.total_amount,
+      tax_category: taxCategoryData?.data?.filter((tax)=>tax.id === d.tax_category)[0]?.tax_name,
     }));
   
     const lowerCaseSearchValue = searchValue ? searchValue.toString().toLowerCase() : "";

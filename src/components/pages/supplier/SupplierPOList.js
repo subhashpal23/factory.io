@@ -81,6 +81,9 @@ const SupplierPOList = () => {
     files: d.files,
     total_tax: d.total_tax,
     total_amount: d.total_amount,
+    files_review: d.files_review,
+    total_amount_review: d.total_amount_review,
+    tax_category: taxCategoryData?.data?.filter((tax)=>tax.id === d.tax_category)[0]?.tax_name,
   }));
 
   const lowerCaseSearchValue = searchValue ? searchValue.toString().toLowerCase() : "";

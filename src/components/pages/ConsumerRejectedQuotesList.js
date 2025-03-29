@@ -2,7 +2,7 @@ import React, { useState, useEffect, Fragment } from 'react';
 import { Table, Input, Button, Checkbox, Drawer, Dropdown, Menu, Modal, DatePicker, Select, Upload, Form, Space, message } from 'antd'
 import { useDispatch, useSelector } from 'react-redux';
 import { getConsumerRejectedQuoteList, acceptRejectQuoteByCustomer } from '../../redux/actions/supplierRfqAction';
-import { createPO, getProductList } from '../../redux/actions/rfqAction';
+import { createPO, getProductList, getTaxCategoryList } from '../../redux/actions/rfqAction';
 import {
   EyeOutlined, 
   UploadOutlined
@@ -23,7 +23,7 @@ const ConsumerRejectedQuotesList = ({ filter }) => {
   const [rfqList, setRfqList] = useState([])
   const { logindata } = useSelector((state) => state.auth);
   const { quoteRejectedConsumerData } = useSelector((state) => state.supplierRfq);
-   const { productList } = useSelector((state) => state.rfq);
+   const { productList, taxCategoryData } = useSelector((state) => state.rfq);
   const allSupplier = useSelector((state) => state.dataSet.allSupplier);
   const allConsumer = useSelector((state) => state.dataSet.allConsumer);
   const manufacturingProcess = useSelector((state) => state.auth.logindata.manufacturing_process);
@@ -101,7 +101,7 @@ const ConsumerRejectedQuotesList = ({ filter }) => {
     if (logindata && logindata.token) {
         dispatch(getConsumerRejectedQuoteList(logindata.token));
         dispatch(getProductList(logindata.token));
-     // dispatch(getAllConsumer(logindata.token));
+        dispatch(getTaxCategoryList(logindata.token));
     //  dispatch(getAllSupplier(logindata.token));
     }
   }, [dispatch, logindata]);
@@ -152,6 +152,7 @@ const ConsumerRejectedQuotesList = ({ filter }) => {
       supplier_uuid: d.supplier_uuid,
       total_tax: d.total_tax,
       total_amount: d.total_amount,
+      tax_category: taxCategoryData?.data?.filter((tax)=>tax.id === d.tax_category)[0]?.tax_name,
     }));
   
     const lowerCaseSearchValue = searchValue ? searchValue.toString().toLowerCase() : "";

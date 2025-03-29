@@ -86,7 +86,7 @@ const MobileNavigation = () => {
   return (
     <Container>
       <Button type="text" onClick={toggleMenu} icon={isOpen ? <CloseOutlined /> : <MenuOutlined />} />
-      <HeaderText onClick={() => navigate("/")}>DigiFactory.io</HeaderText>
+      <HeaderText onClick={() => navigate("/")}>DigiFactory.ae</HeaderText>
       <Button type="text" onClick={toggleMenu} icon={<UserOutlined />} />
       <Drawer
         title={
@@ -103,7 +103,7 @@ const MobileNavigation = () => {
         open={isOpen}
       >
          <div style={{ textAlign: 'center', marginBottom: 24 }}>
-           <HeaderText onClick={() => navigate("/")}>DigiFactory.io</HeaderText>
+           <HeaderText onClick={() => navigate("/")}>DigiFactory.ae</HeaderText>
         </div>
         {!submenu ? (
           <ul style={{ listStyle: 'none', padding: 0 }}>

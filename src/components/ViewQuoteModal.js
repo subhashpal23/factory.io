@@ -8,7 +8,7 @@ import { useDispatch , useSelector} from 'react-redux';
 
 const { Paragraph, Text } = Typography;
 
-const ViewQuoteModal = ({ currentRfqData, open, setOpen, viewLoading, showLoading, productList, isEdit }) => {
+const ViewQuoteModal = ({ currentRfqData, open, setOpen, viewLoading, showLoading, productList, isEdit, isReview}) => {
   const products = productList?.reduce((acc, product) => {
     acc[product.id] = product?.product_name;
     return acc;
@@ -29,7 +29,9 @@ const ViewQuoteModal = ({ currentRfqData, open, setOpen, viewLoading, showLoadin
 
 
   const fileRootPath = 'https://factory.demosite.name/api';
-  const data = currentRfqData?.files?.map((file, index) => ({
+  const filesData = ( currentRfqData?.status !=null ||  isReview) ? currentRfqData?.files_review : currentRfqData?.files;
+  const finalPrice = ( currentRfqData?.status !=null ||  isReview) ? currentRfqData?.total_amount_review : currentRfqData?.total_amount;
+  const data = filesData?.map((file, index) => ({
     key: index,
     product_id: file?.product_id,
     product: products[file?.product_id] || "NA",
@@ -114,11 +116,6 @@ const ViewQuoteModal = ({ currentRfqData, open, setOpen, viewLoading, showLoadin
             <Paragraph style={{ marginBottom: 8, marginTop: 12 }}>
              <Text strong>Plaform Fee/ Commission ( Percentage % ): {commission ?? currentRfqData?.commission_per}</Text>
             </Paragraph>)}
-
-            {/* {currentRfqData?.total_tax && <Paragraph style={{ marginBottom: 8 }}>
-              <Text strong>Total Tax:</Text> {currentRfqData?.total_tax} AED
-            </Paragraph>} */}
-            
             {!isEdit && (
             <Paragraph style={{ marginBottom: 8 }}>
             <Text strong large>Products:</Text>
@@ -168,9 +165,12 @@ const ViewQuoteModal = ({ currentRfqData, open, setOpen, viewLoading, showLoadin
             "  NA"
             )}
             </Paragraph>
-            {currentRfqData?.total_amount &&
+            {currentRfqData?.tax_category && <Paragraph style={{ marginBottom: 8 }}>
+              <Text strong>Tax:</Text> {currentRfqData?.tax_category}
+            </Paragraph>}
+            {finalPrice &&
             <Paragraph style={{ marginBottom: 8 }}>
-              <Text strong>Total / Final Price:</Text> {currentRfqData?.total_amount} AED
+              <Text strong>Total / Final Price:</Text> {finalPrice} AED
             </Paragraph>}
           </Typography>
         </div>

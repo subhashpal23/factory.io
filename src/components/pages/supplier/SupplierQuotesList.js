@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Table, Input, Button, Checkbox, Drawer, Dropdown, Menu, Modal, DatePicker, Select, Upload, Form, Space } from 'antd'
 import { useDispatch, useSelector } from 'react-redux';
 import { getSupplierQuoteList, changeRfqStatus } from '../../../redux/actions/supplierRfqAction';
-import { getProductList } from '../../../redux/actions/rfqAction';
+import { getProductList, getTaxCategoryList } from '../../../redux/actions/rfqAction';
 import {
   EyeOutlined
 } from '@ant-design/icons';
@@ -20,7 +20,7 @@ const SupplierQuotesList = ({ filter }) => {
   const [rfqList, setRfqList] = useState([])
   const { logindata } = useSelector((state) => state.auth);
   const { quoteSupplierData } = useSelector((state) => state.supplierRfq);
-   const { productList } = useSelector((state) => state.rfq);
+   const { productList, taxCategoryData } = useSelector((state) => state.rfq);
   const allSupplier = useSelector((state) => state.dataSet.allSupplier);
   const allConsumer = useSelector((state) => state.dataSet.allConsumer);
   const manufacturingProcess = useSelector((state) => state.auth.logindata.manufacturing_process);
@@ -95,7 +95,7 @@ const [formData, setFormData] = useState({
     if (logindata && logindata.token) {
         dispatch(getSupplierQuoteList(logindata.token));
         dispatch(getProductList(logindata.token));
-     // dispatch(getAllConsumer(logindata.token));
+        dispatch(getTaxCategoryList(logindata.token));
     //  dispatch(getAllSupplier(logindata.token));
     }
   }, [dispatch, logindata]);
@@ -131,6 +131,7 @@ const [formData, setFormData] = useState({
       files: d.files,
       total_tax: d.total_tax,
       total_amount: d.total_amount,
+      tax_category: taxCategoryData?.data?.filter((tax)=>tax.id === d.tax_category)[0]?.tax_name,
     }));
   
     const lowerCaseSearchValue = searchValue ? searchValue.toString().toLowerCase() : "";
