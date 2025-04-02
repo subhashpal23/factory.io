@@ -29,8 +29,8 @@ const ViewQuoteModal = ({ currentRfqData, open, setOpen, viewLoading, showLoadin
 
 
   const fileRootPath = 'https://factory.demosite.name/api';
-  const filesData = ( currentRfqData?.status !=null ||  isReview) ? currentRfqData?.files_review : currentRfqData?.files;
-  const finalPrice = ( currentRfqData?.status !=null ||  isReview) ? currentRfqData?.total_amount_review : currentRfqData?.total_amount;
+  const filesData = ( ( currentRfqData?.status !=null ||  isReview ) && currentRfqData?.files_review  ) ? currentRfqData?.files_review : currentRfqData?.files;
+  const finalPrice = ( (currentRfqData?.status !=null ||  isReview) && currentRfqData?.files_review  ) ? currentRfqData?.total_amount_review : currentRfqData?.total_amount;
   const data = filesData?.map((file, index) => ({
     key: index,
     product_id: file?.product_id,

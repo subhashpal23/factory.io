@@ -724,7 +724,7 @@ const ConsumerQuotesList = ({ filter }) => {
             />
          </Form.Item>
         </div>
-          <Form.Item label="Quote valid till" required>
+          <Form.Item label="PO valid till" required>
             <DatePicker
               style={{ width: '100%' }}
               value={formData.valid_till}
