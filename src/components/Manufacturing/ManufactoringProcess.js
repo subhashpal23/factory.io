@@ -131,7 +131,7 @@ const ManufacturingProcess = ( processId ) => {
             ))}
           </MaterialTags>
 
-          <Button>Find CNC Suppliers</Button>
+          <Button>Find {process.title} Suppliers</Button>
         </TextContent>
 
         <ImagePlaceholder>
