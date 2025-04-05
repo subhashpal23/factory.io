@@ -8,7 +8,7 @@ import { useDispatch , useSelector} from 'react-redux';
 
 const { Paragraph, Text } = Typography;
 
-const ViewQuoteModal = ({ currentRfqData, open, setOpen, viewLoading, showLoading, productList, isEdit, isReview}) => {
+const ViewQuoteModal = ({ currentRfqData, open, setOpen, viewLoading, showLoading, productList, isEdit, isReview, refreshList}) => {
   const products = productList?.reduce((acc, product) => {
     acc[product.id] = product?.product_name;
     return acc;
@@ -20,9 +20,9 @@ const ViewQuoteModal = ({ currentRfqData, open, setOpen, viewLoading, showLoadin
 
  const handleUpdateCommission = () => {
       const request = { quote_id: currentRfqData?.rfq_id, commission_per: commission }
-      //console.log("@@@request", request,logindata );
       dispatch(updateQuoteCommissionAdmin(logindata.token, request));
       setTimeout(()=>{
+        refreshList();
         setOpen(false);
       },1500)
   };

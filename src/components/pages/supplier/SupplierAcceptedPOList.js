@@ -1,7 +1,7 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import { Table, Input, Button, Select, Space, Modal } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { getSupplierPOList, getProductList, getTaxCategoryList } from '../../../redux/actions/rfqAction';
+import { getAcceptedSupplierPOList, getProductList, getTaxCategoryList } from '../../../redux/actions/rfqAction';
 import { acceptRejectPObySupplier } from '../../../redux/actions/supplierRfqAction';
 import ViewPOModal from "../../ViewPOModal";
 import {
@@ -12,10 +12,10 @@ const { Search } = Input;
 const { Option } = Select;
 const { confirm } = Modal;
 
-const SupplierPOList = () => {
+const SupplierAcceptedPOList = () => {
   const dispatch = useDispatch();
   const { logindata, loginError } = useSelector((state) => state.auth);
-  const { supplierpoData, error , taxCategoryData} = useSelector((state) => state.rfq); 
+  const { supplierAcceptedPoData, error , taxCategoryData} = useSelector((state) => state.rfq); 
   const manufacturingProcess = useSelector((state) => state.auth.logindata.manufacturing_process);
   const [filteredData, setFilteredData] = useState([]);
   const [searchValue, setSearchValue] = useState('');
@@ -40,11 +40,11 @@ const SupplierPOList = () => {
         }, 300);
     };
   
-  const rfqList = supplierpoData && supplierpoData?.data ? supplierpoData.data : []
+  const rfqList = supplierAcceptedPoData && supplierAcceptedPoData?.data ? supplierAcceptedPoData.data : []
  
   useEffect(() => {
     if (logindata && logindata.token) {
-      dispatch(getSupplierPOList(logindata.token));
+      dispatch(getAcceptedSupplierPOList(logindata.token));
       dispatch(getProductList(logindata.token));
       dispatch(getTaxCategoryList(logindata.token));
     }
@@ -140,7 +140,7 @@ const handleAccept = (rfqId) => {
       const request = { po_id: rfqId, status: 1 }
       dispatch(acceptRejectPObySupplier(logindata.token, request));
       setTimeout(()=>{
-        dispatch(getSupplierPOList(logindata.token));
+        dispatch(getAcceptedSupplierPOList(logindata.token));
       },1500)
       
     }
@@ -155,7 +155,7 @@ const handleAccept = (rfqId) => {
           const request = { po_id: rfqId, status: 0 }
           dispatch(acceptRejectPObySupplier(logindata.token, request));
           setTimeout(()=>{
-            dispatch(getSupplierPOList(logindata.token));
+            dispatch(getAcceptedSupplierPOList(logindata.token));
           },1500)
         }
       },
@@ -303,4 +303,4 @@ const handleAccept = (rfqId) => {
   );
 };
 
-export default SupplierPOList;
+export default SupplierAcceptedPOList;

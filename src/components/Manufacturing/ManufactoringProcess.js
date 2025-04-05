@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import TopNavigation from "./../TopNavigation";
 import Footer from "./../Footer";
+import { useNavigate } from 'react-router-dom';
 
 // Styled Components
 const Container = styled.div`
@@ -95,6 +96,7 @@ const ImagePlaceholder = styled.div`
 const ManufacturingProcess = ( processId ) => {
 
   const [process, setProcess] = useState(null);
+   const navigate = useNavigate();
 
   useEffect(() => {
     // Fetch data from local JSON file or API
@@ -131,7 +133,7 @@ const ManufacturingProcess = ( processId ) => {
             ))}
           </MaterialTags>
 
-          <Button>Find {process.title} Suppliers</Button>
+          <Button onClick={() => navigate('/supplier-registration')}>Find {process.title} Suppliers</Button>
         </TextContent>
 
         <ImagePlaceholder>

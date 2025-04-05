@@ -61,6 +61,35 @@ const ConsumerAcceptedQuotesList = ({ filter }) => {
   const [open, setOpen] = React.useState(false);
   const [viewLoading, setViewLoading] = React.useState(false);
   const [currentRfqData, setCurrentRfqData] = React.useState({});
+
+  const [finalPrice, setFinalPrice] = useState(0); // State to store the final price
+
+  useEffect(() => {
+    // Calculate the sum of all product amounts
+    const total = Object.keys(formData)
+      .filter((key) => key.startsWith('amount_')) // Filter keys that represent amounts
+      .reduce((sum, key) => sum + (parseFloat(formData[key]) || 0), 0); // Sum up the amounts
+
+    const total_with_tax = calculateFinalWithTax(total, formData?.tax_category); // Calculate final price with tax
+    setFinalPrice(total_with_tax);
+  
+  }, [formData]); 
+
+  const calculateFinalWithTax = (amount, tax_category) => {
+    const taxInfo = taxCategoryData?.data?.find((tax) => tax.id === tax_category);
+    if (!taxInfo) return amount; 
+    const importDuty = Number(taxInfo?.import_duety || 0);
+    const vatPer = Number(taxInfo?.vat_per || 0);
+  
+    const taxAmount = (amount * importDuty) / 100;
+    const taxCal = amount + taxAmount;
+    const vatAmount = (taxCal * vatPer) / 100;
+    const finalCal = taxCal + vatAmount;
+  
+    return finalCal;
+  };
+
+
   const showLoading = () => {
     setOpen(true);
     setViewLoading(true);
@@ -227,7 +256,7 @@ const ConsumerAcceptedQuotesList = ({ filter }) => {
           ...acc,
           [`qty_${item.product_id}`]: item.quantity ?? "",
           [`rate_${item.product_id}`]: item.rate ?? "",
-          [`amount_${item.product_id}`]: item.rate ?? "",
+          [`amount_${item.product_id}`]: item.total_cost ?? "",
         }), {})
       });
     }
@@ -681,24 +710,24 @@ const ConsumerAcceptedQuotesList = ({ filter }) => {
                       //rules={[{ required: true, message: 'Missing Quantity' }]}
                       style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
                   >
-                    <span   style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>{formData?.[`amount_${file?.product_id}`] ?? 0}</span>
+                    <span   style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>{formData?.[`amount_${file?.product_id}`] ?? 0} AED</span>
                   </Form.Item>
                   </Space>
                   ))} 
                   </>
                 )}
         </Form.List>)}
-        {/* <Form.Item
-            label="Tax Category"
+        <Form.Item
+            label="Final Price (AED)" 
             required
           >
             <Input
-            value={formData.tax_category}
+            value={finalPrice}
             type="text"
-            onChange={(e) => handleFormChange('tax_category', e.target.value)}
+            disabled={true}
             style={{ width: '200px' }}
           />
-         </Form.Item> */}
+         </Form.Item>
           <Form.Item 
         label="Tax Category"
         name={`tax_category`}

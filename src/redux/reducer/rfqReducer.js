@@ -12,6 +12,8 @@ const initialState = {
     poCreateError: null,
     poData: undefined,
     supplierpoData: undefined,
+    supplierRejectedPoData: undefined,
+    supplierAcceptedPoData: undefined,
     allpoData: undefined,
     taxCategoryData: undefined,
   };
@@ -38,6 +40,21 @@ const initialState = {
           return { ...state, loading: false, supplierpoData: action.payload || [] };
       case 'GET_SUPPLIER_PO_FAILURE':
         return { ...state, loading: false, error: action.payload };
+
+        
+      case 'GET_ACCEPTED_SUPPLIER_PO_REQUEST':
+        return { ...state, loading: true, error: null };
+      case 'GET_ACCEPTED_SUPPLIER_PO_SUCCESS':
+          return { ...state, loading: false, supplierAcceptedPoData: action.payload || [] };
+      case 'GET_ACCEPTED_SUPPLIER_PO_FAILURE':
+        return { ...state, loading: false, error: action.payload };
+
+        case 'GET_REJECTED_SUPPLIER_PO_REQUEST':
+          return { ...state, loading: true, error: null };
+        case 'GET_REJECTED_SUPPLIER_PO_SUCCESS':
+            return { ...state, loading: false, supplierRejectedPoData: action.payload || [] };
+        case 'GET_REJECTED_SUPPLIER_PO_FAILURE':
+          return { ...state, loading: false, error: action.payload };
 
       case 'GET_ALL_PO_REQUEST':
           return { ...state, loading: true, error: null };

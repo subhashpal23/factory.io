@@ -95,6 +95,14 @@ const [formData, setFormData] = useState({
 
   }, [allSupplier, allConsumer, drawarActiveDataSet]);
 
+  const refreshList = () => {
+    if (logindata && logindata.token) {
+      dispatch(getAllQuoteList(logindata.token));
+      dispatch(getProductList(logindata.token));
+      dispatch(getTaxCategoryList(logindata.token))
+    }
+  };
+
   useEffect(() => {
     if (logindata && logindata.token) {
         dispatch(getAllQuoteList(logindata.token));
@@ -461,7 +469,7 @@ const [formData, setFormData] = useState({
   return (
     <div>
       <h1 style={{ marginBottom: '20px' }}>Quote List</h1>
-      <ViewQuoteModal currentRfqData={currentRfqData} open={open} setOpen={setOpen} viewLoading={viewLoading} setViewLoading={setViewLoading} productList={productList} isEdit={isEdit} isReview={isReview}/>
+      <ViewQuoteModal currentRfqData={currentRfqData} open={open} setOpen={setOpen} viewLoading={viewLoading} setViewLoading={setViewLoading} productList={productList} isEdit={isEdit} isReview={isReview} refreshList={refreshList}/>
       {/* <ViewQuoteReviewModal currentRfqData={currentRfqData} open={open} setOpen={setOpen} viewLoading={viewLoading} setViewLoading={setViewLoading} productList={productList} isEdit={isEdit}/> */}
       <Space style={{ marginBottom: 16, gap: 16 }}>
         <Search

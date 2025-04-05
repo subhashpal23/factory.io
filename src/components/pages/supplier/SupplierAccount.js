@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { Form, Input, Select, Upload, Button, message } from "antd";
+import { Form, Input, Select, Upload, Button, message, Row, Col } from "antd";
 import { updateAccount, getUserInfo } from '../../../redux/actions/userActions';
 import { UploadOutlined } from "@ant-design/icons";
 import { CountryCodes, industriesType } from './../../../components/Registration/constants';
@@ -169,166 +169,54 @@ const SupplierAccount = () => {
   }, [userDetail]);
 
   return (
-    <div style={{ maxWidth: "600px", background: "#fff", borderRadius: 8 }}>
+    <div style={{ maxWidth: "1200px", background: "#fff", borderRadius: 8, padding: 24 }}>
       <h1 style={{marginBottom:"20px"}}> Factory Profile</h1>
       <Form layout="vertical" onFinish={onFinish} form={form} >
-
+      <Row gutter={16}>
+      <Col span={12}>
         <Form.Item name="company_logo" label="Company Logo" valuePropName="file">
             <Upload {...props("company_logo")} showUploadList={true}>
               <Button icon={<UploadOutlined />}>Upload Logo</Button>
             </Upload>
             {formData?.company_logo && <FilePreview filePath={formData?.company_logo} fileRootPath={fileRootPath} />}
         </Form.Item>
-
-        <Form.Item name="about_us" label="About Us"> 
-          <Input.TextArea placeholder="Tell us about yourself" rows={3} />
-        </Form.Item>
-
-        <Form.Item name="company" label="Company" rules={[{ required: true, message: "Please enter company name" }]}> 
-            <Input placeholder="Enter company name" />
-        </Form.Item>
-
-        <Form.Item name="company_type" label="Company Type" rules={[{ required: true, message: "Please enter company type" }]}> 
-            <Input placeholder="Enter company type" />
-        </Form.Item>
-
-        <Form.Item name="company_website" label="Company Website"> 
-          <Input placeholder="Enter website URL" />
-        </Form.Item>
-
-        <Form.Item name="year_of_establishment" label="Year of Establishment" rules={[{ required: true, message: "Please enter year" }]}> 
-          <Input type="number" placeholder="Enter year" />
-        </Form.Item>
-
-        {/* Number of Employees */}
-        <Form.Item
-          name="employeeCount"
-          label="Number of Employees"
-          rules={[{ required: true, message: "Please enter employee count" }]}
-        >
-          <Input type="number" placeholder="Enter the total number of employees"  />
-        </Form.Item>
-
-        <Form.Item name="anual_turnover" label="Annual Turnover" rules={[{ required: true, message: "Please enter annual turnover" }]}> 
-          <Input placeholder="Enter turnover" />
-        </Form.Item>
-
+      </Col>
+      <Col span={12}>
         <Form.Item name="company_portflio" label="Company Portfolio" valuePropName="file">
             <Upload {...props("company_portflio")} showUploadList={true}>
               <Button icon={<UploadOutlined />}>Upload Logo</Button>
             </Upload>
             {formData?.company_portflio && <FilePreview filePath={formData?.company_portflio} fileRootPath={fileRootPath} />}
         </Form.Item>
-
-        <Form.Item name="address" label="Address" rules={[{ required: true, message: "Please enter address" }]}> 
-          <Input placeholder="Enter address" />
-        </Form.Item>
-
-        <Form.Item name="contact" label="Contact" rules={[{ required: true, message: "Please enter contact" }]}> 
-          <Input placeholder="Enter contact details" />
-        </Form.Item>
-
-        <Form.Item name="gst_no" label="GST No" rules={[{ required: true, message: "Please enter GST number" }]}> 
-          <Input placeholder="Enter GST number" />
-        </Form.Item>
-
-        {/* <Form.Item name="iec_code" label="Import Export Code (IEC)" rules={[{ required: true, message: "Please enter IEC code" }]}> 
-          <Input placeholder="Enter IEC code" />
-        </Form.Item> */}
-
-        <Form.Item
-          name="importExportDocs"
-          label="Import/Export Documents"
-          //rules={[{ required: true, message: "Please upload a document" }]}
-          valuePropName="file"
-        >
-           <Upload {...props('importExportDocs')} multiple={true} showUploadList={true} >
-              <Button icon={<UploadOutlined />}>Upload Document</Button>
-            </Upload>
-            {formData?.files && <FilePreview filePath={formData?.files} fileRootPath={fileRootPath} />}
-            {/* {formData?.files} */}
-        </Form.Item>
-
-        <Form.Item name="urn" label="Udhyam Registration No (URN)" rules={[{ required: true, message: "Please enter URN" }]}> 
-          <Input placeholder="Enter URN" />
-        </Form.Item>
-
+        </Col>
+        <Col span={12}>
         <Form.Item name="certificate" label="Certificate" valuePropName="file"> 
           <Upload {...props("certificate")} showUploadList={true}>
             <Button icon={<UploadOutlined />}>Upload Certificate</Button>
             {formData?.certificate && <FilePreview filePath={formData?.certificate} fileRootPath={fileRootPath} />}
           </Upload>
         </Form.Item>
+        </Col>
+        <Col span={12}>
 
-        <Form.Item name="industry" label="Industry" rules={[{ required: true, message: "Please select an industry" }]}> 
-          <Select placeholder="Select industry">
-              <option value="">Select industry</option>
-                {industriesType.map((type, index) => (
-                  <option key={index} value={type}>{type}</option>
-                ))}
-          </Select>
-        </Form.Item>
-
-        <Form.Item name="key_customers" label="Key Customers"> 
-          <Input.TextArea placeholder="Enter key customers" rows={3} />
-        </Form.Item>
-
-        <Form.Item name="past_project" label="Past Projects"> 
-          <Input.TextArea placeholder="Describe past projects" rows={3} />
-        </Form.Item>
-
-        {/* Facilities Available */}
-        {/* <Form.Item
-          name="facilities"
-          label="Facilities Available"
-          rules={[{ required: true, message: "Please describe your facilities" }]}
-        >
-          <Input.TextArea placeholder="Describe the facilities your company offers" rows={3} />
+        {/* <Form.Item name="iec_code" label="Import Export Code (IEC)" rules={[{ required: true, message: "Please enter IEC code" }]}> 
+        <Input placeholder="Enter IEC code" />
         </Form.Item> */}
 
         <Form.Item
-          name="services"
-          label="Services Available"
-          //rules={[{ required: true, message: "Please describe your Services" }]}
+        name="importExportDocs"
+        label="Import/Export Documents"
+        //rules={[{ required: true, message: "Please upload a document" }]}
+        valuePropName="file"
         >
-          <Select placeholder="Select Services" mode='multiple'>
-              <Option value="Manufacturing Processes">Manufacturing Processes</Option>
-              <Option value="Material Capabilities">Material Capabilities</Option>
-              <Option value="Finishing Capabilities">Finishing Capabilities</Option>
-              <Option value="Design Services">Design Services</Option>
-          </Select>
+        <Upload {...props('importExportDocs')} multiple={true} showUploadList={true} >
+        <Button icon={<UploadOutlined />}>Upload Document</Button>
+        </Upload>
+        {formData?.files && <FilePreview filePath={formData?.files} fileRootPath={fileRootPath} />}
+        {/* {formData?.files} */}
         </Form.Item>
-        
-                <Form.Item
-                  label="Manufacturing Available"
-                  name="manufacturing_process"
-                  rules={[{ required: true, message: 'Manufacturing process is required!' }]}
-                >
-                  <Select placeholder="--Please choose an option--" mode= 'multiple'>
-                    {manufacturingProcess.map((process) => (
-                      <Option key={process.id} value={process.id}>{process.process_name}</Option>
-                    ))}
-                  </Select>
-        </Form.Item>
-        {/* Location */}
-        {/* <Form.Item
-          name="location"
-          label="Company Location"
-          rules={[{ required: true, message: "Please enter your company location" }]}
-        >
-          <Input placeholder="Enter your company location" />
-        </Form.Item> */}
-
-        <Form.Item
-          name="freezone"
-          label="Freezone"
-          rules={[{ required: true, message: "Please select an option" }]}
-        >
-          <Select placeholder="Select">
-            <Option value="1">Yes</Option>
-            <Option value="0">No</Option>
-          </Select>
-        </Form.Item>
+        </Col>
+        <Col span={8}>
 
         {/* ISO Certification */}
         <Form.Item
@@ -341,6 +229,159 @@ const SupplierAccount = () => {
             <Option value="0">No</Option>
           </Select>
         </Form.Item>
+        </Col>
+      <Col span={8}>
+        <Form.Item name="company" label="Company" rules={[{ required: true, message: "Please enter company name" }]}> 
+            <Input placeholder="Enter company name" />
+        </Form.Item>
+      </Col>
+
+      <Col span={8}>
+        <Form.Item name="company_type" label="Company Type" rules={[{ required: true, message: "Please enter company type" }]}> 
+            <Input placeholder="Enter company type" />
+        </Form.Item>
+      </Col>
+
+      <Col span={8}>
+        <Form.Item name="company_website" label="Company Website"> 
+          <Input placeholder="Enter website URL" />
+        </Form.Item>
+      </Col>
+
+      <Col span={8}>
+        <Form.Item name="year_of_establishment" label="Year of Establishment" rules={[{ required: true, message: "Please enter year" }]}> 
+          <Input type="number" placeholder="Enter year" />
+        </Form.Item>
+      </Col>
+
+      <Col span={8}>
+        {/* Number of Employees */}
+        <Form.Item
+          name="employeeCount"
+          label="Number of Employees"
+          rules={[{ required: true, message: "Please enter employee count" }]}
+        >
+          <Input type="number" placeholder="Enter the total number of employees"  />
+        </Form.Item>
+        </Col>
+
+        <Col span={8}>
+        <Form.Item name="anual_turnover" label="Annual Turnover" rules={[{ required: true, message: "Please enter annual turnover" }]}> 
+          <Input placeholder="Enter turnover" />
+        </Form.Item>
+        </Col>
+        
+        <Col span={8}>
+
+        <Form.Item name="address" label="Address" rules={[{ required: true, message: "Please enter address" }]}> 
+          <Input placeholder="Enter address" />
+        </Form.Item>
+        </Col>
+        <Col span={8}>
+        <Form.Item name="contact" label="Contact" rules={[{ required: true, message: "Please enter contact" }]}> 
+          <Input placeholder="Enter contact details" />
+        </Form.Item>
+        </Col>
+        <Col span={8}>
+
+        <Form.Item name="gst_no" label="GST No" rules={[{ required: true, message: "Please enter GST number" }]}> 
+          <Input placeholder="Enter GST number" />
+        </Form.Item>
+        </Col>
+       
+        <Col span={8}>
+
+        <Form.Item name="urn" label="Udhyam Registration No (URN)" rules={[{ required: true, message: "Please enter URN" }]}> 
+          <Input placeholder="Enter URN" />
+        </Form.Item>
+        </Col>
+        <Col span={8}>
+
+        <Form.Item name="industry" label="Industry" rules={[{ required: true, message: "Please select an industry" }]}> 
+          <Select placeholder="Select industry">
+              <option value="">Select industry</option>
+                {industriesType.map((type, index) => (
+                  <option key={index} value={type}>{type}</option>
+                ))}
+          </Select>
+        </Form.Item>
+        </Col>
+        <Col span={8}>
+
+        <Form.Item name="key_customers" label="Key Customers"> 
+          <Input.TextArea placeholder="Enter key customers" rows={3} />
+        </Form.Item>
+        </Col>
+        <Col span={8}>
+
+        <Form.Item name="past_project" label="Past Projects"> 
+          <Input.TextArea placeholder="Describe past projects" rows={3} />
+        </Form.Item>
+        </Col>
+        <Col span={8}>
+
+        {/* Facilities Available */}
+        {/* <Form.Item
+          name="facilities"
+          label="Facilities Available"
+          rules={[{ required: true, message: "Please describe your facilities" }]}
+        >
+          <Input.TextArea placeholder="Describe the facilities your company offers" rows={3} />
+        </Form.Item> */}
+
+      <Col span={8}>
+        <Form.Item name="about_us" label="About Us"> 
+          <Input.TextArea placeholder="Tell us about yourself" rows={3} />
+        </Form.Item>
+      </Col>
+        <Form.Item
+          name="services"
+          label="Services Available"
+          //rules={[{ required: true, message: "Please describe your Services" }]}
+        >
+          <Select placeholder="Select Services" mode='multiple'>
+              <Option value="Manufacturing Processes">Manufacturing Processes</Option>
+              <Option value="Material Capabilities">Material Capabilities</Option>
+              <Option value="Finishing Capabilities">Finishing Capabilities</Option>
+              <Option value="Design Services">Design Services</Option>
+          </Select>
+        </Form.Item>        
+        </Col>
+        <Col span={8}>
+        
+                <Form.Item
+                  label="Manufacturing Available"
+                  name="manufacturing_process"
+                  rules={[{ required: true, message: 'Manufacturing process is required!' }]}
+                >
+                  <Select placeholder="--Please choose an option--" mode= 'multiple'>
+                    {manufacturingProcess.map((process) => (
+                      <Option key={process.id} value={process.id}>{process.process_name}</Option>
+                    ))}
+                  </Select>
+        </Form.Item>
+        </Col>
+        {/* Location */}
+        {/* <Form.Item
+          name="location"
+          label="Company Location"
+          rules={[{ required: true, message: "Please enter your company location" }]}
+        >
+          <Input placeholder="Enter your company location" />
+        </Form.Item> */}
+        <Col span={8}>
+        <Form.Item
+          name="freezone"
+          label="Freezone"
+          rules={[{ required: true, message: "Please select an option" }]}
+        >
+          <Select placeholder="Select">
+            <Option value="1">Yes</Option>
+            <Option value="0">No</Option>
+          </Select>
+        </Form.Item>
+        </Col>
+      
 
         {/* Submit Button */}
         <Form.Item>
@@ -348,6 +389,7 @@ const SupplierAccount = () => {
             Update Account
           </Button>
         </Form.Item>
+        </Row>
       </Form>
     </div>
   );

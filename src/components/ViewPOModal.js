@@ -22,11 +22,11 @@ console.log('@@products', products)
   }));
 
   const columns = [
-    {
-      title: 'Product ID',
-      dataIndex: 'product_id',
-      key: 'product_id',
-    },
+    // {
+    //   title: 'Product ID',
+    //   dataIndex: 'product_id',
+    //   key: 'product_id',
+    // },
     {
       title: 'Product',
       dataIndex: 'product',
