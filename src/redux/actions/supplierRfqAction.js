@@ -50,6 +50,32 @@ export const getSupplierRfqRejectedList = (token) => {
     };
 }
 
+export const getSupplierRfqAcceptedList = (token) => {
+    return async (dispatch) => {
+        dispatch({ type: 'GET_SUPPLIER_RFQ_ACCEPTED_LIST_REQUEST' });
+        try {
+            const response = await fetch('https://factory.demosite.name/api/Api/getSupplierAcceptedRFQList', {
+                method: 'GET', 
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}` 
+                },
+                // Send the data as JSON
+            });
+
+            if (!response.ok) {
+                throw new Error(`Error: ${response.status} ${response.statusText}`);
+            }
+            const data = await response.json();
+            dispatch({ type: 'GET_SUPPLIER_RFQ_ACCEPTED_LIST_SUCCESS', payload: data });
+            
+        } catch (error) {
+            dispatch({ type: 'GET_SUPPLIER_RFQ_ACCEPTED_LIST_FAILURE', payload: error.message });
+        }
+    };
+}
+
+
 
 export const getSupplierQuoteList = (token) => {
     return async (dispatch) => {

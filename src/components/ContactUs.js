@@ -202,7 +202,7 @@ const ContactUs = () => {
           </InfoBlock>
           <InfoBlock>
             <strong>Email:</strong>
-            support@example.com
+            contact@digifactory.ae
           </InfoBlock>
           <InfoBlock>
             <strong>Contact Number:</strong>

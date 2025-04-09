@@ -5,6 +5,7 @@ import { createQuote, getAdminRfqLists, getProductList, getTaxCategoryList } fro
 import { getAllSupplier, getAllConsumer } from '../../../redux/actions/allDataAction';
 import { assignRfqToSupplier, resetAssignRfqStatus } from '../../../redux/actions/assignRfqAction';
 import { MinusCircleOutlined, PlusOutlined, UploadOutlined } from '@ant-design/icons';
+import { getSupplierRfqAcceptedList } from '../../../redux/actions/supplierRfqAction';
 import {  useNavigate } from 'react-router-dom';
 const { Search } = Input;
 const { confirm } = Modal;
@@ -17,6 +18,7 @@ const AcceptedRfqs = ({ filter }) => {
   const dispatch = useDispatch();
   const { logindata } = useSelector((state) => state.auth);
   const { adminRfqData, productList, taxCategoryData } = useSelector((state) => state.rfq);
+  const { rfqAcceptedData } = useSelector((state) => state.supplierRfq);
   const allSupplier = useSelector((state) => state.dataSet.allSupplier);
   const allConsumer = useSelector((state) => state.dataSet.allConsumer);
   const manufacturingProcess = useSelector((state) => state.auth.logindata.manufacturing_process);
@@ -54,7 +56,7 @@ const AcceptedRfqs = ({ filter }) => {
     parts: [],
   });
 
-  let rfqList = adminRfqData && adminRfqData?.data ? adminRfqData.data : [];
+  let rfqList = rfqAcceptedData && rfqAcceptedData?.data ? rfqAcceptedData.data : [];
   useEffect(()=>{
     if(rfqAssignStatus){
       setTimeout(() => {
@@ -79,7 +81,7 @@ const AcceptedRfqs = ({ filter }) => {
 
   useEffect(() => {
     if (logindata && logindata.token) {
-      dispatch(getAdminRfqLists(logindata.token));
+      dispatch(getSupplierRfqAcceptedList(logindata.token));
       dispatch(getAllConsumer(logindata.token));
       dispatch(getAllSupplier(logindata.token));
       dispatch(getProductList(logindata?.token));

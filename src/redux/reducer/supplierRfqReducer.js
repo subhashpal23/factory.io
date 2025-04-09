@@ -5,6 +5,7 @@ const initialState = {
     changeRfqStatus: false,
     changeRfqStatusError: null,
     rfqRejectedData: undefined,
+    rfqAcceptedData: undefined,
     quoteAllData: undefined,
     quoteSupplierData: undefined,
     quoteConsumerData: undefined,
@@ -37,6 +38,13 @@ const initialState = {
         case 'GET_SUPPLIER_RFQ_REJECTED_LIST_SUCCESS':
           return { ...state, loading: false, rfqRejectedData: action.payload || [] };
         case 'GET_SUPPLIER_RFQ_REJECTED_LIST_FAILURE':
+          return { ...state, loading: false, error: action.payload };
+          
+          case 'GET_SUPPLIER_RFQ_ACCEPTED_LIST_REQUEST':
+          return { ...state, loading: true, error: null };
+        case 'GET_SUPPLIER_RFQ_ACCEPTED_LIST_SUCCESS':
+          return { ...state, loading: false, rfqAcceptedData: action.payload || [] };
+        case 'GET_SUPPLIER_RFQ_ACCEPTED_LIST_FAILURE':
           return { ...state, loading: false, error: action.payload };
 
         case 'GET_SUPPLIER_QUOTE_LIST_REQUEST':
