@@ -135,7 +135,7 @@ const CustomerLoginPage = () => {
                   <input type="checkbox" className="mr-2" />
                   <span style={{fontSize:"13px", marginLeft:"8px"}}>Remember me</span>
                 </label>
-                <ForgotPasswordLink onClick={() => navigate('/consumer-registration')}>
+                <ForgotPasswordLink onClick={() => navigate('/forgot-password')}>
                   <span style={{fontSize:'13px'}}>Forgot password?</span>
                 </ForgotPasswordLink>
               </RememberMeWrapper>

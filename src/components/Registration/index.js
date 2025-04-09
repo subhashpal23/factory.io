@@ -97,7 +97,7 @@ const RegistrationPage = ({user_type}) => {
     <Container>
       {/* Left Section */}
       <LeftSection>
-        <h1>DigiFactory.io</h1>
+        <h1>DigiFactory.ae</h1>
         <p>Manufacturing is easy with DigiFactory.ae</p>
         <div>
           <Feature>

@@ -181,7 +181,7 @@ const TopNavigation = () => {
           <Menu.Item key="services"><MegaMenu data={manufacturingData} title="Manufacturing Hub" /></Menu.Item>
           <Menu.Item key="industries"><MegaMenu data={industryData} title="Industry" /></Menu.Item>
           <Menu.Item key="resources"><a href="/#how-it-works">How It Works</a></Menu.Item>
-          <Menu.Item key="contact">Contact</Menu.Item>
+          <Menu.Item key="contact" onClick={() => navigate("/contact-us")}>Contact</Menu.Item>
         </Menu>
         <div style={{ flex: 1, display: "flex", justifyContent: "flex-end", gap: "15px" }}>
           {isUserLoggedIn ? (

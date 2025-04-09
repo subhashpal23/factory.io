@@ -9,6 +9,7 @@ import '@fontsource/roboto';
 import Welcome from "./components/Welcome";
 import CustomerLoginPage from "./components/CustomerLoginPage";
 import SupplierLoginPage from "./components/SupplierLoginPage";
+import ForgotPasswordPage from "./components/ForgotPasswordPage";
 import RegistrationPage from "./components/Registration";
 import AdminLoginPage from "./components/AdminLoginPage";
 import Dashboard from "./components/Dashboard";
@@ -17,6 +18,9 @@ import ManufactoringProcessPage from "./components/ManufactoringProcessPage";
 import SupplierProfile from "./components/SupplierProfile";
 import CNCMachining from "./components/Manufacturing/CNCMachining";
 import ManufactoringProcess from "./components/Manufacturing/ManufactoringProcess";
+import ContactUs from "./components/ContactUs";
+import About from "./components/About";
+import Blog from "./components/Blog";
 
 const App = () => {
     return (
@@ -25,9 +29,13 @@ const App = () => {
             <Router>
             <Routes>
                 <Route path="/" element={<Welcome />} />
+                <Route path="/contact-us" element={<ContactUs />} />
+                <Route path="/about-us" element={<About />} />
+                <Route path="/blog" element={<Blog />} />
                 <Route path="/consumer-login" element={<CustomerLoginPage />} />
                 <Route path="/admin-login" element={<AdminLoginPage />} />
                 <Route path="/supplier-login" element={<SupplierLoginPage />} />
+                <Route path="/forgot-password" element={<ForgotPasswordPage />} />
                 <Route path="/supplier-registration" element={<RegistrationPage user_type = "supplier"/>} />
                 <Route path="/consumer-registration" element={<RegistrationPage user_type = "consumer"/>} />
                 <Route path="/dashboard" element={<DashboardContainer />} />

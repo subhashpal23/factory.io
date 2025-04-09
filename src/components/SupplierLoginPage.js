@@ -117,6 +117,21 @@ const Button = styled.button`
   }
 `;
 
+const LoginButton = styled.button`
+  width: 100%;
+  background-color: #1e3a8a;
+  color: white;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  border-color: none;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  &:hover {
+    background-color: #1e40af;
+  }
+`;
+
 const ForgotPassword = styled.a`
   color: #10b981;
   font-size: 0.875rem;
@@ -250,13 +265,13 @@ const SupplierLoginPage = () => {
                   <input type="checkbox" style={{ marginRight: '0.5rem' }} />
                   Remember me
                 </label>
-                <ForgotPassword href="/">Forgot password?</ForgotPassword>
+                <ForgotPassword href="/forgot-password">Forgot password?</ForgotPassword>
               </div>
-              <Button
+              <LoginButton
                 type="submit"
                 onClick={signInUser}>
                 Log In
-              </Button>
+              </LoginButton>
             </form>
             <p style={{ textAlign: 'center', color: '#6b7280', marginTop: '1rem' }} onClick={() => navigate('/supplier-registration')}>
               Don’t have an account?{" "}

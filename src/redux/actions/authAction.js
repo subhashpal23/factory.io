@@ -53,6 +53,35 @@ export const refreshRegistrationState = () => {
     }
 }
 
+export const userforgotPassword = (userCreds) => {
+    return async (dispatch) => {
+        dispatch({ type: 'FORGOTPASSWORD_USER_REQUEST' });
+        try {
+            const response = await fetch('https://factory.demosite.name/api/Api/forgotPassword', {
+                method: 'POST', 
+                headers: {
+                    'Content-Type': 'application/json', 
+                },
+                body: JSON.stringify(userCreds), // Send the data as JSON
+            });
+
+            console.log("response", response)
+            if (!response.ok) {
+                throw new Error(`Error: ${response.status} ${response.statusText}`);
+            }
+            const data = await response.json();
+            notification.success({
+                message: data.message,
+                placement: 'topRight',
+              });
+            dispatch({ type: 'FORGOTPASSWORD_USER_SUCCESS', payload: data });
+        } catch (error) {
+            dispatch({ type: 'FORGOTPASSWORD_USER_FAILURE', payload: error.message });
+        }
+    };
+}
+
+
 
 export const userLogout = () => {
     return async (dispatch) => {

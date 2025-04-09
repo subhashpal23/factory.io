@@ -84,6 +84,25 @@ const authReducer = (state = initialState, action) => {
                 registrationError: null,
                 laoding: false,
             }
+
+            case  'FORGOTPASSWORD_USER_REQUEST':
+                return {
+                    ...state,
+                    laoding: true,
+                };
+            case  'FORGOTPASSWORD_USER_SUCCESS':
+                console.log('@@action.payload',action.payload)
+                return {
+                    ...state,
+                    laoding: false,
+                    registrationData: action.payload
+                };
+            case  'FORGOTPASSWORD_USER_FAILURE' : 
+            return {
+                ...state,
+                laoding: false,
+                registrationError: action.payload
+            };
         default : 
             return {
                 ...state

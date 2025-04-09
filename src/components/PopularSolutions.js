@@ -1,30 +1,36 @@
 import React from "react";
 import { Row, Col, Typography } from "antd";
 import styled from "styled-components";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 const { Title } = Typography;
 
 const manufacturingSolutions = [
   { title: "Conventional Machining", image: "/images/front/conventional-machining.jpg", href: "/manufacturing/conventional-machining" },
-  { title: "CNC Machining", image: "/images/front/CNC-machining1.png",  href: "/manufacturing/cnc-machining" },
+  { title: "CNC Machining", image: "/images/front/CNC-machining1.png", href: "/manufacturing/cnc-machining" },
   { title: "Casting", image: "/images/front/casting-2.jpg", href: "/manufacturing/casting" },
   { title: "Metal Fabrication", image: "/images/front/fabrication1.jpg", href: "/manufacturing/metal-fabrication" },
-  { title: "Anodizing and Coating", image: "/images/front/anodizing.jpg" , href: "/manufacturing/anodizing-coating"},
-  { title: "Plasma Cutting", image: "/images/front/howard-r-wheeler-EueYQgD7cms-unsplash.jpg",   href: "/manufacturing/plasma-cutting"},
-  { title: "Laser Cutting", image: "/images/front/laser-cutting.jpg",   href: "/manufacturing/laser-cutting"},
-  { title: "Waterjet Cutting", image: "/images/front/waterjetmachining.jpg",   href: "/manufacturing/waterjet-cutting"},
+  { title: "Anodizing and Coating", image: "/images/front/anodizing.jpg", href: "/manufacturing/anodizing-coating" },
+  { title: "Plasma Cutting", image: "/images/front/howard-r-wheeler-EueYQgD7cms-unsplash.jpg", href: "/manufacturing/plasma-cutting" },
+  { title: "Laser Cutting", image: "/images/front/laser-cutting.jpg", href: "/manufacturing/laser-cutting" },
+  { title: "Waterjet Cutting", image: "/images/front/waterjetmachining.jpg", href: "/manufacturing/waterjet-cutting" },
 ];
 
-const Container = styled.div`
-  padding: 50px 5%;
-  text-align: center;
+// ✅ New Wrapper for consistent page padding
+const Wrapper = styled.div`
+  padding: 50px 16px;
   background: #f8f8f8;
+  display: flex;
+  justify-content: center;
+`;
 
+const Container = styled.div`
+  max-width: 1200px;
+  width: 100%;
+  text-align: center;
   @media (max-width: 768px) {
-    padding: 30px 18%;
-    margin: 0 12%;
-  }
+       width: 350px;
+    }
 `;
 
 const SolutionCard = styled.div`
@@ -64,7 +70,6 @@ const SolutionTitle = styled.div`
   padding: 5px 20px;
   border-radius: 4px;
   text-align: left;
-  //background: rgba(0, 0, 0, 0.6);
 
   @media (max-width: 768px) {
     font-size: 1.2rem;
@@ -73,21 +78,32 @@ const SolutionTitle = styled.div`
 `;
 
 const PopularSolutions = () => {
-   const navigate = useNavigate();
+  const navigate = useNavigate();
   return (
-    <Container>
-      <Title level={2} style={{ fontWeight: "bold", color:'#0056b3' }}>Manufacturing Processes</Title>
-      <Row gutter={[24, 24]} justify="center" style={{ marginTop: "50px" }}>
-        {manufacturingSolutions.map((solution, index) => (
-          <Col xs={24} sm={12} md={8} lg={6} key={index} onClick={() => navigate(solution.href)}>
-            <SolutionCard>
-              <SolutionImage src={solution.image} alt={solution.title} />
-              <SolutionTitle>{solution.title}</SolutionTitle>
-            </SolutionCard>
-          </Col>
-        ))}
-      </Row>
-    </Container>
+    <Wrapper>
+      <Container>
+        <Title level={2} style={{ fontWeight: "bold", color: "#0056b3" }}>
+          Manufacturing Processes
+        </Title>
+        <Row gutter={[24, 24]} justify="center" style={{ marginTop: "50px" }}>
+          {manufacturingSolutions.map((solution, index) => (
+            <Col
+              xs={24}
+              sm={12}
+              md={8}
+              lg={6}
+              key={index}
+              onClick={() => navigate(solution.href)}
+            >
+              <SolutionCard>
+                <SolutionImage src={solution.image} alt={solution.title} />
+                <SolutionTitle>{solution.title}</SolutionTitle>
+              </SolutionCard>
+            </Col>
+          ))}
+        </Row>
+      </Container>
+    </Wrapper>
   );
 };
 

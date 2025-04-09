@@ -656,7 +656,7 @@ const ConsumerRejectedQuotesList = ({ filter }) => {
                         name={`qty_${file?.product_id}`}
                         //rules={[{ required: true, message: 'Missing Quantity' }]}
                       >
-                      <Input placeholder="Quantity" defaultValue={formData[`qty_${file.product_id}`]} onChange={(e) => handleFormChange(`qty_${file?.product_id}`, e.target.value, file)}/>
+                      <Input placeholder="Quantity" defaultValue={formData[`qty_${file.product_id}`]} onChange={(e) => handleFormChange(`qty_${file?.product_id}`, e.target.value, file)} disabled/>
                     </Form.Item>
                     {/* <Form.Item
                         label="Cost"
@@ -672,7 +672,9 @@ const ConsumerRejectedQuotesList = ({ filter }) => {
                       >
                      <Input placeholder="Rate" defaultValue={formData?.[`rate_${file.product_id}`]}  onChange={(e) => {
                         handleFormChange(`rate_${file?.product_id}`, e.target.value, file);
-                      }}/>
+                      }}
+                      disabled
+                      />
                     </Form.Item>
                     <Form.Item
                       label="Amount"

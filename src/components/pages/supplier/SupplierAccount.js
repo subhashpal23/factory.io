@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { Form, Input, Select, Upload, Button, message, Row, Col } from "antd";
+import { Form, Input, Select, Upload, Button, message, Row, Col, Typography, Modal, Image,Divider, Space, Tag } from "antd";
 import { updateAccount, getUserInfo } from '../../../redux/actions/userActions';
-import { UploadOutlined } from "@ant-design/icons";
+import { UploadOutlined, EyeOutlined } from "@ant-design/icons";
 import { CountryCodes, industriesType } from './../../../components/Registration/constants';
 import FilePreview from "../../../components/FilePreview"; 
 
 const { Option } = Select;
+
+const { Title, Text } = Typography;
 
 const SupplierAccount = () => {
   const dispatch = useDispatch();
@@ -16,6 +18,7 @@ const SupplierAccount = () => {
   const manufacturingProcess = useSelector((state) => state.auth.logindata.manufacturing_process);
   const accountUpdateStatus = useSelector((state) => state.user.accountUpdateStatus);
   const userDetail = useSelector((state) => state.user.userDetail);
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
    const fileRootPath = 'https://factory.demosite.name/api';
    const [formData, setFormData] = useState({
@@ -168,9 +171,20 @@ const SupplierAccount = () => {
     }
   }, [userDetail]);
 
+ console.log("@@manufacturingProcess", manufacturingProcess);
   return (
+    <>
     <div style={{ maxWidth: "1200px", background: "#fff", borderRadius: 8, padding: 24 }}>
-      <h1 style={{marginBottom:"20px"}}> Factory Profile</h1>
+          <h1 style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px' }}>
+        Factory Profile
+        <Button
+          type="primary"
+          icon={<EyeOutlined />}
+          onClick={() => setIsModalVisible(true)}
+        >
+          Preview
+        </Button>
+      </h1>
       <Form layout="vertical" onFinish={onFinish} form={form} >
       <Row gutter={16}>
       <Col span={12}>
@@ -392,6 +406,74 @@ const SupplierAccount = () => {
         </Row>
       </Form>
     </div>
+    
+    <Modal
+  title={<Title level={4} style={{ margin: 0 }}>Factory Profile</Title>}
+  open={isModalVisible}
+  onCancel={() => setIsModalVisible(false)}
+  footer={null}
+  width={1000}
+  height={680}
+  bodyStyle={{ padding: '5px' }}
+  centered
+>
+  <Form layout="vertical">
+    <Space direction="vertical" size="middle" style={{ width: '100%' }}>
+      <Divider orientation="left" style={{ margin: '2px 0', fontSize: '16px' }}>Documents & Media</Divider>
+      <Row gutter={[16, 16]}>
+        <Col span={6}><Text strong>Company Logo:</Text><br />{userDetail?.company_logo && <FilePreview filePath={userDetail?.company_logo} fileRootPath={fileRootPath} />}</Col>
+        <Col span={6}><Text strong>Company Portfolio:</Text><br />{userDetail?.company_portflio && <FilePreview filePath={userDetail?.company_portflio} fileRootPath={fileRootPath} />}</Col>
+        <Col span={6}><Text strong>Certificate:</Text><br />{userDetail?.certificate && <FilePreview filePath={userDetail?.certificate} fileRootPath={fileRootPath} />}</Col>
+        <Col span={6}><Text strong>Import/Export Documents:</Text><br />{userDetail?.files && <FilePreview filePath={userDetail?.files} fileRootPath={fileRootPath} />}</Col>
+      </Row>
+      <Divider orientation="left" style={{ margin: '2px 0', fontSize: '16px' }}>Basic Details</Divider>
+      <Row gutter={[16, 16]}>
+        <Col span={8}><Text strong>Company:</Text><br />{userDetail?.company}</Col>
+        <Col span={8}><Text strong>Address:</Text><br />{userDetail?.address}</Col>
+        <Col span={8}><Text strong>Contact:</Text><br />{userDetail?.contact}</Col>
+        <Col span={8}><Text strong>GST No:</Text><br />{userDetail?.gst_no}</Col>
+        <Col span={8}><Text strong>Industry:</Text><br />{userDetail?.industry}</Col>
+        <Col span={8}><Text strong>Employee Count:</Text><br />{userDetail?.employeeCount}</Col>
+        <Col span={8}><Text strong>Facilities:</Text><br />{userDetail?.facilities}</Col>
+        <Col span={8}><Text strong>Location:</Text><br />{userDetail?.location}</Col>
+        <Col span={8}><Text strong>ISO Certification:</Text><br />{userDetail?.iso_certification}</Col>
+        <Col span={8}><Text strong>Freezone:</Text><br />{userDetail?.freezone ? 'Yes' : 'No'}</Col>
+      </Row>
+      <Divider orientation="left" style={{ margin: '2px 0', fontSize: '16px' }}>Additional Info</Divider>
+      <Row gutter={[16, 16]}>
+        <Col span={8}><Text strong>URN:</Text><br />{userDetail?.urn}</Col>
+        <Col span={8}><Text strong>Company Website:</Text><br /><a href={userDetail?.company_website} target="_blank">{userDetail?.company_website}</a></Col>
+        <Col span={8}><Text strong>Company Type:</Text><br />{userDetail?.company_type}</Col>
+        <Col span={8}><Text strong>About Us:</Text><br />{userDetail?.about_us}</Col>
+        <Col span={8}><Text strong>Key Customers:</Text><br />{userDetail?.key_customers}</Col>
+        <Col span={8}><Text strong>Past Project:</Text><br />{userDetail?.past_project}</Col>
+        <Col span={8}><Text strong>Annual Turnover:</Text><br />{userDetail?.anual_turnover}</Col>
+        <Col span={8}><Text strong>Year of Establishment:</Text><br />{userDetail?.year_of_establishment}</Col>
+        <Col span={8}><Text strong>IEC Code:</Text><br />{userDetail?.iec_code}</Col>
+      </Row>
+
+      <Divider orientation="left" style={{ margin: '2px 0', fontSize: '16px' }}>Operations</Divider>
+      <Row gutter={[16, 16]}>
+        <Col span={8}><Text strong>Manufacturing Process:</Text><br />{(userDetail?.manufacturing_process || '')
+            .split(',')
+            .map(id => manufacturingProcess.find(p => p.id === id)?.process_name)
+            .filter(Boolean)
+            .map(name => <Tag key={name}>{name}</Tag>)
+          }</Col> 
+        <Col span={8}>
+        <Text strong>Services:</Text><br />
+        {(userDetail?.services || '')
+          .split(',')
+          .map(service => service.trim())
+          .filter(Boolean)
+          .map(service => <Tag key={service}>{service}</Tag>)
+        }
+      </Col>
+      </Row>
+    </Space>
+  </Form>
+</Modal>
+  </>
   );
 };
 

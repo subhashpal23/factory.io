@@ -81,6 +81,10 @@ const HeroContainer = styled.div`
     height: 100%; /* Ensure it takes full height */
     width: 100%;
     margin: auto;
+
+    @media (max-width: 768px) {
+       width: 48%;
+    }
   }
 }
 
