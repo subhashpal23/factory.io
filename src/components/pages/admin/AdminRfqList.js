@@ -265,7 +265,8 @@ const AdminRfqList = ({ filter }) => {
       key: 'email',
     },
     {
-      title: `${ filter ? ( filter ==='consumerAssigned' ? 'Consumer' : 'Supplier' ) : ""} Unique ID`,
+      //title: `${ filter ? ( filter ==='consumerAssigned' ? 'Consumer' : 'Supplier' ) : ""} Unique ID`,
+      title: `Consumer Unique ID`,
       dataIndex: 'memberId',
       key: 'memberId',
     },

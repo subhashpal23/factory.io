@@ -272,7 +272,7 @@ const RegistrationPage = ({user_type}) => {
             </InputField>
             {/* Phone Number with Country Code */}
             <InputField>
-              <Label>Phone number *</Label>
+              <Label>Phone number with Country Code *</Label>
               <PhoneContainer>
                 {/* <Select
                   onChange={(e) => setRegistration({ ...registration, country_code: e.target.value })}
@@ -295,7 +295,7 @@ const RegistrationPage = ({user_type}) => {
                 </Select> */}
                 <Input
                   type="text"
-                  placeholder="Phone number"
+                  placeholder="Phone number with Country Code"
                   required
                   onChange={(e) => setRegistration({ ...registration, phone_number: e.target.value })}
                   style={{

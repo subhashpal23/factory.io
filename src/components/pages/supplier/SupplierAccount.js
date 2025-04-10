@@ -30,14 +30,19 @@ const SupplierAccount = () => {
 
 
     const onFinish = (values) => {
-      console.log("values", values, formData);
-      const getValidFile = (files) => 
-        files?.find(file => file !== "/") ?? null;
+      // console.log("values", values, formData);
+      const getValidFile = (files) => {
+        if (Array.isArray(files)) {
+          return files.length > 0 ? files[0] : null;
+        } else if (files && typeof files === 'object') {
+          return files;
+        }
+        return null;
+      };
       
        //setLoading(true);
         const dataToSend = {
           ...values,
-          ...formData,
           employeeCount: values.employeeCount,
           facilities: values.facilities,
           location: values.location,
@@ -46,19 +51,30 @@ const SupplierAccount = () => {
           manufacturing_process : values?.manufacturing_process?.join(","),
           services: values?.services?.join(","),
           // files: formData.importExportDocs?.[0] ?? null,
-          // company_logo: formData.company_logo?.[0] ?? null,
-          // company_portflio: formData.company_portflio?.[0] ?? null,
+          // company_logo: Array.isArray(formData.company_logo) ? formData.company_logo?.[0] : formData.company_logo ?? null,
+          // company_portflio:  Array.isArray(formData.company_portflio) ? formData.company_portflio?.[0]  : formData.company_portflio ?? null,
           // certificate: formData.certificate?.[0] ?? null,
-          files: getValidFile(formData.importExportDocs),
-          company_logo: getValidFile(formData.company_logo),
-          company_portflio: getValidFile(formData.company_portflio),
-          certificate: getValidFile(formData.certificate),
+          // import_export_document: formData.import_export_document?.[0] ?? null,
+          //files: getValidFile(formData.importExportDocs),
+          //company_logo:  Array.isArray(formData.company_logo) ? values.company_logo[1] : getValidFile(values.company_logo),
+          //company_portflio: Array.isArray(formData.company_portflio) ? values.company_portflio[1] : getValidFile(values.company_portflio),
+          //certificate: Array.isArray(formData.certificate) ? values.certificate[1] : getValidFile(values.certificate),
+          //import_export_document: Array.isArray(formData.import_export_document) ? values.import_export_document[1] : getValidFile(values.import_export_document),
+          company_logo: Array.isArray(formData.company_logo) ? formData.company_logo.at(-1) : formData.company_logo ?? null,
+          company_portflio: Array.isArray(formData.company_portflio) ? formData.company_portflio.at(-1) : formData.company_portflio ?? null,
+          certificate: Array.isArray(formData.certificate) ? formData.certificate.at(-1) : formData.certificate ?? null,
+          import_export_document: Array.isArray(formData.import_export_document) ? formData.import_export_document.at(-1) : formData.import_export_document ?? null,
         };
-        delete dataToSend.importExportDocs;
+        //delete dataToSend.importExportDocs;
+        //console.log("dataToSend", dataToSend);
         setFormData(dataToSend);
         dispatch(updateAccount(dataToSend, token));
+        setTimeout(() => {  
+          dispatch(getUserInfo(token));
+        },[1000]);
       };
 
+  //console.log("@@formData=>", formData);
    const handleFileUpload = async (file, fieldKey) => {
     const formData = new FormData();
     formData.append('upload[0]', file);
@@ -75,8 +91,14 @@ const SupplierAccount = () => {
       const result = await response.json();
       if (response.ok) {
         message.success(`${file.name} file uploaded successfully`);
+        // setFormData(prevState => {
+        //   return { ...prevState, [fieldKey]: [...prevState?.files, result[0]]};
+        // });
         setFormData(prevState => {
-          return { ...prevState, [fieldKey]: [...prevState?.files, result[0]]};
+          return {
+            ...prevState,
+            [fieldKey]: [...(prevState?.[fieldKey] || []), result[0]],
+          };
         });
       } else {
         message.error(`${file.name} file upload failed.`);
@@ -103,7 +125,7 @@ const SupplierAccount = () => {
       iso_certification: formData.iso_certification,
       freezone: formData.freezone,
       manufacturing_process : formData?.manufacturing_process,
-      files: formData.files[0],
+      files: formData?.files?.[0],
 
       about_us: formData?.about_us || "",
       address: formData?.address || "",
@@ -112,6 +134,7 @@ const SupplierAccount = () => {
       company: formData?.company || "",
       company_logo: formData?.company_logo || "",
       company_portflio: formData?.company_portflio || "",
+      import_export_document: formData?.import_export_document || "",
       company_type: formData?.company_type || "",
       company_website: formData?.company_website || "",
       contact: formData?.contact || "",
@@ -121,7 +144,7 @@ const SupplierAccount = () => {
       past_project: formData?.past_project || "",
       urn: formData?.urn || "",
       services: formData?.services || "",
-      importExportDocs: formData?.importExportDocs || [],
+     //import_export_document: formData?.import_export_document || [],
       year_of_establishment: formData?.year_of_establishment || "",
       iec_code: formData?.iec_code || "",
     });
@@ -152,9 +175,10 @@ const SupplierAccount = () => {
         anual_turnover: userDetail?.anual_turnover || "",
         certificate: userDetail?.certificate || "",
         company: userDetail?.company || "",
-        company_logo: userDetail?.company_logo !== '/' ? userDetail?.company_logo : [],
-        company_portflio: userDetail?.company_portflio !== '/' ? userDetail?.company_portflio : [],
-        certificate: userDetail?.certificate !== '/' ? userDetail?.certificate : [],
+        company_logo:  userDetail?.company_logo || null,
+        company_portflio:  userDetail?.company_portflio || null,
+        certificate: userDetail?.certificate || null,
+        import_export_document : userDetail?.import_export_document || null,
         company_type: userDetail?.company_type || "",
         company_website: userDetail?.company_website || "",
         contact: userDetail?.contact || "",
@@ -164,14 +188,15 @@ const SupplierAccount = () => {
         past_project: userDetail?.past_project || "",
         urn: userDetail?.urn || "",
         services:userDetail.services?.split(","),
-        importExportDocs: userDetail?.importExportDocs || [],
+        //import_export_document: userDetail?.import_export_document || [],
         year_of_establishment: userDetail?.year_of_establishment || "",
         iec_code: userDetail?.iec_code || "",
       });
     }
+    
   }, [userDetail]);
 
- console.log("@@manufacturingProcess", manufacturingProcess);
+ //console.log("@@manufacturingProcess", manufacturingProcess);
   return (
     <>
     <div style={{ maxWidth: "1200px", background: "#fff", borderRadius: 8, padding: 24 }}>
@@ -202,35 +227,35 @@ const SupplierAccount = () => {
             </Upload>
             {formData?.company_portflio && <FilePreview filePath={formData?.company_portflio} fileRootPath={fileRootPath} />}
         </Form.Item>
-        </Col>
-        <Col span={12}>
-        <Form.Item name="certificate" label="Certificate" valuePropName="file"> 
-          <Upload {...props("certificate")} showUploadList={true}>
-            <Button icon={<UploadOutlined />}>Upload Certificate</Button>
-            {formData?.certificate && <FilePreview filePath={formData?.certificate} fileRootPath={fileRootPath} />}
-          </Upload>
-        </Form.Item>
-        </Col>
-        <Col span={12}>
-
-        {/* <Form.Item name="iec_code" label="Import Export Code (IEC)" rules={[{ required: true, message: "Please enter IEC code" }]}> 
-        <Input placeholder="Enter IEC code" />
-        </Form.Item> */}
-
-        <Form.Item
-        name="importExportDocs"
-        label="Import/Export Documents"
-        //rules={[{ required: true, message: "Please upload a document" }]}
-        valuePropName="file"
-        >
-        <Upload {...props('importExportDocs')} multiple={true} showUploadList={true} >
-        <Button icon={<UploadOutlined />}>Upload Document</Button>
+      </Col>
+      <Col span={12}>
+      <Form.Item name="certificate" label="Certificate" valuePropName="file"> 
+        <Upload {...props("certificate")} showUploadList={true}>
+          <Button icon={<UploadOutlined />}>Upload Certificate</Button>
+          {formData?.certificate && <FilePreview filePath={formData?.certificate} fileRootPath={fileRootPath} />}
         </Upload>
-        {formData?.files && <FilePreview filePath={formData?.files} fileRootPath={fileRootPath} />}
-        {/* {formData?.files} */}
-        </Form.Item>
-        </Col>
-        <Col span={8}>
+      </Form.Item>
+      </Col>
+      <Col span={12}>
+
+      {/* <Form.Item name="iec_code" label="Import Export Code (IEC)" rules={[{ required: true, message: "Please enter IEC code" }]}> 
+      <Input placeholder="Enter IEC code" />
+      </Form.Item> */}
+
+      <Form.Item
+      name="import_export_document"
+      label="Import/Export Documents"
+      //rules={[{ required: true, message: "Please upload a document" }]}
+      valuePropName="file"
+      >
+      <Upload {...props('import_export_document')} showUploadList={true} >
+      <Button icon={<UploadOutlined />}>Upload Document</Button>
+      </Upload>
+      {formData?.import_export_document && <FilePreview filePath={formData?.import_export_document} fileRootPath={fileRootPath} />}
+      {/* {formData?.files} */}
+      </Form.Item>
+      </Col>
+      <Col span={8}>
 
         {/* ISO Certification */}
         <Form.Item
@@ -243,7 +268,8 @@ const SupplierAccount = () => {
             <Option value="0">No</Option>
           </Select>
         </Form.Item>
-        </Col>
+      </Col>
+
       <Col span={8}>
         <Form.Item name="company" label="Company" rules={[{ required: true, message: "Please enter company name" }]}> 
             <Input placeholder="Enter company name" />
@@ -277,7 +303,7 @@ const SupplierAccount = () => {
         >
           <Input type="number" placeholder="Enter the total number of employees"  />
         </Form.Item>
-        </Col>
+      </Col>
 
         <Col span={8}>
         <Form.Item name="anual_turnover" label="Annual Turnover" rules={[{ required: true, message: "Please enter annual turnover" }]}> 
@@ -321,6 +347,18 @@ const SupplierAccount = () => {
         </Form.Item>
         </Col>
         <Col span={8}>
+        <Form.Item
+          name="freezone"
+          label="Freezone"
+          rules={[{ required: true, message: "Please select an option" }]}
+        >
+          <Select placeholder="Select">
+            <Option value="1">Yes</Option>
+            <Option value="0">No</Option>
+          </Select>
+        </Form.Item>
+        </Col>
+        <Col span={8}>
 
         <Form.Item name="key_customers" label="Key Customers"> 
           <Input.TextArea placeholder="Enter key customers" rows={3} />
@@ -332,7 +370,6 @@ const SupplierAccount = () => {
           <Input.TextArea placeholder="Describe past projects" rows={3} />
         </Form.Item>
         </Col>
-        <Col span={8}>
 
         {/* Facilities Available */}
         {/* <Form.Item
@@ -348,6 +385,7 @@ const SupplierAccount = () => {
           <Input.TextArea placeholder="Tell us about yourself" rows={3} />
         </Form.Item>
       </Col>
+      <Col span={8}>
         <Form.Item
           name="services"
           label="Services Available"
@@ -359,8 +397,8 @@ const SupplierAccount = () => {
               <Option value="Finishing Capabilities">Finishing Capabilities</Option>
               <Option value="Design Services">Design Services</Option>
           </Select>
-        </Form.Item>        
-        </Col>
+        </Form.Item>  
+        </Col>      
         <Col span={8}>
         
                 <Form.Item
@@ -383,26 +421,17 @@ const SupplierAccount = () => {
         >
           <Input placeholder="Enter your company location" />
         </Form.Item> */}
-        <Col span={8}>
-        <Form.Item
-          name="freezone"
-          label="Freezone"
-          rules={[{ required: true, message: "Please select an option" }]}
-        >
-          <Select placeholder="Select">
-            <Option value="1">Yes</Option>
-            <Option value="0">No</Option>
-          </Select>
-        </Form.Item>
-        </Col>
+
       
 
         {/* Submit Button */}
+        <Col span={8} style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '20px' }}>
         <Form.Item>
           <Button type="primary" htmlType="submit" loading={loading}>
             Update Account
           </Button>
         </Form.Item>
+        </Col>
         </Row>
       </Form>
     </div>
@@ -424,7 +453,7 @@ const SupplierAccount = () => {
         <Col span={6}><Text strong>Company Logo:</Text><br />{userDetail?.company_logo && <FilePreview filePath={userDetail?.company_logo} fileRootPath={fileRootPath} />}</Col>
         <Col span={6}><Text strong>Company Portfolio:</Text><br />{userDetail?.company_portflio && <FilePreview filePath={userDetail?.company_portflio} fileRootPath={fileRootPath} />}</Col>
         <Col span={6}><Text strong>Certificate:</Text><br />{userDetail?.certificate && <FilePreview filePath={userDetail?.certificate} fileRootPath={fileRootPath} />}</Col>
-        <Col span={6}><Text strong>Import/Export Documents:</Text><br />{userDetail?.files && <FilePreview filePath={userDetail?.files} fileRootPath={fileRootPath} />}</Col>
+        <Col span={6}><Text strong>Import/Export Documents:</Text><br />{userDetail?.import_export_document && <FilePreview filePath={userDetail?.import_export_document} fileRootPath={fileRootPath} />}</Col>
       </Row>
       <Divider orientation="left" style={{ margin: '2px 0', fontSize: '16px' }}>Basic Details</Divider>
       <Row gutter={[16, 16]}>
@@ -434,10 +463,10 @@ const SupplierAccount = () => {
         <Col span={8}><Text strong>GST No:</Text><br />{userDetail?.gst_no}</Col>
         <Col span={8}><Text strong>Industry:</Text><br />{userDetail?.industry}</Col>
         <Col span={8}><Text strong>Employee Count:</Text><br />{userDetail?.employeeCount}</Col>
-        <Col span={8}><Text strong>Facilities:</Text><br />{userDetail?.facilities}</Col>
-        <Col span={8}><Text strong>Location:</Text><br />{userDetail?.location}</Col>
-        <Col span={8}><Text strong>ISO Certification:</Text><br />{userDetail?.iso_certification}</Col>
-        <Col span={8}><Text strong>Freezone:</Text><br />{userDetail?.freezone ? 'Yes' : 'No'}</Col>
+        {/* <Col span={8}><Text strong>Facilities:</Text><br />{userDetail?.facilities}</Col> */}
+        <Col span={8}><Text strong>Location:</Text><br />{userDetail?.address}</Col>
+        <Col span={8}><Text strong>ISO Certification:</Text><br />{userDetail?.iso_certification === '1' ? 'Yes' : 'No'}</Col>
+        <Col span={8}><Text strong>Freezone:</Text><br />{userDetail?.freezone ==="1" ? 'Yes' : 'No'}</Col>
       </Row>
       <Divider orientation="left" style={{ margin: '2px 0', fontSize: '16px' }}>Additional Info</Divider>
       <Row gutter={[16, 16]}>
@@ -449,7 +478,7 @@ const SupplierAccount = () => {
         <Col span={8}><Text strong>Past Project:</Text><br />{userDetail?.past_project}</Col>
         <Col span={8}><Text strong>Annual Turnover:</Text><br />{userDetail?.anual_turnover}</Col>
         <Col span={8}><Text strong>Year of Establishment:</Text><br />{userDetail?.year_of_establishment}</Col>
-        <Col span={8}><Text strong>IEC Code:</Text><br />{userDetail?.iec_code}</Col>
+        {/* <Col span={8}><Text strong>IEC Code:</Text><br />{userDetail?.iec_code}</Col> */}
       </Row>
 
       <Divider orientation="left" style={{ margin: '2px 0', fontSize: '16px' }}>Operations</Divider>
