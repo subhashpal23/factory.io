@@ -2,7 +2,9 @@ import React, { useState } from "react";
 import styled, { keyframes } from "styled-components";
 import TopNavigation from "./TopNavigation";
 import Footer from "./Footer";
-import { notification } from 'antd'
+import { notification, Typography, Space } from 'antd'
+import { PhoneOutlined, WhatsAppOutlined } from '@ant-design/icons';
+const { Text } = Typography;
 
 // Spinner animation
 const spin = keyframes`
@@ -198,16 +200,41 @@ const ContactUs = () => {
         <Left>
           <InfoBlock>
             <strong>Address:</strong>
-            123 Industrial Lane, Sector 21, Delhi, India
+            Warehouse No 30, Plot no 598 1176, Gridwall
+            Warehouses, DIP 1, Dubai, UAE
           </InfoBlock>
           <InfoBlock>
             <strong>Email:</strong>
-            contact@digifactory.ae
+            <a href="mailto:contact@digifactory.ae" style={{ color: '#1890ff' }}>
+        contact@digifactory.ae
+      </a>
           </InfoBlock>
-          <InfoBlock>
-            <strong>Contact Number:</strong>
-            +91 9876543210
-          </InfoBlock>
+          <div>
+    <InfoBlock>
+      <Space>
+        <strong>Contact No / WhatsApp:</strong>
+        <a
+          href="https://wa.me/971523675983"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}
+        >
+          <WhatsAppOutlined style={{ color: '#25D366', fontSize: 24, marginRight: '8px' }} />
+          <Text style={{fontSize: 16}}>+971523675983</Text>
+        </a>
+      </Space>
+    </InfoBlock>
+
+    <InfoBlock>
+      <Space>
+        <strong>
+          Landline No:
+        </strong>
+        <PhoneOutlined style={{ color: '#1890ff', fontSize: 24 }} />
+        <Text style={{fontSize: 16}}>+045804514</Text>
+      </Space>
+    </InfoBlock>
+  </div>
         </Left>
 
         <Right onSubmit={handleSubmit}>
