@@ -12,6 +12,9 @@ import ViewQuoteReviewModal from "../../ViewQuoteReviewModal";
 //import { getAdminRfqLists } from '../../../redux/actions/rfqAction';
 //import { getAllSupplier, getAllConsumer } from '../../../redux/actions/allDataAction';
 //import { assignRfqToSupplier, resetAssignRfqStatus } from '../../../redux/actions/assignRfqAction';
+import { getUserInfo } from '../../../redux/actions/userActions';
+import SupplierPreviewModal from '../../SupplierPreviewModal';
+
 const { Search } = Input;
 const { confirm } = Modal;
 const { Option } = Select;
@@ -59,6 +62,15 @@ const [formData, setFormData] = useState({
   const [currentRfqData, setCurrentRfqData] = React.useState({});
   const [isEdit, setIsEdit] = React.useState(false);
   const [isReview, setReview] = React.useState(false);
+
+    const [currentViewedUser, setCurrentViewedUser] = useState(null);
+  
+    const token = useSelector((state) => state.auth.logindata.token);
+    const userDetail = useSelector((state) => state.user.userDetail);
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const fileRootPath = 'https://factory.demosite.name/api';
+  
+
   const showLoading = () => {
     setOpen(true);
     setViewLoading(true);
@@ -67,6 +79,13 @@ const [formData, setFormData] = useState({
       setViewLoading(false);
     }, 300);
   };
+
+  useEffect(() => {
+            if (token && currentViewedUser) {
+              dispatch(getUserInfo(token, currentViewedUser));
+            }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [currentViewedUser]);
 
   useEffect(()=>{
     if(quoteAllData)
@@ -158,12 +177,12 @@ const [formData, setFormData] = useState({
       <span>{d.customer_email}</span>{" "}
       {d.customer_grade ? `(${d.customer_grade})` : ""}
     </>,
-      supplier_details: <>
+      supplier_details: <div style={{color: "#0000FF" , cursor: "pointer", textDecoration: "underline"}} onClick={() => { setCurrentViewedUser(d?.supplier_id); setIsModalVisible(true)}}>
       <span>{d.supplier_name}</span>
       <br />
       <span>{d.supplier_email}</span>{" "}
       {d.supplier_grade ? `(${d.supplier_grade})` : ""}
-    </>,
+    </div>,
     }));
   
     const lowerCaseSearchValue = searchValue ? searchValue.toString().toLowerCase() : "";
@@ -648,6 +667,13 @@ const [formData, setFormData] = useState({
           }
         `}
       </style>
+      <SupplierPreviewModal
+              isModalVisible={isModalVisible}
+              setIsModalVisible={setIsModalVisible}
+              userDetail={userDetail}
+              fileRootPath={fileRootPath}
+              manufacturingProcess={manufacturingProcess}
+          />
     </div>
   );
 };

@@ -11,6 +11,9 @@ import ViewQuoteModal from "../ViewQuoteModal";
 //import { getAdminRfqLists } from '../../../redux/actions/rfqAction';
 //import { getAllSupplier, getAllConsumer } from '../../../redux/actions/allDataAction';
 //import { assignRfqToSupplier, resetAssignRfqStatus } from '../../../redux/actions/assignRfqAction';
+import { getUserInfo } from '../../redux/actions/userActions';
+import SupplierPreviewModal from '../SupplierPreviewModal';
+
 const { Search } = Input;
 const { confirm } = Modal;
 const { Option } = Select;
@@ -49,6 +52,13 @@ const ConsumerQuotesList = ({ filter }) => {
   const [currentRfq, setCurrentRfq] = useState(null);
   const [ filters, setFilters] = useState({})
 
+  const token = useSelector((state) => state.auth.logindata.token);
+  const [currentViewedUser, setCurrentViewedUser] = useState(null);
+  const userDetail = useSelector((state) => state.user.userDetail);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const fileRootPath = 'https://factory.demosite.name/api';
+  
+
   const [formData, setFormData] = useState({
     total_cost: '',
     valid_till: null,
@@ -58,6 +68,14 @@ const ConsumerQuotesList = ({ filter }) => {
     documents: [],
     payment_term: '',
   });
+
+  useEffect(() => {
+              if (token && currentViewedUser) {
+                dispatch(getUserInfo(token, currentViewedUser));
+              }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [currentViewedUser]);
+
   const [open, setOpen] = React.useState(false);
   const [viewLoading, setViewLoading] = React.useState(false);
   const [currentRfqData, setCurrentRfqData] = React.useState({});
@@ -149,7 +167,7 @@ const ConsumerQuotesList = ({ filter }) => {
       status: d.customer_status,
       accept_date: d.customer_accept_date,
       supplier_grade: d.supplier_grade,
-      supplier_uuid: d.supplier_uuid,
+      supplier_uuid:  <div style={{color: "#0000FF" , cursor: "pointer", textDecoration: "underline"}} onClick={() => { setCurrentViewedUser(d.supplier_id) ; setIsModalVisible(true)}}>{d.supplier_uuid}</div>,
       total_tax: d.total_tax,
       total_amount: d.total_amount,
       tax_category: taxCategoryData?.data?.filter((tax)=>tax.id === d.tax_category)[0]?.tax_name,
@@ -784,6 +802,13 @@ const ConsumerQuotesList = ({ filter }) => {
           }
         `}
       </style>
+      <SupplierPreviewModal
+              isModalVisible={isModalVisible}
+              setIsModalVisible={setIsModalVisible}
+              userDetail={userDetail}
+              fileRootPath={fileRootPath}
+              manufacturingProcess={manufacturingProcess}
+          />
     </div>
   );
 };

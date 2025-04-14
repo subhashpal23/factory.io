@@ -40,7 +40,7 @@ export const updateAccount = (rfq, token) => {
     };
 }
 
-export const getUserInfo = (token)=>{
+export const getUserInfo = (token, id)=>{
     return async (dispatch) =>{
         dispatch({type: 'FETCH_ACCOUNT_REQUEST'});
         try{
@@ -50,6 +50,7 @@ export const getUserInfo = (token)=>{
                     'Content-Type': 'application/json', 
                     'Authorization': `Bearer ${token}` 
                 },
+                body: JSON.stringify({"uid": id ?? null }), // Send the data as JSON
             });
             const data = await response.json();
             dispatch({ type: 'FETCH_ACCOUNT_SUCCESS', payload: data });

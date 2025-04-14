@@ -251,7 +251,7 @@ export const industriesType = [
       children: [
         { id: 1500, label: 'RFQ List', component: <AdminRfqList /> },
         { id: 1501, label: 'Assigned To Supplier', component: <AdminRfqList />, props: { filter: 'supplierAssigned' } },
-        { id: 1502, label: 'Assigned To Consumer', component: <AdminRfqList />, props: { filter: 'consumerAssigned' } },
+        // { id: 1502, label: 'Assigned To Consumer', component: <AdminRfqList />, props: { filter: 'consumerAssigned' } },
       ]
     },
     {id: 21,role_type: 'super_admin',label: 'Quote Management',iconLabel: <SolutionOutlined />, component: <></>,

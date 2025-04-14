@@ -5,6 +5,11 @@ import { getAdminRfqLists } from '../../../redux/actions/rfqAction';
 import { getAllSupplier, getAllConsumer } from '../../../redux/actions/allDataAction';
 import { assignRfqToSupplier, resetAssignRfqStatus } from '../../../redux/actions/assignRfqAction';
 import { CountryCodes } from '../../Registration/constants';
+import { getUserInfo } from '../../../redux/actions/userActions';
+import SupplierPreviewModal from '../../SupplierPreviewModal';
+// import {
+//   EyeOutlined, 
+// } from '@ant-design/icons';
 const { Search } = Input;
 const { confirm } = Modal;
 const { Option } = Select;
@@ -13,6 +18,7 @@ const { Text } = Typography;
 const AdminRfqList = ({ filter }) => {
   const dispatch = useDispatch();
   const { logindata } = useSelector((state) => state.auth);
+  const token = useSelector((state) => state.auth.logindata.token);
   const { adminRfqData } = useSelector((state) => state.rfq);
   const allSupplier = useSelector((state) => state.dataSet.allSupplier);
   const allConsumer = useSelector((state) => state.dataSet.allConsumer);
@@ -38,10 +44,22 @@ const AdminRfqList = ({ filter }) => {
   const [currentRfqCode, setCurrentRfqCode] = useState('');
   const [currentRfqId,setCurrentRfqId] = useState('');
   const [ filters, setFilters] = useState({})
-  
+  const [currentViewedUser, setCurrentViewedUser] = useState(null);
+
+  const userDetail = useSelector((state) => state.user.userDetail);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const fileRootPath = 'https://factory.demosite.name/api';
 
   let rfqList = adminRfqData && adminRfqData?.data ? adminRfqData.data : [];
-  console.log('@rfqList',rfqList)
+  //console.log('@rfqList',rfqList)
+  
+  useEffect(() => {
+          if (token && currentViewedUser) {
+            dispatch(getUserInfo(token, currentViewedUser));
+          }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentViewedUser]);
+
   useEffect(()=>{
     if(rfqAssignStatus){
       setTimeout(() => {
@@ -416,9 +434,17 @@ const AdminRfqList = ({ filter }) => {
               onChange={() => handleUserSelect(user.id)}
               style={{ marginRight: '10px' }}
             />
-            <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%', cursor: 'pointer', textDecoration: "underline"
+             }}  onClick={() => { setCurrentViewedUser(user.id) ; setIsModalVisible(true)}}>
               <span style={{ flex: '1' }}>{user.name}</span>
               <span style={{ flex: '1', textAlign: 'right' }}>{user.email}</span>
+             {/* <span style={{ flex: '1', textAlign: 'right' }}><Button
+                 type="primary"
+                onClick={handleAssignAndSave}
+                style={{padding: "2px 8px"}}
+              >
+             <EyeOutlined />
+            </Button></span> */}
             </div>
           </div>
         ))}
@@ -431,6 +457,13 @@ const AdminRfqList = ({ filter }) => {
           Assign and Save
         </Button>
       </Drawer>
+      <SupplierPreviewModal
+        isModalVisible={isModalVisible}
+        setIsModalVisible={setIsModalVisible}
+        userDetail={userDetail}
+        fileRootPath={fileRootPath}
+        manufacturingProcess={manufacturingProcess}
+    />
       <style>
         {`
           .table-row-light {
