@@ -149,47 +149,59 @@ const HomeConsumer = () => {
   return (
     <div>
       <h1 style={{marginBottom:"20px"}}> Rfq List</h1>
-      {/* <Search
-        placeholder="Search by Email or Contact"
-        onSearch={handleSearch}
-        style={{ marginBottom: 20 }}
-        value={searchValue}
-        onChange={(e) => handleSearch(e.target.value)}
-      /> */}
-       <Space style={{ marginBottom: 16, gap: 16 }}>
+      <Space style={{ marginBottom: 16, gap: 16, flexWrap: 'wrap'}}>
         <Search
           placeholder="Search by Email / Name / Contact"
-          onChange={(e)=> setSearchValue(e.target?.value)}
+          onChange={(e) => setSearchValue(e.target?.value)}
           style={{ width: 300 }}
           value={searchValue}
         />
-        <Select placeholder="--Manufacturing Process--"  style={{ minWidth: 200 }} onSelect={(value) => setFilters({ ...filters, manufacturingProcess: value })} value={filters?.manufacturingProcess} >
+        <Select
+          placeholder="--Manufacturing Process--"
+          style={{ minWidth: 200 }}
+          onSelect={(value) => setFilters({ ...filters, manufacturingProcess: value })}
+          value={filters?.manufacturingProcess}
+        >
           {manufacturingProcess.map((process) => (
-            <Option key={process.id} value={process.process_name} >{process.process_name}</Option>
+            <Option key={process.id} value={process.process_name}>
+              {process.process_name}
+            </Option>
           ))}
         </Select>
-        <Select placeholder="--Design Files--" style={{ minWidth: 100 }} onSelect={(value)=>setFilters({...filters, designFiles:value})} value={filters?.designFiles}>
+        <Select
+          placeholder="--Design Files--"
+          style={{ minWidth: 100 }}
+          onSelect={(value) => setFilters({ ...filters, designFiles: value })}
+          value={filters?.designFiles}
+        >
           <Option value="yes">Yes</Option>
           <Option value="no">No</Option>
         </Select>
         <Button
-            type="primary"
-            onClick={()=>{setSearchValue(""); setFilters({})}}
-            style={{ display: 'block', margin: '0 auto' }}
-          >
-            Reset
-          </Button>
+          type="primary"
+          onClick={() => {
+            setSearchValue('');
+            setFilters({});
+          }}
+          style={{ display: 'block', margin: '0 auto' }}
+        >
+          Reset
+        </Button>
       </Space>
-      <Table
-        columns={columns}
-        dataSource={filteredData}
-        pagination={pagination}
-        loading={loading}
-        onChange={handleTableChange}
-        rowClassName={(record, index) =>
-          index % 2 === 0 ? 'table-row-light' : 'table-row-dark'
-        }
-      />
+  
+      {/* Table responsive */}
+      <div style={{ overflowX: 'auto' }}>
+        <Table
+          columns={columns}
+          dataSource={filteredData}
+          pagination={pagination}
+          loading={loading}
+          onChange={handleTableChange}
+          rowClassName={(record, index) =>
+            index % 2 === 0 ? 'table-row-light' : 'table-row-dark'
+          }
+        />
+      </div>  
       <style>
         {`
           .table-row-light {

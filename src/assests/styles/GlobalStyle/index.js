@@ -42,10 +42,10 @@ const GlobalStyle = createGlobalStyle`
     }
     body {
     width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
+   // display: flex;
+   flex-direction: column;
+    //align-items: center;
+   // justify-content: flex-start;
     font-family: 'Roboto', sans-serif;
   }
   }

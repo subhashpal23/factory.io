@@ -322,7 +322,7 @@ const AdminRfqList = ({ filter }) => {
   return (
     <div>
       <h1 style={{ marginBottom: '20px' }}>Rfq List</h1>
-      <Space style={{ marginBottom: 16, gap: 16 }}>
+      <Space style={{ marginBottom: 16, gap: 16 ,flexWrap : 'wrap'}}>
         <Search
           placeholder="Search by RFQ Code/ Email / Name / Contact"
           onChange={(e)=> setSearchValue(e.target?.value)}
@@ -346,6 +346,7 @@ const AdminRfqList = ({ filter }) => {
             Reset
           </Button>
       </Space>
+      <div style={{ overflowX: 'auto' }}>
       <Table
         columns={columns}
         dataSource={filteredData}
@@ -356,6 +357,7 @@ const AdminRfqList = ({ filter }) => {
           index % 2 === 0 ? 'table-row-light' : 'table-row-dark'
         }
       />
+      </div>
       <Drawer
         title={drawerTitle}
         width={600}

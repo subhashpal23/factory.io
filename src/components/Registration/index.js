@@ -98,7 +98,10 @@ const RegistrationPage = ({user_type}) => {
       {/* Left Section */}
       <LeftSection>
         <h1>DigiFactory.ae</h1>
-        <p>Manufacturing is easy with DigiFactory.ae</p>
+        <p  style={{
+          marginBottom: "1rem",
+          marginTop: "0.5rem",
+        }}>Manufacturing is easy with DigiFactory.ae</p>
         <div>
           <Feature>
             <Icon>
@@ -399,11 +402,13 @@ const Feature = styled.div`
 `;
 
 const Icon = styled.span`
-  background-color: white;
   color: #1e3a8a;
   border-radius: 50%;
   padding: 0.75rem;
   margin-right: 1rem;
+   width: 60px;
+  height: 60px;
+  background: rgb(238, 242, 255);
 `;
 
 const RightSection = styled.div`

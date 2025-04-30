@@ -490,7 +490,7 @@ const [formData, setFormData] = useState({
       <h1 style={{ marginBottom: '20px' }}>Quote List</h1>
       <ViewQuoteModal currentRfqData={currentRfqData} open={open} setOpen={setOpen} viewLoading={viewLoading} setViewLoading={setViewLoading} productList={productList} isEdit={isEdit} isReview={isReview} refreshList={refreshList}/>
       {/* <ViewQuoteReviewModal currentRfqData={currentRfqData} open={open} setOpen={setOpen} viewLoading={viewLoading} setViewLoading={setViewLoading} productList={productList} isEdit={isEdit}/> */}
-      <Space style={{ marginBottom: 16, gap: 16 }}>
+      <Space style={{ marginBottom: 16, gap: 16 , flexWrap: 'wrap'}}>
         <Search
           placeholder="Search by RFQ Code/ Email / Name / Contact"
           onChange={(e)=> setSearchValue(e.target?.value)}
@@ -514,6 +514,7 @@ const [formData, setFormData] = useState({
             Reset
           </Button>
       </Space>
+      <div style={{ overflowX: 'auto' }}>
       <Table
         columns={columns}
         dataSource={filteredData}
@@ -524,6 +525,7 @@ const [formData, setFormData] = useState({
           index % 2 === 0 ? 'table-row-light' : 'table-row-dark'
         }
       />
+      </div>
       {/* <Drawer
         title={drawerTitle}
         width={500}

@@ -49,10 +49,10 @@ const SupplierPreviewModal = ({
             {userDetail?.industry && <Col span={8}><Text strong>Industry:</Text><br />{userDetail.industry}</Col>}
             {userDetail?.employeeCount && <Col span={8}><Text strong>Employee Count:</Text><br />{userDetail.employeeCount}</Col>}
             {userDetail?.address && <Col span={8}><Text strong>Location:</Text><br />{userDetail.address}</Col>}
-            {'iso_certification' in userDetail && (
+            {userDetail && 'iso_certification' in userDetail && (
               <Col span={8}><Text strong>ISO Certification:</Text><br />{userDetail.iso_certification === '1' ? 'Yes' : 'No'}</Col>
             )}
-            {'freezone' in userDetail && (
+            {userDetail && 'freezone' in userDetail && (
               <Col span={8}><Text strong>Freezone:</Text><br />{userDetail.freezone === '1' ? 'Yes' : 'No'}</Col>
             )}
           </Row>
