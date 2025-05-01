@@ -71,6 +71,7 @@ const SupplierPreviewModal = ({
             {userDetail?.past_project && <Col span={8}><Text strong>Past Project:</Text><br />{userDetail.past_project}</Col>}
             {userDetail?.anual_turnover && <Col span={8}><Text strong>Annual Turnover:</Text><br />{userDetail.anual_turnover}</Col>}
             {userDetail?.year_of_establishment && <Col span={8}><Text strong>Year of Establishment:</Text><br />{userDetail.year_of_establishment}</Col>}
+            {userDetail?.country && <Col span={8}><Text strong>Country:</Text><br />{userDetail.country}</Col>}
           </Row>
 
           <Divider orientation="left" style={{ margin: '2px 0', fontSize: '16px' }}>Operations</Divider>
