@@ -199,310 +199,262 @@ const SupplierAccount = () => {
  //console.log("@@manufacturingProcess", manufacturingProcess);
   return (
     <>
-    <div style={{ maxWidth: "1200px", background: "#fff", borderRadius: 8, padding: 24 }}>
-          <h1 style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px' }}>
-        Factory Profile
-        <Button
-          type="primary"
-          icon={<EyeOutlined />}
-          onClick={() => setIsModalVisible(true)}
-        >
-          Preview
-        </Button>
-      </h1>
-      <Form layout="vertical" onFinish={onFinish} form={form} >
-      <Row gutter={16}>
-      <Col span={12}>
-        <Form.Item name="company_logo" label="Company Logo" valuePropName="file">
-            <Upload {...props("company_logo")} showUploadList={true}>
-              <Button icon={<UploadOutlined />}>Upload Logo</Button>
-            </Upload>
-            {formData?.company_logo && <FilePreview filePath={formData?.company_logo} fileRootPath={fileRootPath} />}
-        </Form.Item>
-      </Col>
-      <Col span={12}>
-        <Form.Item name="company_portflio" label="Company Portfolio" valuePropName="file">
-            <Upload {...props("company_portflio")} showUploadList={true}>
-              <Button icon={<UploadOutlined />}>Upload Logo</Button>
-            </Upload>
-            {formData?.company_portflio && <FilePreview filePath={formData?.company_portflio} fileRootPath={fileRootPath} />}
-        </Form.Item>
-      </Col>
-      <Col span={12}>
-      <Form.Item name="certificate" label="Certificate" valuePropName="file"> 
-        <Upload {...props("certificate")} showUploadList={true}>
-          <Button icon={<UploadOutlined />}>Upload Certificate</Button>
-          {formData?.certificate && <FilePreview filePath={formData?.certificate} fileRootPath={fileRootPath} />}
-        </Upload>
-      </Form.Item>
-      </Col>
-      <Col span={12}>
-
-      {/* <Form.Item name="iec_code" label="Import Export Code (IEC)" rules={[{ required: true, message: "Please enter IEC code" }]}> 
-      <Input placeholder="Enter IEC code" />
-      </Form.Item> */}
-
-      <Form.Item
-      name="import_export_document"
-      label="Import/Export Documents"
-      //rules={[{ required: true, message: "Please upload a document" }]}
-      valuePropName="file"
-      >
-      <Upload {...props('import_export_document')} showUploadList={true} >
-      <Button icon={<UploadOutlined />}>Upload Document</Button>
-      </Upload>
-      {formData?.import_export_document && <FilePreview filePath={formData?.import_export_document} fileRootPath={fileRootPath} />}
-      {/* {formData?.files} */}
-      </Form.Item>
-      </Col>
-      <Col span={8}>
-
-        {/* ISO Certification */}
-        <Form.Item
-          name="iso_certification"
-          label="ISO Certification"
-          rules={[{ required: true, message: "Please select an option" }]}
-        >
-          <Select placeholder="Select">
-            <Option value="1">Yes</Option>
-            <Option value="0">No</Option>
-          </Select>
-        </Form.Item>
-      </Col>
-
-      <Col span={8}>
-        <Form.Item name="company" label="Company" rules={[{ required: true, message: "Please enter company name" }]}> 
-            <Input placeholder="Enter company name" />
-        </Form.Item>
-      </Col>
-
-      <Col span={8}>
-        <Form.Item name="company_type" label="Company Type" rules={[{ required: true, message: "Please enter company type" }]}> 
-            <Input placeholder="Enter company type" />
-        </Form.Item>
-      </Col>
-
-      <Col span={8}>
-        <Form.Item name="company_website" label="Company Website"> 
-          <Input placeholder="Enter website URL" />
-        </Form.Item>
-      </Col>
-
-      <Col span={8}>
-        <Form.Item name="year_of_establishment" label="Year of Establishment" rules={[{ required: true, message: "Please enter year" }]}> 
-          <Input type="number" placeholder="Enter year" />
-        </Form.Item>
-      </Col>
-
-      <Col span={8}>
-        {/* Number of Employees */}
-        <Form.Item
-          name="employeeCount"
-          label="Number of Employees"
-          rules={[{ required: true, message: "Please enter employee count" }]}
-        >
-          <Input type="number" placeholder="Enter the total number of employees"  />
-        </Form.Item>
-      </Col>
-
-        <Col span={8}>
-        <Form.Item name="anual_turnover" label="Annual Turnover" rules={[{ required: true, message: "Please enter annual turnover" }]}> 
-          <Input placeholder="Enter turnover" />
-        </Form.Item>
-        </Col>
-        
-        <Col span={8}>
-
-        <Form.Item name="address" label="Address" rules={[{ required: true, message: "Please enter address" }]}> 
-          <Input placeholder="Enter address" />
-        </Form.Item>
-        </Col>
-        <Col span={8}>
-        <Form.Item name="contact" label="Contact" rules={[{ required: true, message: "Please enter contact" }]}> 
-          <Input placeholder="Enter contact details" />
-        </Form.Item>
-        </Col>
-        <Col span={8}>
-
-        <Form.Item name="gst_no" label="GST No" rules={[{ required: true, message: "Please enter GST number" }]}> 
-          <Input placeholder="Enter GST number" />
-        </Form.Item>
-        </Col>
-       
-        <Col span={8}>
-
-        <Form.Item name="urn" label="Udhyam Registration No (URN)" rules={[{ required: true, message: "Please enter URN" }]}> 
-          <Input placeholder="Enter URN" />
-        </Form.Item>
-        </Col>
-        <Col span={8}>
-
-        <Form.Item name="industry" label="Industry" rules={[{ required: true, message: "Please select an industry" }]}> 
-          <Select placeholder="Select industry">
-              <option value="">Select industry</option>
-                {industriesType.map((type, index) => (
-                  <option key={index} value={type}>{type}</option>
-                ))}
-          </Select>
-        </Form.Item>
-        </Col>
-        <Col span={8}>
-        <Form.Item
-          name="freezone"
-          label="Freezone"
-          rules={[{ required: true, message: "Please select an option" }]}
-        >
-          <Select placeholder="Select">
-            <Option value="1">Yes</Option>
-            <Option value="0">No</Option>
-          </Select>
-        </Form.Item>
-        </Col>
-        <Col span={8}>
-
-        <Form.Item name="key_customers" label="Key Customers"> 
-          <Input.TextArea placeholder="Enter key customers" rows={3} />
-        </Form.Item>
-        </Col>
-        <Col span={8}>
-
-        <Form.Item name="past_project" label="Past Projects"> 
-          <Input.TextArea placeholder="Describe past projects" rows={3} />
-        </Form.Item>
-        </Col>
-
-        {/* Facilities Available */}
-        {/* <Form.Item
-          name="facilities"
-          label="Facilities Available"
-          rules={[{ required: true, message: "Please describe your facilities" }]}
-        >
-          <Input.TextArea placeholder="Describe the facilities your company offers" rows={3} />
-        </Form.Item> */}
-
-      <Col span={8}>
-        <Form.Item name="about_us" label="About Us"> 
-          <Input.TextArea placeholder="Tell us about yourself" rows={3} />
-        </Form.Item>
-      </Col>
-      <Col span={8}>
-        <Form.Item
-          name="services"
-          label="Services Available"
-          //rules={[{ required: true, message: "Please describe your Services" }]}
-        >
-          <Select placeholder="Select Services" mode='multiple'>
-              <Option value="Manufacturing Processes">Manufacturing Processes</Option>
-              <Option value="Material Capabilities">Material Capabilities</Option>
-              <Option value="Finishing Capabilities">Finishing Capabilities</Option>
-              <Option value="Design Services">Design Services</Option>
-          </Select>
-        </Form.Item>  
-        </Col>      
-        <Col span={8}>
-        
-                <Form.Item
-                  label="Manufacturing Available"
-                  name="manufacturing_process"
-                  rules={[{ required: true, message: 'Manufacturing process is required!' }]}
-                >
-                  <Select placeholder="--Please choose an option--" mode= 'multiple'>
-                    {manufacturingProcess.map((process) => (
-                      <Option key={process.id} value={process.id}>{process.process_name}</Option>
-                    ))}
-                  </Select>
-        </Form.Item>
-        </Col>
-        {/* Location */}
-        {/* <Form.Item
-          name="location"
-          label="Company Location"
-          rules={[{ required: true, message: "Please enter your company location" }]}
-        >
-          <Input placeholder="Enter your company location" />
-        </Form.Item> */}
-
-      
-
-        {/* Submit Button */}
-        <Col span={8} style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '20px' }}>
-        <Form.Item>
-          <Button type="primary" htmlType="submit" loading={loading}>
-            Update Account
+      <div style={{ maxWidth: "1200px", background: "#fff", borderRadius: 8, padding: 24, margin: "0 auto" }}>
+        <h1 style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px', flexWrap: 'wrap' }}>
+          Factory Profile
+          <Button
+            type="primary"
+            icon={<EyeOutlined />}
+            onClick={() => setIsModalVisible(true)}
+            style={{ marginTop: '10px' }}
+          >
+            Preview
           </Button>
-        </Form.Item>
-        </Col>
-        </Row>
-      </Form>
-    </div>
-    
-    <Modal
-  title={<Title level={4} style={{ margin: 0 }}>Factory Profile</Title>}
-  open={isModalVisible}
-  onCancel={() => setIsModalVisible(false)}
-  footer={null}
-  width={1000}
-  height={680}
-  bodyStyle={{ padding: '5px' }}
-  centered
->
-  <Form layout="vertical">
-    <Space direction="vertical" size="middle" style={{ width: '100%' }}>
-      <Divider orientation="left" style={{ margin: '2px 0', fontSize: '16px' }}>Documents & Media</Divider>
-      <Row gutter={[16, 16]}>
-        <Col span={6}><Text strong>Company Logo:</Text><br />{userDetail?.company_logo && <FilePreview filePath={userDetail?.company_logo} fileRootPath={fileRootPath} />}</Col>
-        <Col span={6}><Text strong>Company Portfolio:</Text><br />{userDetail?.company_portflio && <FilePreview filePath={userDetail?.company_portflio} fileRootPath={fileRootPath} />}</Col>
-        <Col span={6}><Text strong>Certificate:</Text><br />{userDetail?.certificate && <FilePreview filePath={userDetail?.certificate} fileRootPath={fileRootPath} />}</Col>
-        <Col span={6}><Text strong>Import/Export Documents:</Text><br />{userDetail?.import_export_document && <FilePreview filePath={userDetail?.import_export_document} fileRootPath={fileRootPath} />}</Col>
-      </Row>
-      <Divider orientation="left" style={{ margin: '2px 0', fontSize: '16px' }}>Basic Details</Divider>
-      <Row gutter={[16, 16]}>
-        <Col span={8}><Text strong>Company:</Text><br />{userDetail?.company}</Col>
-        <Col span={8}><Text strong>Address:</Text><br />{userDetail?.address}</Col>
-        <Col span={8}><Text strong>Contact:</Text><br />{userDetail?.contact}</Col>
-        <Col span={8}><Text strong>GST No:</Text><br />{userDetail?.gst_no}</Col>
-        <Col span={8}><Text strong>Industry:</Text><br />{userDetail?.industry}</Col>
-        <Col span={8}><Text strong>Employee Count:</Text><br />{userDetail?.employeeCount}</Col>
-        {/* <Col span={8}><Text strong>Facilities:</Text><br />{userDetail?.facilities}</Col> */}
-        <Col span={8}><Text strong>Location:</Text><br />{userDetail?.address}</Col>
-        <Col span={8}><Text strong>ISO Certification:</Text><br />{userDetail?.iso_certification === '1' ? 'Yes' : 'No'}</Col>
-        <Col span={8}><Text strong>Freezone:</Text><br />{userDetail?.freezone ==="1" ? 'Yes' : 'No'}</Col>
-      </Row>
-      <Divider orientation="left" style={{ margin: '2px 0', fontSize: '16px' }}>Additional Info</Divider>
-      <Row gutter={[16, 16]}>
-        <Col span={8}><Text strong>URN:</Text><br />{userDetail?.urn}</Col>
-        <Col span={8}><Text strong>Company Website:</Text><br /><a href={userDetail?.company_website} target="_blank">{userDetail?.company_website}</a></Col>
-        <Col span={8}><Text strong>Company Type:</Text><br />{userDetail?.company_type}</Col>
-        <Col span={8}><Text strong>About Us:</Text><br />{userDetail?.about_us}</Col>
-        <Col span={8}><Text strong>Key Customers:</Text><br />{userDetail?.key_customers}</Col>
-        <Col span={8}><Text strong>Past Project:</Text><br />{userDetail?.past_project}</Col>
-        <Col span={8}><Text strong>Annual Turnover:</Text><br />{userDetail?.anual_turnover}</Col>
-        <Col span={8}><Text strong>Year of Establishment:</Text><br />{userDetail?.year_of_establishment}</Col>
-        {/* <Col span={8}><Text strong>IEC Code:</Text><br />{userDetail?.iec_code}</Col> */}
-      </Row>
+        </h1>
+        <Form layout="vertical" onFinish={onFinish} form={form}>
+          <Row gutter={[16, 16]}>
+            <Col xs={24} sm={12} md={12} lg={12}>
+              <Form.Item name="company_logo" label="Company Logo" valuePropName="file">
+                <Upload {...props("company_logo")} showUploadList={true}>
+                  <Button icon={<UploadOutlined />}>Upload Logo</Button>
+                </Upload>
+                {formData?.company_logo && <FilePreview filePath={formData?.company_logo} fileRootPath={fileRootPath} />}
+              </Form.Item>
+            </Col>
+            <Col xs={24} sm={12} md={12} lg={12}>
+              <Form.Item name="company_portflio" label="Company Portfolio" valuePropName="file">
+                <Upload {...props("company_portflio")} showUploadList={true}>
+                  <Button icon={<UploadOutlined />}>Upload Logo</Button>
+                </Upload>
+                {formData?.company_portflio && <FilePreview filePath={formData?.company_portflio} fileRootPath={fileRootPath} />}
+              </Form.Item>
+            </Col>
+            <Col xs={24} sm={12} md={12} lg={12}>
+              <Form.Item name="certificate" label="Certificate" valuePropName="file">
+                <Upload {...props("certificate")} showUploadList={true}>
+                  <Button icon={<UploadOutlined />}>Upload Certificate</Button>
+                  {formData?.certificate && <FilePreview filePath={formData?.certificate} fileRootPath={fileRootPath} />}
+                </Upload>
+              </Form.Item>
+            </Col>
+            <Col xs={24} sm={12} md={12} lg={12}>
+              <Form.Item
+                name="import_export_document"
+                label="Import/Export Documents"
+                valuePropName="file"
+              >
+                <Upload {...props('import_export_document')} showUploadList={true}>
+                  <Button icon={<UploadOutlined />}>Upload Document</Button>
+                </Upload>
+                {formData?.import_export_document && <FilePreview filePath={formData?.import_export_document} fileRootPath={fileRootPath} />}
+              </Form.Item>
+            </Col>
+            <Col xs={24} sm={12} md={8} lg={8}>
+              <Form.Item
+                name="iso_certification"
+                label="ISO Certification"
+                rules={[{ required: true, message: "Please select an option" }]}
+              >
+                <Select placeholder="Select">
+                  <Option value="1">Yes</Option>
+                  <Option value="0">No</Option>
+                </Select>
+              </Form.Item>
+            </Col>
+            <Col xs={24} sm={12} md={8} lg={8}>
+              <Form.Item name="company" label="Company" rules={[{ required: true, message: "Please enter company name" }]}>
+                <Input placeholder="Enter company name" />
+              </Form.Item>
+            </Col>
+            <Col xs={24} sm={12} md={8} lg={8}>
+              <Form.Item name="company_type" label="Company Type" rules={[{ required: true, message: "Please enter company type" }]}>
+                <Input placeholder="Enter company type" />
+              </Form.Item>
+            </Col>
+            <Col xs={24} sm={12} md={8} lg={8}>
+              <Form.Item name="company_website" label="Company Website">
+                <Input placeholder="Enter website URL" />
+              </Form.Item>
+            </Col>
+            <Col xs={24} sm={12} md={8} lg={8}>
+              <Form.Item name="year_of_establishment" label="Year of Establishment" rules={[{ required: true, message: "Please enter year" }]}>
+                <Input type="number" placeholder="Enter year" />
+              </Form.Item>
+            </Col>
+            <Col xs={24} sm={12} md={8} lg={8}>
+              <Form.Item
+                name="employeeCount"
+                label="Number of Employees"
+                rules={[{ required: true, message: "Please enter employee count" }]}
+              >
+                <Input type="number" placeholder="Enter the total number of employees" />
+              </Form.Item>
+            </Col>
+            <Col xs={24} sm={12} md={8} lg={8}>
+              <Form.Item name="anual_turnover" label="Annual Turnover" rules={[{ required: true, message: "Please enter annual turnover" }]}>
+                <Input placeholder="Enter turnover" />
+              </Form.Item>
+            </Col>
+            <Col xs={24} sm={12} md={8} lg={8}>
+              <Form.Item name="address" label="Address" rules={[{ required: true, message: "Please enter address" }]}>
+                <Input placeholder="Enter address" />
+              </Form.Item>
+            </Col>
+            <Col xs={24} sm={12} md={8} lg={8}>
+              <Form.Item name="contact" label="Contact" rules={[{ required: true, message: "Please enter contact" }]}>
+                <Input placeholder="Enter contact details" />
+              </Form.Item>
+            </Col>
+            <Col xs={24} sm={12} md={8} lg={8}>
+              <Form.Item name="gst_no" label="GST No" rules={[{ required: true, message: "Please enter GST number" }]}>
+                <Input placeholder="Enter GST number" />
+              </Form.Item>
+            </Col>
+            <Col xs={24} sm={12} md={8} lg={8}>
+              <Form.Item name="urn" label="Udhyam Registration No (URN)" rules={[{ required: true, message: "Please enter URN" }]}>
+                <Input placeholder="Enter URN" />
+              </Form.Item>
+            </Col>
+            <Col xs={24} sm={12} md={8} lg={8}>
+              <Form.Item name="industry" label="Industry" rules={[{ required: true, message: "Please select an industry" }]}>
+                <Select placeholder="Select industry">
+                  <option value="">Select industry</option>
+                  {industriesType.map((type, index) => (
+                    <option key={index} value={type}>{type}</option>
+                  ))}
+                </Select>
+              </Form.Item>
+            </Col>
+            <Col xs={24} sm={12} md={8} lg={8}>
+              <Form.Item
+                name="freezone"
+                label="Freezone"
+                rules={[{ required: true, message: "Please select an option" }]}
+              >
+                <Select placeholder="Select">
+                  <Option value="1">Yes</Option>
+                  <Option value="0">No</Option>
+                </Select>
+              </Form.Item>
+            </Col>
+            <Col xs={24} sm={12} md={8} lg={8}>
+              <Form.Item name="key_customers" label="Key Customers">
+                <Input.TextArea placeholder="Enter key customers" rows={3} />
+              </Form.Item>
+            </Col>
+            <Col xs={24} sm={12} md={8} lg={8}>
+              <Form.Item name="past_project" label="Past Projects">
+                <Input.TextArea placeholder="Describe past projects" rows={3} />
+              </Form.Item>
+            </Col>
+            <Col xs={24} sm={12} md={8} lg={8}>
+              <Form.Item name="about_us" label="About Us">
+                <Input.TextArea placeholder="Tell us about yourself" rows={3} />
+              </Form.Item>
+            </Col>
+            <Col xs={24} sm={12} md={8} lg={8}>
+              <Form.Item
+                name="services"
+                label="Services Available"
+              >
+                <Select placeholder="Select Services" mode='multiple'>
+                  <Option value="Manufacturing Processes">Manufacturing Processes</Option>
+                  <Option value="Material Capabilities">Material Capabilities</Option>
+                  <Option value="Finishing Capabilities">Finishing Capabilities</Option>
+                  <Option value="Design Services">Design Services</Option>
+                </Select>
+              </Form.Item>
+            </Col>
+            <Col xs={24} sm={12} md={8} lg={8}>
+              <Form.Item
+                label="Manufacturing Available"
+                name="manufacturing_process"
+                rules={[{ required: true, message: 'Manufacturing process is required!' }]}
+              >
+                <Select placeholder="--Please choose an option--" mode='multiple'>
+                  {manufacturingProcess.map((process) => (
+                    <Option key={process.id} value={process.id}>{process.process_name}</Option>
+                  ))}
+                </Select>
+              </Form.Item>
+            </Col>
+            <Col xs={24} style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '20px' }}>
+              <Form.Item>
+                <Button type="primary" htmlType="submit" loading={loading}>
+                  Update Account
+                </Button>
+              </Form.Item>
+            </Col>
+          </Row>
+        </Form>
+      </div>
 
-      <Divider orientation="left" style={{ margin: '2px 0', fontSize: '16px' }}>Operations</Divider>
-      <Row gutter={[16, 16]}>
-        <Col span={8}><Text strong>Manufacturing Process:</Text><br />{(userDetail?.manufacturing_process || '')
-            .split(',')
-            .map(id => manufacturingProcess.find(p => p.id === id)?.process_name)
-            .filter(Boolean)
-            .map(name => <Tag key={name}>{name}</Tag>)
-          }</Col> 
-        <Col span={8}>
-        <Text strong>Services:</Text><br />
-        {(userDetail?.services || '')
-          .split(',')
-          .map(service => service.trim())
-          .filter(Boolean)
-          .map(service => <Tag key={service}>{service}</Tag>)
-        }
-      </Col>
-      </Row>
-    </Space>
-  </Form>
-</Modal>
-  </>
+      <Modal
+        title={<Title level={4} style={{ margin: 0 }}>Factory Profile</Title>}
+        open={isModalVisible}
+        onCancel={() => setIsModalVisible(false)}
+        footer={null}
+        width="90%"
+        bodyStyle={{ padding: '5px' }}
+        centered
+      >
+        <Form layout="vertical">
+          <Space direction="vertical" size="middle" style={{ width: '100%' }}>
+            <Divider orientation="left" style={{ margin: '2px 0', fontSize: '16px' }}>Documents & Media</Divider>
+            <Row gutter={[16, 16]}>
+              <Col xs={24} sm={12} md={6}><Text strong>Company Logo:</Text><br />{userDetail?.company_logo && <FilePreview filePath={userDetail?.company_logo} fileRootPath={fileRootPath} />}</Col>
+              <Col xs={24} sm={12} md={6}><Text strong>Company Portfolio:</Text><br />{userDetail?.company_portflio && <FilePreview filePath={userDetail?.company_portflio} fileRootPath={fileRootPath} />}</Col>
+              <Col xs={24} sm={12} md={6}><Text strong>Certificate:</Text><br />{userDetail?.certificate && <FilePreview filePath={userDetail?.certificate} fileRootPath={fileRootPath} />}</Col>
+              <Col xs={24} sm={12} md={6}><Text strong>Import/Export Documents:</Text><br />{userDetail?.import_export_document && <FilePreview filePath={userDetail?.import_export_document} fileRootPath={fileRootPath} />}</Col>
+            </Row>
+            <Divider orientation="left" style={{ margin: '2px 0', fontSize: '16px' }}>Basic Details</Divider>
+            <Row gutter={[16, 16]}>
+              <Col xs={24} sm={12} md={8}><Text strong>Company:</Text><br />{userDetail?.company}</Col>
+              <Col xs={24} sm={12} md={8}><Text strong>Address:</Text><br />{userDetail?.address}</Col>
+              <Col xs={24} sm={12} md={8}><Text strong>Contact:</Text><br />{userDetail?.contact}</Col>
+              <Col xs={24} sm={12} md={8}><Text strong>GST No:</Text><br />{userDetail?.gst_no}</Col>
+              <Col xs={24} sm={12} md={8}><Text strong>Industry:</Text><br />{userDetail?.industry}</Col>
+              <Col xs={24} sm={12} md={8}><Text strong>Employee Count:</Text><br />{userDetail?.employeeCount}</Col>
+              <Col xs={24} sm={12} md={8}><Text strong>Location:</Text><br />{userDetail?.address}</Col>
+              <Col xs={24} sm={12} md={8}><Text strong>ISO Certification:</Text><br />{userDetail?.iso_certification === '1' ? 'Yes' : 'No'}</Col>
+              <Col xs={24} sm={12} md={8}><Text strong>Freezone:</Text><br />{userDetail?.freezone === "1" ? 'Yes' : 'No'}</Col>
+            </Row>
+            <Divider orientation="left" style={{ margin: '2px 0', fontSize: '16px' }}>Additional Info</Divider>
+            <Row gutter={[16, 16]}>
+              <Col xs={24} sm={12} md={8}><Text strong>URN:</Text><br />{userDetail?.urn}</Col>
+              <Col xs={24} sm={12} md={8}><Text strong>Company Website:</Text><br /><a href={userDetail?.company_website} target="_blank">{userDetail?.company_website}</a></Col>
+              <Col xs={24} sm={12} md={8}><Text strong>Company Type:</Text><br />{userDetail?.company_type}</Col>
+              <Col xs={24} sm={12} md={8}><Text strong>About Us:</Text><br />{userDetail?.about_us}</Col>
+              <Col xs={24} sm={12} md={8}><Text strong>Key Customers:</Text><br />{userDetail?.key_customers}</Col>
+              <Col xs={24} sm={12} md={8}><Text strong>Past Project:</Text><br />{userDetail?.past_project}</Col>
+              <Col xs={24} sm={12} md={8}><Text strong>Annual Turnover:</Text><br />{userDetail?.anual_turnover}</Col>
+              <Col xs={24} sm={12} md={8}><Text strong>Year of Establishment:</Text><br />{userDetail?.year_of_establishment}</Col>
+            </Row>
+            <Divider orientation="left" style={{ margin: '2px 0', fontSize: '16px' }}>Operations</Divider>
+            <Row gutter={[16, 16]}>
+              <Col xs={24} sm={12} md={8}>
+                <Text strong>Manufacturing Process:</Text><br />
+                {(userDetail?.manufacturing_process || '')
+                  .split(',')
+                  .map(id => manufacturingProcess.find(p => p.id === id)?.process_name)
+                  .filter(Boolean)
+                  .map(name => <Tag key={name}>{name}</Tag>)
+                }
+              </Col>
+              <Col xs={24} sm={12} md={8}>
+                <Text strong>Services:</Text><br />
+                {(userDetail?.services || '')
+                  .split(',')
+                  .map(service => service.trim())
+                  .filter(Boolean)
+                  .map(service => <Tag key={service}>{service}</Tag>)
+                }
+              </Col>
+            </Row>
+          </Space>
+        </Form>
+      </Modal>
+    </>
   );
 };
 

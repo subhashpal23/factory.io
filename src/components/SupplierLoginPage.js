@@ -133,17 +133,44 @@ const LoginButton = styled.button`
 `;
 
 const ForgotPassword = styled.a`
-  color: #10b981;
+   color: #2563eb;
   font-size: 0.875rem;
   text-decoration: underline;
 `;
 
 const SignUpLink = styled.a`
-  color: #10b981;
+ color: #2563eb;
   font-size: 0.875rem;
   text-decoration: underline;
   cursor: pointer;
 `;
+const FormWrapper = styled.div`
+  width: 75%;
+  max-width: 28rem;
+`;
+const InputField = styled.div`
+  margin-bottom: 1rem;
+
+  label {
+    display: block;
+    font-weight: 500;
+    color: #4b5563;
+    margin-bottom: 0.5rem;
+  }
+
+  input {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+    outline: none;
+    &:focus {
+      border-color: #2563eb;
+      box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+    }
+  }
+`;
+
 
 const SupplierLoginPage = () => {
   const [appLoading, setAppLoading] = useState(false);
@@ -212,11 +239,33 @@ const SupplierLoginPage = () => {
       <RightSection>
         {appLoading && <CustomSpinner tip="Loading..." />}
         {!appLoading && (
-          <Card>
-            <SubHeading>Login</SubHeading>
-            <Description>Welcome back!</Description>
+          <FormWrapper>
+             <p style={{fontSize:'24px',color:"#333333", marginBottom:"18px"}}>Log In</p>
+             <p style={{fontSize:'14px',color:"#333333", marginBottom:"18px"}}>Welcome back!</p>
             <form>
-              <InputWrapper>
+            <InputField>
+                <label style={{fontSize:"14px", color:"#374151" ,fontWeight:"semibold"}}>Email</label>
+                <input
+                  type="email"
+                  placeholder="Enter your email"
+                  style={{
+                    padding: '0.75rem',
+                    borderRadius: '5px',
+                    border: '1px solid #1A3E8A',
+                    fontSize: '13px',
+                    backgroundColor: '#f9fafb',
+                    color: '#333',
+                    height: '38px',
+                  }}
+                  onChange={(e) =>
+                    setUserCreds((prevState) => ({
+                      ...prevState,
+                      email: e.target.value,
+                    }))
+                  }
+                />
+              </InputField>
+              {/* <InputWrapper>
                 <Label htmlFor="email">Email ID *</Label>
                 <Input 
                 type="email" 
@@ -229,8 +278,8 @@ const SupplierLoginPage = () => {
                   }))
                 }
                 />
-              </InputWrapper>
-              <InputWrapper>
+              </InputWrapper> */}
+              {/* <InputWrapper>
                 <Label htmlFor="password">Password *</Label>
                 <div style={{ position: 'relative' }}>
                   <Input
@@ -259,13 +308,40 @@ const SupplierLoginPage = () => {
                     👁️
                   </button>
                 </div>
-              </InputWrapper>
+              </InputWrapper> */}
+
+              <InputField>
+                <label style={{fontSize:"14px", color:"#374151" ,fontWeight:"bold"}}>Password</label>
+                <div className="relative">
+                  <input
+                    type="password"
+                    placeholder="Enter your password"
+                    style={{
+                      padding: '0.75rem',
+                      borderRadius: '5px',
+                      border: '1px solid #1A3E8A',
+                      fontSize: '13px',
+                      backgroundColor: '#f9fafb',
+                      color: '#333',
+                      height: '38px',
+                      marginBottom: "8px"
+                    }}
+                    onChange={(e) =>
+                      setUserCreds((prevState) => ({
+                        ...prevState,
+                        password: e.target.value,
+                      }))
+                    }
+                  />
+                  {/* <ShowButton>Show</ShowButton> */}
+                </div>
+              </InputField>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px'}}>
                 <label style={{ display: 'flex', alignItems: 'center', color: '#4b5563', fontSize: '14px' }}>
                   <input type="checkbox" style={{ marginRight: '0.5rem' }} />
                   Remember me
                 </label>
-                <ForgotPassword href="/forgot-password">Forgot password?</ForgotPassword>
+                <ForgotPassword href="/forgot-password">  <span style={{fontSize:'13px'}}>Forgot password?</span></ForgotPassword>
               </div>
               <LoginButton
                 type="submit"
@@ -274,10 +350,10 @@ const SupplierLoginPage = () => {
               </LoginButton>
             </form>
             <p style={{ textAlign: 'center', color: '#6b7280', marginTop: '1rem' }} onClick={() => navigate('/supplier-registration')}>
-              Don’t have an account?{" "}
+            <span style={{fontSize:"13px"}}>Don’t have an account?{' '}</span>
               <SignUpLink>Sign Up</SignUpLink>
             </p>
-          </Card>
+          </FormWrapper>
         )}
       </RightSection>
     </Container>

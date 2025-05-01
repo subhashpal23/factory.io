@@ -213,9 +213,6 @@ const SpinnerWrapper = styled.div`
 const FormWrapper = styled.div`
   width: 75%;
   max-width: 28rem;
-  @media (max-width: 768px) {
-    width: 100%;
-  }
 `;
 
 const InputField = styled.div`

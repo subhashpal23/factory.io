@@ -371,7 +371,7 @@ const RfqReceived = ({ filter }) => {
         <Search
           placeholder="Search by RFQ Code/ Email / Name / Contact"
           onChange={(e)=> setSearchValue(e.target?.value)}
-          style={{ width: 300 }}
+          style={{ width: 270 }}
           value={searchValue}
         />
         <Select placeholder="--Manufacturing Process--"  style={{ minWidth: 200 }} onSelect={(value) => setFilters({ ...filters, manufacturingProcess: value })} value={filters?.manufacturingProcess} >
