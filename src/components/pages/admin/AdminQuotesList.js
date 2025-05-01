@@ -494,7 +494,7 @@ const [formData, setFormData] = useState({
         <Search
           placeholder="Search by RFQ Code/ Email / Name / Contact"
           onChange={(e)=> setSearchValue(e.target?.value)}
-          style={{ width: 300 }}
+          style={{ width: 275 }}
           value={searchValue}
         />
         {/* <Select placeholder="--Manufacturing Process--"  style={{ minWidth: 200 }} onSelect={(value) => setFilters({ ...filters, manufacturingProcess: value })} value={filters?.manufacturingProcess} >
@@ -524,6 +524,7 @@ const [formData, setFormData] = useState({
         rowClassName={(record, index) =>
           index % 2 === 0 ? 'table-row-light' : 'table-row-dark'
         }
+        scroll={{ x: 'max-content' }}
       />
       </div>
       {/* <Drawer
