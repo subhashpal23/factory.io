@@ -218,6 +218,7 @@ const POList = () => {
             Reset
           </Button>
       </Space> */}
+        <div style={{ overflowX: 'auto' }}>
       <Table
         columns={columns}
         dataSource={filteredData}
@@ -228,6 +229,7 @@ const POList = () => {
           index % 2 === 0 ? 'table-row-light' : 'table-row-dark'
         }
       />
+      </div>
       <style>
         {`
           .table-row-light {

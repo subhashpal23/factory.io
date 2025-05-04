@@ -355,11 +355,11 @@ const [formData, setFormData] = useState({
     <div>
       <h1 style={{ marginBottom: '20px' }}>Quote List</h1>
       <ViewQuoteModal currentRfqData={currentRfqData} open={open} setOpen={setOpen} viewLoading={viewLoading} setViewLoading={setViewLoading} productList={productList}/>
-      <Space style={{ marginBottom: 16, gap: 16 }}>
+      <Space style={{ marginBottom: 16, gap: 16 , flexWrap: 'wrap'}}>
         <Search
           placeholder="Search by RFQ Code/ Email / Name / Contact"
           onChange={(e)=> setSearchValue(e.target?.value)}
-          style={{ width: 300 }}
+          style={{ width: 270 }}
           value={searchValue}
         />
         {/* <Select placeholder="--Manufacturing Process--"  style={{ minWidth: 200 }} onSelect={(value) => setFilters({ ...filters, manufacturingProcess: value })} value={filters?.manufacturingProcess} >
@@ -379,6 +379,7 @@ const [formData, setFormData] = useState({
             Reset
           </Button>
       </Space>
+      <div style={{ overflowX: 'auto' }}>
       <Table
         columns={columns}
         dataSource={filteredData}
@@ -389,6 +390,7 @@ const [formData, setFormData] = useState({
           index % 2 === 0 ? 'table-row-light' : 'table-row-dark'
         }
       />
+      </div>
       {/* <Drawer
         title={drawerTitle}
         width={500}

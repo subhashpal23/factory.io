@@ -144,13 +144,13 @@ const CreateRFQ = () => {
 
   return (
     <>
-      <h1 style={{ padding: "20px 250px" }}>Create RFQ</h1>
+      <h1 style={{ padding: "20px 10%" }}>Create RFQ</h1>
       <Form
         form={form}
         layout="vertical"
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
-        style={{ padding: "50px 250px" }}
+        style={{ padding: "20px 10%" }}
         initialValues={{
           name: userDetail?.name,
           email: userDetail?.email,
@@ -163,8 +163,6 @@ const CreateRFQ = () => {
           label="Name"
           name="name"
           rules={[{ required: true, message: 'Name is required!' }]}
-          placeholder="Name"
-          
         >
           <Input placeholder="Name" disabled />
         </Form.Item>
@@ -208,7 +206,7 @@ const CreateRFQ = () => {
           name="company"
           rules={[{ required: true, message: 'Company name is required!' }]}
         >
-          <Input placeholder="Company" disabled/>
+          <Input placeholder="Company" disabled />
         </Form.Item>
 
         <Form.Item
@@ -238,18 +236,13 @@ const CreateRFQ = () => {
           {(fields, { add, remove }) => (
             <>
               {fields.map(({ key, name, ...restField }) => (
-                <Space key={key} style={{ display: 'flex', marginBottom: 8 }} align="baseline">
+                <Space key={key} style={{ display: 'flex', marginBottom: 8, flexWrap: 'wrap' }} align="baseline">
                   <Form.Item
                     {...restField}
                     name={[name, 'product']}
                     rules={[{ required: true, message: 'Missing Product' }]}
                   >
-                  {/* <Select placeholder="--Please choose an option--">
-                    {productList.map((product) => (
-                      <Option key={product.id} value={product.id}>{product.product_name}</Option>
-                    ))}
-                  </Select> */}
-                   <Input placeholder="Product" />
+                    <Input placeholder="Product" />
                   </Form.Item>
                   <Form.Item
                     {...restField}
@@ -259,10 +252,10 @@ const CreateRFQ = () => {
                     <Input placeholder="Quantity" />
                   </Form.Item>
                   <Form.Item>
-                  <Upload {...props(key)} multiple={true} showUploadList={true} >
-                    <Button icon={<UploadOutlined />}>Click to Upload</Button>
-                </Upload>
-                </Form.Item>
+                    <Upload {...props(key)} multiple={true} showUploadList={true}>
+                      <Button icon={<UploadOutlined />}>Click to Upload</Button>
+                    </Upload>
+                  </Form.Item>
                   <MinusCircleOutlined onClick={() => remove(name)} />
                 </Space>
               ))}
@@ -279,7 +272,7 @@ const CreateRFQ = () => {
           name="comments"
           rules={[{ required: true, message: 'Type your message here', }]}
         >
-          <TextArea rows={4} placeholder="Type your message here"  maxLength={1024} showCount />
+          <TextArea rows={4} placeholder="Type your message here" maxLength={1024} showCount />
         </Form.Item>
 
         <Form.Item>
