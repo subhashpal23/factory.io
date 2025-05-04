@@ -23,6 +23,7 @@ import {
     industriesType
 } from './../../../components/Registration/constants';
 import FilePreview from '../../../components/FilePreview';
+import FilePreviewMultiple from '../../../components/FilePreviewMultiple';
 
 const { Option } = Select;
 
@@ -51,7 +52,9 @@ const SupplierAccount = () => {
     });
 
     const onFinish = (values) => {
-        // console.log("values", values, formData);
+        // console.log('values', values);
+        // console.log('formData', formData);
+        //return;
         const getValidFile = (files) => {
             if (Array.isArray(files)) {
                 return files.length > 0 ? files[0] : null;
@@ -71,6 +74,18 @@ const SupplierAccount = () => {
             freezone: values.freezone,
             manufacturing_process: values?.manufacturing_process?.join(','),
             services: values?.services?.join(','),
+            operating_days: values?.operating_days
+                ? values?.operating_days?.join(',')
+                : '',
+            machinery_list:
+                values.machinery_list?.map((machine, index) => {
+                    return {
+                        ...machine,
+                        machine_photos: formData.machine_photos
+                            ? formData.machine_photos[index]
+                            : null // Assign photo or null if no photo
+                    };
+                }) || [],
             // files: formData.importExportDocs?.[0] ?? null,
             // company_logo: Array.isArray(formData.company_logo) ? formData.company_logo?.[0] : formData.company_logo ?? null,
             // company_portflio:  Array.isArray(formData.company_portflio) ? formData.company_portflio?.[0]  : formData.company_portflio ?? null,
@@ -94,10 +109,44 @@ const SupplierAccount = () => {
                 formData.import_export_document
             )
                 ? formData.import_export_document.at(-1)
-                : formData.import_export_document ?? null
+                : formData.import_export_document ?? null,
+
+            production_facility_photos: Array.isArray(
+                formData.production_facility_photos
+            )
+                ? formData.production_facility_photos.at(-1)
+                : formData.production_facility_photos ?? null,
+
+            production_line_photos: Array.isArray(
+                formData.production_line_photos
+            )
+                ? formData.production_line_photos.at(-1)
+                : formData.production_line_photos ?? null,
+
+            qc_area_photos: Array.isArray(formData.qc_area_photos)
+                ? formData.qc_area_photos.at(-1)
+                : formData.qc_area_photos ?? null,
+
+            warehouse_photos: Array.isArray(formData.warehouse_photos)
+                ? formData.warehouse_photos.at(-1)
+                : formData.warehouse_photos ?? null,
+
+            environmental_cert_upload: Array.isArray(
+                formData.environmental_cert_upload
+            )
+                ? formData.environmental_cert_upload.at(-1)
+                : formData.environmental_cert_upload ?? null,
+
+            social_compliance_upload: Array.isArray(
+                formData.social_compliance_upload
+            )
+                ? formData.social_compliance_upload.at(-1)
+                : formData.social_compliance_upload ?? null,
+
+            core_product_photos: formData?.core_product_photos
         };
         //delete dataToSend.importExportDocs;
-        //console.log("dataToSend", dataToSend);
+        //console.log('dataToSend', dataToSend);
         setFormData(dataToSend);
         dispatch(updateAccount(dataToSend, token));
         setTimeout(() => {
@@ -185,7 +234,45 @@ const SupplierAccount = () => {
             services: formData?.services || '',
             //import_export_document: formData?.import_export_document || [],
             year_of_establishment: formData?.year_of_establishment || '',
-            iec_code: formData?.iec_code || ''
+            iec_code: formData?.iec_code || '',
+
+            mobile_phone: formData?.mobile_phone || '',
+            company_email: formData?.company_email || '',
+            alt_contact_phone: formData?.alt_contact_phone || '',
+            office_address: formData?.office_address || '',
+            factory_address: formData?.factory_address || '',
+            shipping_address: formData?.shipping_address || '',
+            postal_code: formData?.postal_code || '',
+            bank_details: formData?.bank_details || '',
+            payment_terms: formData?.payment_terms || '',
+            //tax_documents: formData?.tax_documents || [],
+            machinery_list: formData?.machinery_list || [],
+            operating_days: formData?.operating_days
+                ? formData?.operating_days.split(',')
+                : [],
+            general_moq_policy: formData?.general_moq_policy || '',
+            sample_order_moq: formData?.sample_order_moq || '',
+            production_order_moq: formData?.production_order_moq || '',
+
+            quality_control_process: formData?.quality_control_process || '',
+            testing_capabilities: formData?.testing_capabilities || '',
+            export_markets: formData?.export_markets || '',
+            years_in_export: formData?.years_in_export || '',
+            average_lead_time: formData?.average_lead_time || '',
+            environmental_cert_text: formData?.environmental_cert_text || '',
+            social_compliance_text: formData?.social_compliance_text || '',
+            sustainable_practices: formData?.sustainable_practices || '',
+
+            production_facility_photos:
+                formData?.production_facility_photos || '',
+            production_line_photos: formData?.production_line_photos || '',
+            qc_area_photos: formData?.qc_area_photos || '',
+            warehouse_photos: formData?.warehouse_photos || '',
+
+            environmental_cert_upload:
+                formData?.environmental_cert_upload || '',
+            social_compliance_upload: formData?.social_compliance_upload || '',
+            core_product_photos: formData?.core_product_photos || []
         });
     }, [formData, form]);
 
@@ -231,7 +318,56 @@ const SupplierAccount = () => {
                 services: userDetail.services?.split(','),
                 //import_export_document: userDetail?.import_export_document || [],
                 year_of_establishment: userDetail?.year_of_establishment || '',
-                iec_code: userDetail?.iec_code || ''
+                iec_code: userDetail?.iec_code || '',
+
+                mobile_phone: userDetail?.mobile_phone || '',
+                company_email: userDetail?.company_email || '',
+                alt_contact_phone: userDetail?.alt_contact_phone || '',
+                office_address: userDetail?.office_address || '',
+                factory_address: userDetail?.factory_address || '',
+                shipping_address: userDetail?.shipping_address || '',
+                postal_code: userDetail?.postal_code || '',
+                bank_details: userDetail?.bank_details || '',
+                payment_terms: userDetail?.payment_terms || '',
+                // tax_documents: userDetail?.tax_documents || [],
+                machinery_list: userDetail?.machinery_list
+                    ? JSON.parse(userDetail?.machinery_list)
+                    : [],
+                operating_days: userDetail?.operating_days || '',
+
+                general_moq_policy: userDetail?.general_moq_policy || '',
+                sample_order_moq: userDetail?.sample_order_moq || '',
+                production_order_moq: userDetail?.production_order_moq || '',
+
+                quality_control_process:
+                    userDetail?.quality_control_process || '',
+                testing_capabilities: userDetail?.testing_capabilities || '',
+
+                export_markets: userDetail?.export_markets || '',
+                years_in_export: userDetail?.years_in_export || '',
+                average_lead_time: userDetail?.average_lead_time || '',
+                environmental_cert_text:
+                    userDetail?.environmental_cert_text || '',
+                social_compliance_text:
+                    userDetail?.social_compliance_text || '',
+                sustainable_practices: userDetail?.sustainable_practices || [],
+
+                production_facility_photos:
+                    userDetail?.production_facility_photos || null,
+                production_line_photos:
+                    userDetail?.production_line_photos || null,
+                qc_area_photos: userDetail?.qc_area_photos || null,
+                warehouse_photos: userDetail?.warehouse_photos || null,
+
+                environmental_cert_upload:
+                    userDetail?.environmental_cert_upload || null,
+
+                social_compliance_upload:
+                    userDetail?.social_compliance_upload || null,
+
+                core_product_photos: userDetail?.core_product_photos
+                    ? JSON.parse(userDetail?.core_product_photos)
+                    : []
             });
         }
     }, [userDetail]);
@@ -686,8 +822,7 @@ const SupplierAccount = () => {
                                 name="mobile_phone"
                                 label="Mobile Phone Number"
                             >
-                                {' '}
-                                <Input />{' '}
+                                <Input />
                             </Form.Item>
                         </Col>
                         <Col span={8}>
@@ -695,8 +830,7 @@ const SupplierAccount = () => {
                                 name="company_email"
                                 label="Company General Email"
                             >
-                                {' '}
-                                <Input type="email" />{' '}
+                                <Input type="email" />
                             </Form.Item>
                         </Col>
                         <Col span={8}>
@@ -704,8 +838,7 @@ const SupplierAccount = () => {
                                 name="alt_contact_phone"
                                 label="Alternative Contact Phone"
                             >
-                                {' '}
-                                <Input />{' '}
+                                <Input />
                             </Form.Item>
                         </Col>
                         <Col span={8}>
@@ -713,8 +846,7 @@ const SupplierAccount = () => {
                                 name="office_address"
                                 label="Office Address"
                             >
-                                {' '}
-                                <Input.TextArea rows={2} />{' '}
+                                <Input.TextArea rows={2} />
                             </Form.Item>
                         </Col>
                         <Col span={8}>
@@ -722,8 +854,7 @@ const SupplierAccount = () => {
                                 name="factory_address"
                                 label="Factory Address"
                             >
-                                {' '}
-                                <Input.TextArea rows={2} />{' '}
+                                <Input.TextArea rows={2} />
                             </Form.Item>
                         </Col>
                         <Col span={8}>
@@ -731,8 +862,7 @@ const SupplierAccount = () => {
                                 name="shipping_address"
                                 label="Shipping Address"
                             >
-                                {' '}
-                                <Input.TextArea rows={2} />{' '}
+                                <Input.TextArea rows={2} />
                             </Form.Item>
                         </Col>
                         <Col span={8}>
@@ -740,8 +870,7 @@ const SupplierAccount = () => {
                                 name="postal_code"
                                 label="Postal/ZIP Code"
                             >
-                                {' '}
-                                <Input />{' '}
+                                <Input />
                             </Form.Item>
                         </Col>
                         <Col span={24}>
@@ -753,8 +882,7 @@ const SupplierAccount = () => {
                         </Col>
                         <Col span={8}>
                             <Form.Item name="bank_details" label="Bank Details">
-                                {' '}
-                                <Input />{' '}
+                                <Input />
                             </Form.Item>
                         </Col>
                         <Col span={8}>
@@ -762,8 +890,7 @@ const SupplierAccount = () => {
                                 name="payment_terms"
                                 label="Payment Terms"
                             >
-                                {' '}
-                                <Input />{' '}
+                                <Input />
                             </Form.Item>
                         </Col>
                         <Col span={8}>
@@ -773,7 +900,6 @@ const SupplierAccount = () => {
                                 valuePropName="fileList"
                                 getValueFromEvent={(e) => e.fileList}
                             >
-                                {' '}
                                 <Upload
                                     {...props('tax_documents')}
                                     listType="picture"
@@ -782,7 +908,7 @@ const SupplierAccount = () => {
                                     <Button icon={<UploadOutlined />}>
                                         Upload Documents
                                     </Button>
-                                </Upload>{' '}
+                                </Upload>
                             </Form.Item>
                         </Col>
                         <Col span={24}>
@@ -890,10 +1016,10 @@ const SupplierAccount = () => {
                                                                     'photos'
                                                                 ]}
                                                                 label="Machine Photos"
-                                                                valuePropName="fileList"
+                                                                valuePropName="file"
                                                                 getValueFromEvent={(
                                                                     e
-                                                                ) => e.fileList}
+                                                                ) => e.file}
                                                             >
                                                                 <Upload
                                                                     {...props(
@@ -911,6 +1037,19 @@ const SupplierAccount = () => {
                                                                         Photos
                                                                     </Button>
                                                                 </Upload>
+                                                                <FilePreview
+                                                                    key={key}
+                                                                    filePath={
+                                                                        formData
+                                                                            ?.machinery_list?.[
+                                                                            name
+                                                                        ]
+                                                                            ?.machine_photos
+                                                                    }
+                                                                    fileRootPath={
+                                                                        fileRootPath
+                                                                    }
+                                                                />
                                                             </Form.Item>
                                                         </Col>
                                                         <Col span={24}>
@@ -982,73 +1121,97 @@ const SupplierAccount = () => {
                         <Col span={12}>
                             <Form.Item
                                 name="production_facility_photos"
-                                label="Production Facility Photos"
-                                valuePropName="fileList"
-                                getValueFromEvent={(e) => e.fileList}
+                                label="Production Facility Photo"
+                                valuePropName="file"
+                                getValueFromEvent={(e) => e.file}
                             >
                                 <Upload
                                     {...props('production_facility_photos')}
-                                    listType="picture"
-                                    multiple
+                                    showUploadList={true}
                                 >
                                     <Button icon={<UploadOutlined />}>
-                                        Upload Photos
+                                        Upload Production Facility Photo
                                     </Button>
                                 </Upload>
+                                {formData?.production_facility_photos && (
+                                    <FilePreview
+                                        filePath={
+                                            formData?.production_facility_photos
+                                        }
+                                        fileRootPath={fileRootPath}
+                                    />
+                                )}
                             </Form.Item>
                         </Col>
                         <Col span={12}>
                             <Form.Item
                                 name="production_line_photos"
-                                label="Production Line Photos"
-                                valuePropName="fileList"
-                                getValueFromEvent={(e) => e.fileList}
+                                label="Production Line Photo"
+                                valuePropName="file"
+                                getValueFromEvent={(e) => e.file}
                             >
                                 <Upload
                                     {...props('production_line_photos')}
-                                    listType="picture"
-                                    multiple
+                                    showUploadList={true}
                                 >
                                     <Button icon={<UploadOutlined />}>
-                                        Upload Photos
+                                        Upload Production Line Photo
                                     </Button>
                                 </Upload>
+                                {formData?.production_line_photos && (
+                                    <FilePreview
+                                        filePath={
+                                            formData?.production_line_photos
+                                        }
+                                        fileRootPath={fileRootPath}
+                                    />
+                                )}
                             </Form.Item>
                         </Col>
                         <Col span={12}>
                             <Form.Item
                                 name="qc_area_photos"
-                                label="Quality Control Area Photos"
-                                valuePropName="fileList"
-                                getValueFromEvent={(e) => e.fileList}
+                                label="Quality Control Area Photo"
+                                valuePropName="file"
+                                getValueFromEvent={(e) => e.file}
                             >
                                 <Upload
                                     {...props('qc_area_photos')}
-                                    listType="picture"
-                                    multiple
+                                    showUploadList={true}
                                 >
                                     <Button icon={<UploadOutlined />}>
-                                        Upload Photos
+                                        Upload Quality Control Area Photo
                                     </Button>
                                 </Upload>
+                                {formData?.qc_area_photos && (
+                                    <FilePreview
+                                        filePath={formData?.qc_area_photos}
+                                        fileRootPath={fileRootPath}
+                                    />
+                                )}
                             </Form.Item>
                         </Col>
                         <Col span={12}>
                             <Form.Item
                                 name="warehouse_photos"
-                                label="Warehouse Photos"
-                                valuePropName="fileList"
-                                getValueFromEvent={(e) => e.fileList}
+                                label="Warehouse Photo"
+                                valuePropName="file"
+                                getValueFromEvent={(e) => e.file}
                             >
                                 <Upload
                                     {...props('warehouse_photos')}
-                                    listType="picture"
-                                    multiple
+                                    showUploadList={true}
                                 >
                                     <Button icon={<UploadOutlined />}>
-                                        Upload Photos
+                                        Upload Warehouse Photo
                                     </Button>
                                 </Upload>
+                                {formData?.warehouse_photos && (
+                                    <FilePreview
+                                        filePath={formData?.warehouse_photos}
+                                        fileRootPath={fileRootPath}
+                                    />
+                                )}
                             </Form.Item>
                         </Col>
                         <Col span={24}>
@@ -1086,10 +1249,7 @@ const SupplierAccount = () => {
                                 name="export_markets"
                                 label="Export Markets"
                             >
-                                <Select
-                                    mode="multiple"
-                                    placeholder="Select or type markets"
-                                />
+                                <Input type="text" />
                             </Form.Item>
                         </Col>
                         <Col span={8}>
@@ -1124,18 +1284,26 @@ const SupplierAccount = () => {
                             </Form.Item>
                             <Form.Item
                                 name="environmental_cert_upload"
-                                valuePropName="fileList"
-                                getValueFromEvent={(e) => e.fileList}
+                                label="Environmental Certification Upload"
+                                valuePropName="file"
+                                getValueFromEvent={(e) => e.file}
                             >
                                 <Upload
                                     {...props('environmental_cert_upload')}
-                                    listType="picture"
-                                    multiple
+                                    showUploadList={true}
                                 >
                                     <Button icon={<UploadOutlined />}>
-                                        Upload Certificates
+                                        Upload Environmental Certification
                                     </Button>
                                 </Upload>
+                                {formData?.environmental_cert_upload && (
+                                    <FilePreview
+                                        filePath={
+                                            formData?.environmental_cert_upload
+                                        }
+                                        fileRootPath={fileRootPath}
+                                    />
+                                )}
                             </Form.Item>
                         </Col>
                         <Col span={12}>
@@ -1147,18 +1315,26 @@ const SupplierAccount = () => {
                             </Form.Item>
                             <Form.Item
                                 name="social_compliance_upload"
-                                valuePropName="fileList"
-                                getValueFromEvent={(e) => e.fileList}
+                                label="Social Compliance Certification Upload"
+                                valuePropName="file"
+                                getValueFromEvent={(e) => e.file}
                             >
                                 <Upload
                                     {...props('social_compliance_upload')}
-                                    listType="picture"
-                                    multiple
+                                    showUploadList={true}
                                 >
                                     <Button icon={<UploadOutlined />}>
-                                        Upload Certificates
+                                        Upload Compliance Certification
                                     </Button>
                                 </Upload>
+                                {formData?.social_compliance_upload && (
+                                    <FilePreview
+                                        filePath={
+                                            formData?.social_compliance_upload
+                                        }
+                                        fileRootPath={fileRootPath}
+                                    />
+                                )}
                             </Form.Item>
                         </Col>
                         <Col span={24}>
@@ -1192,6 +1368,12 @@ const SupplierAccount = () => {
                                         Upload Product Photos
                                     </Button>
                                 </Upload>
+                                {formData?.core_product_photos && (
+                                    <FilePreviewMultiple
+                                        filePath={formData?.core_product_photos}
+                                        fileRootPath={fileRootPath}
+                                    />
+                                )}
                             </Form.Item>
                         </Col>
 
