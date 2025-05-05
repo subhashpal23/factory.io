@@ -21,6 +21,7 @@ import ManufactoringProcess from "./components/Manufacturing/ManufactoringProces
 import ContactUs from "./components/ContactUs";
 import About from "./components/About";
 import Blog from "./components/Blog";
+import  SupplierDetailsPage  from "./components/SupplierDetailsPage"
 
 const App = () => {
     return (
@@ -38,7 +39,10 @@ const App = () => {
                 <Route path="/forgot-password" element={<ForgotPasswordPage />} />
                 <Route path="/supplier-registration" element={<RegistrationPage user_type = "supplier"/>} />
                 <Route path="/consumer-registration" element={<RegistrationPage user_type = "consumer"/>} />
-                <Route path="/dashboard" element={<DashboardContainer />} />
+                <Route path="/dashboard" element={<DashboardContainer />} >
+                    <Route path="/dashboard/supplier-details" element={<SupplierDetailsPage />} />
+                    <Route path="/dashboard/supplier-details/:id" element={<SupplierDetailsPage />} />
+                </Route>
                 <Route path="/manufactoring/:process" element={<ManufactoringProcessPage />}/>
                 <Route path="/supplier-profile" element={<SupplierProfile />} />
                 <Route path="/manufacturing/casting" element={<ManufactoringProcess processId="casting" />} />

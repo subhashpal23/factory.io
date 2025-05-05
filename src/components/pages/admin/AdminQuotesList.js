@@ -80,6 +80,11 @@ const [formData, setFormData] = useState({
     }, 300);
   };
 
+  const openSupplierPage = (supplier_id) =>{
+    const url = "/dashboard/supplier-details/"+supplier_id;
+    window.open(url, '_blank');
+  }
+
   useEffect(() => {
             if (token && currentViewedUser) {
               dispatch(getUserInfo(token, currentViewedUser));
@@ -177,7 +182,7 @@ const [formData, setFormData] = useState({
       <span>{d.customer_email}</span>{" "}
       {d.customer_grade ? `(${d.customer_grade})` : ""}
     </>,
-      supplier_details: <div style={{color: "#0000FF" , cursor: "pointer", textDecoration: "underline"}} onClick={() => { setCurrentViewedUser(d?.supplier_id); setIsModalVisible(true)}}>
+      supplier_details: <div style={{color: "#0000FF" , cursor: "pointer", textDecoration: "underline"}} onClick={() => { setCurrentViewedUser(d?.supplier_id); openSupplierPage(d?.supplier_id)}}>
       <span>{d.supplier_name}</span>
       <br />
       <span>{d.supplier_email}</span>{" "}

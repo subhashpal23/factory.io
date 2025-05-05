@@ -392,13 +392,16 @@ const SupplierAccount = () => {
                     }}
                 >
                     Factory Profile
-                    <Button
+                    <a href='/dashboard/supplier-details' target='_blank' >
+                         <Button
                         type="primary"
                         icon={<EyeOutlined />}
-                        onClick={() => setIsModalVisible(true)}
+                        //onClick={() => setIsModalVisible(true)}
                     >
                         Preview
                     </Button>
+                    </a>
+                   
                 </h1>
                 <Form layout="vertical" onFinish={onFinish} form={form}>
                     <Row gutter={16}>

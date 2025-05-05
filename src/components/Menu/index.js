@@ -8,12 +8,16 @@ import { userLogout } from '../../redux/actions/authAction';
 import { UserRole } from '../../types/enums';
 import { getUserInfo } from '../../redux/actions/userActions';
 import { SettingOutlined, LogoutOutlined, PlusOutlined } from "@ant-design/icons";
+import  SupplierDetailsPage  from "../../components/SupplierDetailsPage"
+import { useLocation , useParams } from 'react-router-dom';
 
 const { SubMenu } = Menu;
 
 const ResponsiveSidebar = ({ userType }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const location = useLocation();  
+  let { id } = useParams();
   const [selectedKey, setSelectedKey] = useState( localStorage?.getItem('selectedKey') ?? MenuItems.filter(i => i.role_type === userType).reduce((min, item) => {
     return item.id < min ? item.id : min;
   }, Infinity));
@@ -36,6 +40,21 @@ const ResponsiveSidebar = ({ userType }) => {
   const toggleCollapsed = () => {
     setCollapsed(!collapsed);
   };
+
+  useEffect(()=>{
+    if(location?.pathname === `/dashboard/supplier-details/${id}` || location?.pathname === `/dashboard/supplier-details`){
+      setSelectedKey('supplier-details');
+    }
+  },[location, id])
+
+  useEffect(() =>{
+    console.log('selectedKey',selectedKey)
+    if(selectedKey !== 'supplier-details') {
+      navigate('/dashboard');
+    }else {
+      navigate(location?.pathname);
+    }
+  },[selectedKey])
 
   const renderMenuItems = (items) => {
     return items.map(item => {
@@ -239,7 +258,12 @@ const ResponsiveSidebar = ({ userType }) => {
             borderRadius: borderRadiusLG,
           }}
         >
-          {renderSideMenuComponent()}
+        
+          {selectedKey === 'supplier-details' ? (  
+            <SupplierDetailsPage /> 
+          ) : (       
+            renderSideMenuComponent())}
+        
         </Content>
       </Layout>
     </Layout>

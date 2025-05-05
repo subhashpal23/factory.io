@@ -172,7 +172,10 @@ const ConsumerAcceptedQuotesList = ({ filter }) => {
           setDrawerVisible(false);
         }
       }, [poCreateStatus]);
-  
+      const openSupplierPage = (supplier_id) =>{
+        const url = "/dashboard/supplier-details/"+supplier_id;
+        window.open(url, '_blank');
+      }
 
   //console.log('@@formData', formData);
   const fetchData = () => {
@@ -196,7 +199,7 @@ const ConsumerAcceptedQuotesList = ({ filter }) => {
       status: d.customer_status,
       accept_date: d.customer_accept_date,
       supplier_grade: d.supplier_grade,
-      supplier_uuid: <div style={{color: "#0000FF" , cursor: "pointer", textDecoration: "underline"}} onClick={() => { setCurrentViewedUser(d.supplier_id) ; setIsModalVisible(true)}}>{d.supplier_uuid}</div>,
+      supplier_uuid: <div style={{color: "#0000FF" , cursor: "pointer", textDecoration: "underline"}} onClick={() => { setCurrentViewedUser(d.supplier_id) ; openSupplierPage(d?.supplier_id)}}>{d.supplier_uuid}</div>,
       total_tax: d.total_tax,
       total_amount: d.total_amount,
       tax_category: taxCategoryData?.data?.filter((tax)=>tax.id === d.tax_category)[0]?.tax_name,
