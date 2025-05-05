@@ -178,8 +178,21 @@ const SupplierDetailsPage = () => {
         </div>
         {userDetail?.company && 
 <>
-<h3 style={{ fontWeight: 'bold' }}>Business Information</h3>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '40px', marginTop: '10px' }}>
+<h3  style={{ fontWeight: 'bold',marginBottom: '20px',marginTop: '20px'  }} >Business Information</h3>
+
+<div style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          justifyContent: 'space-between',
+          border: '1px dashed #60a5fa',
+          borderRadius: '10px',
+          padding: '20px',
+          maxWidth: '100%',
+          gap: '20px',
+          backgroundColor: '#fff',
+          fontFamily: 'sans-serif',
+          marginTop: '5px'
+        }}>
           <div style={{ flex: 1, minWidth: '200px' }}>
             <div style={{ color: 'gray' }}>Name</div>
             <div style={{ fontWeight: 'bold' }}>{userDetail?.company}</div>
