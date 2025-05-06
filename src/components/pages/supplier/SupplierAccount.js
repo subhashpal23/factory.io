@@ -204,76 +204,76 @@ const SupplierAccount = () => {
 
     useEffect(() => {
         // Set the form's initial values when formData changes
-        form.setFieldsValue({
-            employeeCount: formData?.employeeCount
-                ? parseInt(formData.employeeCount, 10)
-                : 0,
-            facilities: formData.facilities,
-            location: formData.location,
-            iso_certification: formData.iso_certification,
-            freezone: formData.freezone,
-            manufacturing_process: formData?.manufacturing_process,
-            files: formData?.files?.[0],
+        // form.setFieldsValue({
+        //     employeeCount: formData?.employeeCount
+        //         ? parseInt(formData.employeeCount, 10)
+        //         : 0,
+        //     facilities: formData.facilities,
+        //     location: formData.location,
+        //     iso_certification: formData.iso_certification,
+        //     freezone: formData.freezone,
+        //     manufacturing_process: formData?.manufacturing_process,
+        //     files: formData?.files?.[0],
 
-            about_us: formData?.about_us || '',
-            address: formData?.address || '',
-            anual_turnover: formData?.anual_turnover || '',
-            certificate: formData?.certificate || '',
-            company: formData?.company || '',
-            company_logo: formData?.company_logo || '',
-            company_portflio: formData?.company_portflio || '',
-            import_export_document: formData?.import_export_document || '',
-            company_type: formData?.company_type || '',
-            company_website: formData?.company_website || '',
-            contact: formData?.contact || '',
-            gst_no: formData?.gst_no || '',
-            industry: formData?.industry || '',
-            key_customers: formData?.key_customers || '',
-            past_project: formData?.past_project || '',
-            urn: formData?.urn || '',
-            services: formData?.services || '',
-            //import_export_document: formData?.import_export_document || [],
-            year_of_establishment: formData?.year_of_establishment || '',
-            iec_code: formData?.iec_code || '',
+        //     about_us: formData?.about_us || '',
+        //     address: formData?.address || '',
+        //     anual_turnover: formData?.anual_turnover || '',
+        //     certificate: formData?.certificate || '',
+        //     company: formData?.company || '',
+        //     company_logo: formData?.company_logo || '',
+        //     company_portflio: formData?.company_portflio || '',
+        //     import_export_document: formData?.import_export_document || '',
+        //     company_type: formData?.company_type || '',
+        //     company_website: formData?.company_website || '',
+        //     contact: formData?.contact || '',
+        //     gst_no: formData?.gst_no || '',
+        //     industry: formData?.industry || '',
+        //     key_customers: formData?.key_customers || '',
+        //     past_project: formData?.past_project || '',
+        //     urn: formData?.urn || '',
+        //     services: formData?.services || '',
+        //     //import_export_document: formData?.import_export_document || [],
+        //     year_of_establishment: formData?.year_of_establishment || '',
+        //     iec_code: formData?.iec_code || '',
 
-            mobile_phone: formData?.mobile_phone || '',
-            company_email: formData?.company_email || '',
-            alt_contact_phone: formData?.alt_contact_phone || '',
-            office_address: formData?.office_address || '',
-            factory_address: formData?.factory_address || '',
-            shipping_address: formData?.shipping_address || '',
-            postal_code: formData?.postal_code || '',
-            bank_details: formData?.bank_details || '',
-            payment_terms: formData?.payment_terms || '',
-            //tax_documents: formData?.tax_documents || [],
-            machinery_list: formData?.machinery_list || [],
-            operating_days: formData?.operating_days
-                ? formData?.operating_days.split(',')
-                : [],
-            general_moq_policy: formData?.general_moq_policy || '',
-            sample_order_moq: formData?.sample_order_moq || '',
-            production_order_moq: formData?.production_order_moq || '',
+        //     mobile_phone: formData?.mobile_phone || '',
+        //     company_email: formData?.company_email || '',
+        //     alt_contact_phone: formData?.alt_contact_phone || '',
+        //     office_address: formData?.office_address || '',
+        //     factory_address: formData?.factory_address || '',
+        //     shipping_address: formData?.shipping_address || '',
+        //     postal_code: formData?.postal_code || '',
+        //     bank_details: formData?.bank_details || '',
+        //     payment_terms: formData?.payment_terms || '',
+        //     //tax_documents: formData?.tax_documents || [],
+        //     machinery_list: formData?.machinery_list || [],
+        //     operating_days: formData?.operating_days
+        //         ? formData?.operating_days.split(',')
+        //         : [],
+        //     general_moq_policy: formData?.general_moq_policy || '',
+        //     sample_order_moq: formData?.sample_order_moq || '',
+        //     production_order_moq: formData?.production_order_moq || '',
 
-            quality_control_process: formData?.quality_control_process || '',
-            testing_capabilities: formData?.testing_capabilities || '',
-            export_markets: formData?.export_markets || '',
-            years_in_export: formData?.years_in_export || '',
-            average_lead_time: formData?.average_lead_time || '',
-            environmental_cert_text: formData?.environmental_cert_text || '',
-            social_compliance_text: formData?.social_compliance_text || '',
-            sustainable_practices: formData?.sustainable_practices || '',
+        //     quality_control_process: formData?.quality_control_process || '',
+        //     testing_capabilities: formData?.testing_capabilities || '',
+        //     export_markets: formData?.export_markets || '',
+        //     years_in_export: formData?.years_in_export || '',
+        //     average_lead_time: formData?.average_lead_time || '',
+        //     environmental_cert_text: formData?.environmental_cert_text || '',
+        //     social_compliance_text: formData?.social_compliance_text || '',
+        //     sustainable_practices: formData?.sustainable_practices || '',
 
-            production_facility_photos:
-                formData?.production_facility_photos || '',
-            production_line_photos: formData?.production_line_photos || '',
-            qc_area_photos: formData?.qc_area_photos || '',
-            warehouse_photos: formData?.warehouse_photos || '',
+        //     production_facility_photos:
+        //         formData?.production_facility_photos || '',
+        //     production_line_photos: formData?.production_line_photos || '',
+        //     qc_area_photos: formData?.qc_area_photos || '',
+        //     warehouse_photos: formData?.warehouse_photos || '',
 
-            environmental_cert_upload:
-                formData?.environmental_cert_upload || '',
-            social_compliance_upload: formData?.social_compliance_upload || '',
-            core_product_photos: formData?.core_product_photos || []
-        });
+        //     environmental_cert_upload:
+        //         formData?.environmental_cert_upload || '',
+        //     social_compliance_upload: formData?.social_compliance_upload || '',
+        //     core_product_photos: formData?.core_product_photos || []
+        // });
     }, [formData, form]);
 
     useEffect(() => {
@@ -288,7 +288,7 @@ const SupplierAccount = () => {
 
     useEffect(() => {
         if (userDetail) {
-            setFormData({
+            const data = {
                 employeeCount: userDetail?.employeeCount || 0,
                 facilities: userDetail?.facilities || '',
                 location: userDetail?.location || '',
@@ -333,7 +333,9 @@ const SupplierAccount = () => {
                 machinery_list: userDetail?.machinery_list
                     ? JSON.parse(userDetail?.machinery_list)
                     : [],
-                operating_days: userDetail?.operating_days || '',
+                    operating_days: userDetail?.operating_days
+                    ? formData?.operating_days?.split(',')
+                    : [],
 
                 general_moq_policy: userDetail?.general_moq_policy || '',
                 sample_order_moq: userDetail?.sample_order_moq || '',
@@ -368,7 +370,10 @@ const SupplierAccount = () => {
                 core_product_photos: userDetail?.core_product_photos
                     ? JSON.parse(userDetail?.core_product_photos)
                     : []
-            });
+            }
+                setFormData(data);
+// set inital
+            form.setFieldsValue(data);
         }
     }, [userDetail]);
 
