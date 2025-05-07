@@ -410,7 +410,7 @@ const SupplierAccount = () => {
                 </h1>
                 <Form layout="vertical" onFinish={onFinish} form={form}>
                     <Row gutter={16}>
-                        <Col span={12}>
+                        <Col xs={24} sm={24} md={12} lg={12}>
                             <Form.Item
                                 name="company_logo"
                                 label="Company Logo"
@@ -432,7 +432,7 @@ const SupplierAccount = () => {
                                 )}
                             </Form.Item>
                         </Col>
-                        <Col span={12}>
+                        <Col xs={24} sm={24} md={12} lg={12}>
                             <Form.Item
                                 name="company_portflio"
                                 label="Company Portfolio"
@@ -454,7 +454,7 @@ const SupplierAccount = () => {
                                 )}
                             </Form.Item>
                         </Col>
-                        <Col span={12}>
+                        <Col xs={24} sm={24} md={12} lg={12}>
                             <Form.Item
                                 name="certificate"
                                 label="Certificate"
@@ -476,7 +476,7 @@ const SupplierAccount = () => {
                                 </Upload>
                             </Form.Item>
                         </Col>
-                        <Col span={12}>
+                        <Col xs={24} sm={24} md={12} lg={12}>
                             {/* <Form.Item name="iec_code" label="Import Export Code (IEC)" rules={[{ required: true, message: "Please enter IEC code" }]}> 
       <Input placeholder="Enter IEC code" />
       </Form.Item> */}
@@ -506,7 +506,7 @@ const SupplierAccount = () => {
                                 {/* {formData?.files} */}
                             </Form.Item>
                         </Col>
-                        <Col span={8}>
+                        <Col xs={24} sm={24} md={12} lg={8}>
                             {/* ISO Certification */}
                             <Form.Item
                                 name="iso_certification"
@@ -525,7 +525,7 @@ const SupplierAccount = () => {
                             </Form.Item>
                         </Col>
 
-                        <Col span={8}>
+                        <Col xs={24} sm={24} md={12} lg={8}>
                             <Form.Item
                                 name="company"
                                 label="Company"
@@ -540,7 +540,7 @@ const SupplierAccount = () => {
                             </Form.Item>
                         </Col>
 
-                        <Col span={8}>
+                        <Col xs={24} sm={24} md={12} lg={8}>
                             <Form.Item
                                 name="company_type"
                                 label="Company Type"
@@ -555,7 +555,7 @@ const SupplierAccount = () => {
                             </Form.Item>
                         </Col>
 
-                        <Col span={8}>
+                        <Col xs={24} sm={24} md={12} lg={8}>
                             <Form.Item
                                 name="company_website"
                                 label="Company Website"
@@ -564,7 +564,7 @@ const SupplierAccount = () => {
                             </Form.Item>
                         </Col>
 
-                        <Col span={8}>
+                        <Col xs={24} sm={24} md={12} lg={8}>
                             <Form.Item
                                 name="year_of_establishment"
                                 label="Year of Establishment"
@@ -579,7 +579,7 @@ const SupplierAccount = () => {
                             </Form.Item>
                         </Col>
 
-                        <Col span={8}>
+                        <Col xs={24} sm={24} md={12} lg={8}>
                             {/* Number of Employees */}
                             <Form.Item
                                 name="employeeCount"
@@ -598,7 +598,7 @@ const SupplierAccount = () => {
                             </Form.Item>
                         </Col>
 
-                        <Col span={8}>
+                        <Col xs={24} sm={24} md={12} lg={8}>
                             <Form.Item
                                 name="anual_turnover"
                                 label="Annual Turnover"
@@ -613,7 +613,7 @@ const SupplierAccount = () => {
                             </Form.Item>
                         </Col>
 
-                        <Col span={8}>
+                        <Col xs={24} sm={24} md={12} lg={8}>
                             <Form.Item
                                 name="address"
                                 label="Address"
@@ -627,7 +627,7 @@ const SupplierAccount = () => {
                                 <Input placeholder="Enter address" />
                             </Form.Item>
                         </Col>
-                        <Col span={8}>
+                        <Col xs={24} sm={24} md={12} lg={8}>
                             <Form.Item
                                 name="contact"
                                 label="Contact"
@@ -641,7 +641,7 @@ const SupplierAccount = () => {
                                 <Input placeholder="Enter contact details" />
                             </Form.Item>
                         </Col>
-                        <Col span={8}>
+                        <Col xs={24} sm={24} md={12} lg={8}>
                             <Form.Item
                                 name="gst_no"
                                 label="GST No"
@@ -656,7 +656,7 @@ const SupplierAccount = () => {
                             </Form.Item>
                         </Col>
 
-                        <Col span={8}>
+                        <Col xs={24} sm={24} md={12} lg={8}>
                             <Form.Item
                                 name="urn"
                                 label="Udhyam Registration No (URN)"
@@ -670,7 +670,7 @@ const SupplierAccount = () => {
                                 <Input placeholder="Enter URN" />
                             </Form.Item>
                         </Col>
-                        <Col span={8}>
+                        <Col xs={24} sm={24} md={12} lg={8}>
                             <Form.Item
                                 name="industry"
                                 label="Industry"
@@ -691,7 +691,7 @@ const SupplierAccount = () => {
                                 </Select>
                             </Form.Item>
                         </Col>
-                        <Col span={8}>
+                        <Col xs={24} sm={24} md={12} lg={8}>
                             <Form.Item
                                 name="freezone"
                                 label="Freezone"
@@ -708,7 +708,7 @@ const SupplierAccount = () => {
                                 </Select>
                             </Form.Item>
                         </Col>
-                        <Col span={8}>
+                        <Col xs={24} sm={24} md={12} lg={8}>
                             <Form.Item
                                 name="operating_days"
                                 label="Operating Days"
@@ -725,8 +725,8 @@ const SupplierAccount = () => {
                                 </Select>
                             </Form.Item>
                         </Col>
-                        <Col span={8}></Col>
-                        <Col span={8}>
+                        <Col xs={24} sm={24} md={12} lg={8}></Col>
+                        <Col xs={24} sm={24} md={12} lg={8}>
                             <Form.Item
                                 name="key_customers"
                                 label="Key Customers"
@@ -737,7 +737,7 @@ const SupplierAccount = () => {
                                 />
                             </Form.Item>
                         </Col>
-                        <Col span={8}>
+                        <Col xs={24} sm={24} md={12} lg={8}>
                             <Form.Item
                                 name="past_project"
                                 label="Past Projects"
@@ -758,7 +758,7 @@ const SupplierAccount = () => {
           <Input.TextArea placeholder="Describe the facilities your company offers" rows={3} />
         </Form.Item> */}
 
-                        <Col span={8}>
+                        <Col xs={24} sm={24} md={12} lg={8}>
                             <Form.Item name="about_us" label="About Us">
                                 <Input.TextArea
                                     placeholder="Tell us about yourself"
@@ -766,7 +766,7 @@ const SupplierAccount = () => {
                                 />
                             </Form.Item>
                         </Col>
-                        <Col span={8}>
+                        <Col xs={24} sm={24} md={12} lg={8}>
                             <Form.Item
                                 name="services"
                                 label="Services Available"
@@ -791,7 +791,7 @@ const SupplierAccount = () => {
                                 </Select>
                             </Form.Item>
                         </Col>
-                        <Col span={8}>
+                        <Col xs={24} sm={24} md={12} lg={8}>
                             <Form.Item
                                 label="Manufacturing Available"
                                 name="manufacturing_process"
@@ -825,7 +825,7 @@ const SupplierAccount = () => {
                                 </Title>
                             </Divider>
                         </Col>
-                        <Col span={8}>
+                        <Col xs={24} sm={24} md={12} lg={8}>
                             <Form.Item
                                 name="mobile_phone"
                                 label="Mobile Phone Number"
@@ -833,7 +833,7 @@ const SupplierAccount = () => {
                                 <Input />
                             </Form.Item>
                         </Col>
-                        <Col span={8}>
+                        <Col xs={24} sm={24} md={12} lg={8}>
                             <Form.Item
                                 name="company_email"
                                 label="Company General Email"
@@ -841,7 +841,7 @@ const SupplierAccount = () => {
                                 <Input type="email" />
                             </Form.Item>
                         </Col>
-                        <Col span={8}>
+                        <Col xs={24} sm={24} md={12} lg={8}>
                             <Form.Item
                                 name="alt_contact_phone"
                                 label="Alternative Contact Phone"
@@ -849,7 +849,7 @@ const SupplierAccount = () => {
                                 <Input />
                             </Form.Item>
                         </Col>
-                        <Col span={8}>
+                        <Col xs={24} sm={24} md={12} lg={8}>
                             <Form.Item
                                 name="office_address"
                                 label="Office Address"
@@ -857,7 +857,7 @@ const SupplierAccount = () => {
                                 <Input.TextArea rows={2} />
                             </Form.Item>
                         </Col>
-                        <Col span={8}>
+                        <Col xs={24} sm={24} md={12} lg={8}>
                             <Form.Item
                                 name="factory_address"
                                 label="Factory Address"
@@ -865,7 +865,7 @@ const SupplierAccount = () => {
                                 <Input.TextArea rows={2} />
                             </Form.Item>
                         </Col>
-                        <Col span={8}>
+                        <Col xs={24} sm={24} md={12} lg={8}>
                             <Form.Item
                                 name="shipping_address"
                                 label="Shipping Address"
@@ -873,7 +873,7 @@ const SupplierAccount = () => {
                                 <Input.TextArea rows={2} />
                             </Form.Item>
                         </Col>
-                        <Col span={8}>
+                        <Col xs={24} sm={24} md={12} lg={8}>
                             <Form.Item
                                 name="postal_code"
                                 label="Postal/ZIP Code"
@@ -888,12 +888,12 @@ const SupplierAccount = () => {
                                 </Title>
                             </Divider>
                         </Col>
-                        <Col span={8}>
+                        <Col xs={24} sm={24} md={12} lg={8}>
                             <Form.Item name="bank_details" label="Bank Details">
                                 <Input />
                             </Form.Item>
                         </Col>
-                        <Col span={8}>
+                        <Col xs={24} sm={24} md={12} lg={8}>
                             <Form.Item
                                 name="payment_terms"
                                 label="Payment Terms"
@@ -901,7 +901,7 @@ const SupplierAccount = () => {
                                 <Input />
                             </Form.Item>
                         </Col>
-                        <Col span={8}>
+                        <Col xs={24} sm={24} md={12} lg={8}>
                             <Form.Item
                                 name="tax_documents"
                                 label="Tax Documents"
@@ -944,7 +944,7 @@ const SupplierAccount = () => {
                                                             marginBottom: 16
                                                         }}
                                                     >
-                                                        <Col span={6}>
+                                                        <Col xs={12} sm={12} md={6} lg={4}>
                                                             <Form.Item
                                                                 {...restField}
                                                                 name={[
@@ -961,7 +961,7 @@ const SupplierAccount = () => {
                                                                 <Input />
                                                             </Form.Item>
                                                         </Col>
-                                                        <Col span={3}>
+                                                        <Col xs={6} sm={6} md={3} lg={2}>
                                                             <Form.Item
                                                                 {...restField}
                                                                 name={[
@@ -978,7 +978,7 @@ const SupplierAccount = () => {
                                                                 <Input type="number" />
                                                             </Form.Item>
                                                         </Col>
-                                                        <Col span={5}>
+                                                        <Col xs={12} sm={12} md={6} lg={3}>
                                                             <Form.Item
                                                                 {...restField}
                                                                 name={[
@@ -990,7 +990,7 @@ const SupplierAccount = () => {
                                                                 <Input />
                                                             </Form.Item>
                                                         </Col>
-                                                        <Col span={5}>
+                                                        <Col xs={12} sm={12} md={6} lg={3}>
                                                             <Form.Item
                                                                 {...restField}
                                                                 name={[
@@ -1004,7 +1004,7 @@ const SupplierAccount = () => {
                                                                 />
                                                             </Form.Item>
                                                         </Col>
-                                                        <Col span={5}>
+                                                        <Col xs={12} sm={12} md={6} lg={3}>
                                                             <Form.Item
                                                                 {...restField}
                                                                 name={[
@@ -1016,7 +1016,7 @@ const SupplierAccount = () => {
                                                                 <Input />
                                                             </Form.Item>
                                                         </Col>
-                                                        <Col span={24}>
+                                                        <Col xs={24} sm={24} md={12} lg={8}>
                                                             <Form.Item
                                                                 {...restField}
                                                                 name={[
@@ -1091,11 +1091,11 @@ const SupplierAccount = () => {
                         <Col span={24}>
                             <Divider orientation="left">
                                 <Title level={4} style={{ marginBottom: 0 }}>
-                                    Minimum Order Quantity (MOQ) Requirements
+                                    Minimum Order Quantity (MOQ)
                                 </Title>
                             </Divider>
                         </Col>
-                        <Col span={8}>
+                        <Col xs={12} sm={12} md={6} lg={8}>
                             <Form.Item
                                 name="general_moq_policy"
                                 label="General MOQ Policy"
@@ -1103,7 +1103,7 @@ const SupplierAccount = () => {
                                 <Input.TextArea rows={2} />
                             </Form.Item>
                         </Col>
-                        <Col span={8}>
+                        <Col xs={12} sm={12} md={6} lg={8}>
                             <Form.Item
                                 name="sample_order_moq"
                                 label="Sample Order MOQ"
@@ -1111,7 +1111,7 @@ const SupplierAccount = () => {
                                 <Input type="number" />
                             </Form.Item>
                         </Col>
-                        <Col span={8}>
+                        <Col xs={12} sm={12} md={6} lg={8}>
                             <Form.Item
                                 name="production_order_moq"
                                 label="Production Order MOQ (Min Price)"
@@ -1126,7 +1126,7 @@ const SupplierAccount = () => {
                                 </Title>
                             </Divider>
                         </Col>
-                        <Col span={12}>
+                        <Col xs={24} sm={24} md={12} lg={6}>
                             <Form.Item
                                 name="production_facility_photos"
                                 label="Production Facility Photo"
@@ -1151,7 +1151,7 @@ const SupplierAccount = () => {
                                 )}
                             </Form.Item>
                         </Col>
-                        <Col span={12}>
+                        <Col xs={24} sm={24} md={12} lg={6}>
                             <Form.Item
                                 name="production_line_photos"
                                 label="Production Line Photo"
@@ -1176,7 +1176,7 @@ const SupplierAccount = () => {
                                 )}
                             </Form.Item>
                         </Col>
-                        <Col span={12}>
+                        <Col xs={24} sm={24} md={12} lg={6}>
                             <Form.Item
                                 name="qc_area_photos"
                                 label="Quality Control Area Photo"
@@ -1199,7 +1199,7 @@ const SupplierAccount = () => {
                                 )}
                             </Form.Item>
                         </Col>
-                        <Col span={12}>
+                        <Col xs={24} sm={24} md={12} lg={6}>
                             <Form.Item
                                 name="warehouse_photos"
                                 label="Warehouse Photo"
@@ -1229,7 +1229,7 @@ const SupplierAccount = () => {
                                 </Title>
                             </Divider>
                         </Col>
-                        <Col span={12}>
+                        <Col xs={24} sm={24} md={12} lg={12}>
                             <Form.Item
                                 name="quality_control_process"
                                 label="Quality Control Process"
@@ -1237,7 +1237,7 @@ const SupplierAccount = () => {
                                 <Input.TextArea rows={3} />
                             </Form.Item>
                         </Col>
-                        <Col span={12}>
+                        <Col xs={24} sm={24} md={12} lg={12}>
                             <Form.Item
                                 name="testing_capabilities"
                                 label="Testing Capabilities"
@@ -1252,7 +1252,7 @@ const SupplierAccount = () => {
                                 </Title>
                             </Divider>
                         </Col>
-                        <Col span={8}>
+                        <Col xs={24} sm={24} md={12} lg={8}>
                             <Form.Item
                                 name="export_markets"
                                 label="Export Markets"
@@ -1260,7 +1260,7 @@ const SupplierAccount = () => {
                                 <Input type="text" />
                             </Form.Item>
                         </Col>
-                        <Col span={8}>
+                        <Col xs={24} sm={24} md={12} lg={8}>
                             <Form.Item
                                 name="years_in_export"
                                 label="Years in Export"
@@ -1268,7 +1268,7 @@ const SupplierAccount = () => {
                                 <Input type="number" />
                             </Form.Item>
                         </Col>
-                        <Col span={8}>
+                        <Col xs={24} sm={24} md={12} lg={8}>
                             <Form.Item
                                 name="average_lead_time"
                                 label="Average Lead Time"
@@ -1283,7 +1283,7 @@ const SupplierAccount = () => {
                                 </Title>
                             </Divider>
                         </Col>
-                        <Col span={12}>
+                        <Col xs={24} sm={24} md={12} lg={12}>
                             <Form.Item
                                 name="environmental_cert_text"
                                 label="Environmental Certifications"
@@ -1314,7 +1314,7 @@ const SupplierAccount = () => {
                                 )}
                             </Form.Item>
                         </Col>
-                        <Col span={12}>
+                        <Col xs={24} sm={24} md={12} lg={12}>
                             <Form.Item
                                 name="social_compliance_text"
                                 label="Social Compliance Certifications"

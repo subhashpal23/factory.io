@@ -161,56 +161,32 @@
   border-radius: 8px;
 }
 
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: Arial, sans-serif;
+  overflow-x: auto;
+  display: block;
+}
+
+th, td {
+  padding: 8px;
+  border-bottom: 1px solid #ddd;
+  text-align: left;
+  white-space: nowrap;
+}
+
+th {
+  background-color: #f0f0f0;
+}
+
+/* Media query to ensure responsiveness on small screens */
+@media (max-width: 768px) {
   table {
-    width: 100%;
-    border-collapse: collapse;
-    font-family: Arial, sans-serif;
+    display: block;
   }
+}
 
-  th, td {
-    padding: 8px;
-    border-bottom: 1px solid #ddd;
-    text-align: left;
-  }
-
-  th {
-    background-color: #f0f0f0;
-  }
-
-  @media (max-width: 768px) {
-    table, thead, tbody, th, td, tr {
-      display: block;
-    }
-    thead tr {
-      position: absolute;
-      top: -9999px;
-      left: -9999px;
-    }
-    tr {
-      border: 1px solid #ddd;
-      margin-bottom: 10px;
-    }
-    td {
-      border: none;
-      border-bottom: 1px solid #ddd;
-      position: relative;
-      padding-left: 50%;
-    }
-    td:before {
-      position: absolute;
-      left: 0;
-      top: 0;
-      content: attr(data-label);
-      font-weight: bold;
-      padding-right: 10px;
-    }
-    td:nth-child(1):before { content: "Machinery Name"; }
-    td:nth-child(2):before { content: "Quantity"; }
-    td:nth-child(3):before { content: "Brand/Model"; }
-    td:nth-child(4):before { content: "Production Capacity"; }
-    td:nth-child(5):before { content: "Machine Photos"; }
-    td:nth-child(6):before { content: "Technical Specifications"; }
-  }
 
 
 .address-container {
@@ -265,53 +241,4 @@
       max-width: 100%;
     }
   }
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    font-family: Arial, sans-serif;
-  }
-
-  th, td {
-    padding: 8px;
-    border-bottom: 1px solid #ddd;
-    text-align: left;
-  }
-
-  th {
-    background-color: #f0f0f0;
-  }
-
-  @media (max-width: 768px) {
-    table, thead, tbody, th, td, tr {
-      display: block;
-    }
-    thead tr {
-      position: absolute;
-      top: -9999px;
-      left: -9999px;
-    }
-    tr {
-      border: 1px solid #ddd;
-      margin-bottom: 10px;
-    }
-    td {
-      border: none;
-      border-bottom: 1px solid #ddd;
-      position: relative;
-      padding-left: 50%;
-    }
-    td:before {
-      position: absolute;
-      left: 0;
-      top: 0;
-      content: attr(data-label);
-      font-weight: bold;
-      padding-right: 10px;
-    }
-    td:nth-child(1):before { content: "Machinery Name"; }
-    td:nth-child(2):before { content: "Quantity"; }
-    td:nth-child(3):before { content: "Brand/Model"; }
-    td:nth-child(4):before { content: "Production Capacity"; }
-    td:nth-child(5):before { content: "Machine Photos"; }
-    td:nth-child(6):before { content: "Technical Specifications"; }
-  }
+  

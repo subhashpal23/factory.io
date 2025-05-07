@@ -268,7 +268,7 @@ const SupplierDetailsPage = () => {
         <h3 style={{ fontWeight: 'bold', marginBottom: '20px' , marginTop:"10px"}}>Manufacturing Processes</h3>
 
         <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'left', marginTop: '20px' }}>
-        {userDetail?.manufacturing_process?.split(',').map(val => {
+        {userDetail?.mpid?.split(',').map(val => {
             return (<div style={{ backgroundColor: '#e7f3ff', borderRadius: '5px', padding: '10px', margin: '5px', minWidth: '150px', textAlign: 'left' }}>
              {val}
             </div>)
