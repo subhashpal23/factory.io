@@ -83,7 +83,7 @@ const HeroContainer = styled.div`
     margin: auto;
 
     @media (max-width: 768px) {
-       width: 48%;
+       width: 100%;
     }
   }
 }
