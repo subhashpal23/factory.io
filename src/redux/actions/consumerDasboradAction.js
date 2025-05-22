@@ -1,10 +1,12 @@
 import { notification } from 'antd'
+import { API_URL } from '../../utils/Config';
+
 export const getSupplierList = (token) => {
     return async (dispatch) => {
         //return
         dispatch({ type: 'GET_SUPPLIER_REQUEST' });
         try {
-            const response = await fetch('https://factory.demosite.name/api/Api/getMySuppliers', {
+            const response = await fetch(`${API_URL}/Api/getMySuppliers`, {
                 method: 'GET', 
                 headers: {
                     'Content-Type': 'application/json',

@@ -1,4 +1,5 @@
 import React, { useState, useEffect, Fragment } from 'react';
+import { API_URL } from '../../../utils/Config';
 import { Table, Input, Button, Checkbox, Drawer, Dropdown, Menu, Modal, DatePicker, Select, Upload, Form, Space } from 'antd'
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllQuoteList, changeRfqStatus, acceptRejectQuote } from '../../../redux/actions/supplierRfqAction';
@@ -68,7 +69,7 @@ const [formData, setFormData] = useState({
     const token = useSelector((state) => state.auth.logindata.token);
     const userDetail = useSelector((state) => state.user.userDetail);
     const [isModalVisible, setIsModalVisible] = useState(false);
-    const fileRootPath = 'https://factory.demosite.name/api';
+    const fileRootPath = API_URL;
   
 
   const showLoading = () => {

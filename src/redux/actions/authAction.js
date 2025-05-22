@@ -1,10 +1,11 @@
 import { notification } from 'antd'
+import { API_URL } from '../../utils/Config';
 export const userLogin = (userCreds, userType) => {
     return async (dispatch) => {
         userCreds = {...userCreds, role_type: userType}
         dispatch({ type: 'LOGIN_USER_REQUEST' });
         try {
-            const response = await fetch('https://factory.demosite.name/api/Api/login', {
+            const response = await fetch(`${API_URL}/Api/login`, {
                 method: 'POST', 
                 headers: {
                     'Content-Type': 'application/json', 
@@ -28,7 +29,7 @@ export const userRegister = (userData,userType) => {
         userData = {...userData, role_type: userType}
         dispatch({ type: 'REGISTER_USER_REQUEST' });
         try {
-            const response = await fetch('https://factory.demosite.name/api/Api/registration', {
+            const response = await fetch(`${API_URL}/Api/registration`, {
                 method: 'POST', // Specify the HTTP method
                 headers: {
                     'Content-Type': 'application/json', // Set content type
@@ -57,7 +58,7 @@ export const userforgotPassword = (userCreds) => {
     return async (dispatch) => {
         dispatch({ type: 'FORGOTPASSWORD_USER_REQUEST' });
         try {
-            const response = await fetch('https://factory.demosite.name/api/Api/forgotPassword', {
+            const response = await fetch(`${API_URL}/Api/forgotPassword`, {
                 method: 'POST', 
                 headers: {
                     'Content-Type': 'application/json', 

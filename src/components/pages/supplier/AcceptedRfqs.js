@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { API_URL } from '../../../utils/Config';
 import { Table, Input, Button, Checkbox, message, Drawer, Dropdown, Menu, Modal, DatePicker, Select, Upload, Form, Space, Col, Row } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { createQuote, getAdminRfqLists, getProductList, getTaxCategoryList } from '../../../redux/actions/rfqAction';
@@ -420,7 +421,7 @@ const AcceptedRfqs = ({ filter }) => {
     formData.append('upload[0]', file);
   
     try {
-      const response = await fetch('https://factory.demosite.name/api/Api/multipleDocUpload', {
+      const response = await fetch(`${API_URL}/Api/multipleDocUpload`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${logindata?.token}`,

@@ -1,4 +1,5 @@
 import React from 'react';
+import { API_URL } from '../utils/Config';
 import { Modal, Button, Typography, Spin, Table, Image, Input} from 'antd';
 import {
   SaveOutlined,
@@ -28,7 +29,7 @@ const ViewQuoteModal = ({ currentRfqData, open, setOpen, viewLoading, showLoadin
   };
 
 
-  const fileRootPath = 'https://factory.demosite.name/api';
+  const fileRootPath = `${API_URL}`;
   const filesData = ( ( currentRfqData?.status !=null ||  isReview ) && currentRfqData?.files_review  ) ? currentRfqData?.files_review : currentRfqData?.files;
   const finalPrice = ( (currentRfqData?.status !=null ||  isReview) && currentRfqData?.files_review  ) ? currentRfqData?.total_amount_review : currentRfqData?.total_amount;
   const data = filesData?.map((file, index) => ({

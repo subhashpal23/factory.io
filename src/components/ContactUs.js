@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { API_URL } from '../utils/Config';
 import styled, { keyframes } from "styled-components";
 import TopNavigation from "./TopNavigation";
 import Footer from "./Footer";
@@ -168,7 +169,7 @@ const ContactUs = () => {
 
     setLoading(true);
     try {
-      const res = await fetch("https://factory.demosite.name/api/Api/contactus", {
+      const res = await fetch(`${API_URL}/Api/contactus`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),

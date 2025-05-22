@@ -1,4 +1,5 @@
 import { notification } from 'antd'
+import { API_URL } from '../../utils/Config';
 export const fetchUsers = ()=>{
     return async (dispatch) =>{
         dispatch({type: 'FETCH_USER_REQUEST'});
@@ -16,7 +17,7 @@ export const updateAccount = (rfq, token) => {
     return async (dispatch) => {
         dispatch({ type: 'UPDATE_ACCOUNT_REQUEST' });
         try {
-            const response = await fetch('https://factory.demosite.name/api/Api/updateUserId', {
+            const response = await fetch(`${API_URL}/Api/updateUserId`, {
                 method: 'POST', 
                 headers: {
                     'Content-Type': 'application/json', 
@@ -44,7 +45,7 @@ export const getUserInfo = (token, id)=>{
     return async (dispatch) =>{
         dispatch({type: 'FETCH_ACCOUNT_REQUEST'});
         try{
-            const response = await fetch('https://factory.demosite.name/api/Api/getUserData', {
+            const response = await fetch(`${API_URL}/Api/getUserData`, {
                 method: 'POST', 
                 headers: {
                     'Content-Type': 'application/json', 

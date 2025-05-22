@@ -1,4 +1,5 @@
 import React, { useState, useEffect, Fragment } from 'react';
+import { API_URL } from '../../utils/Config';
 import { Table, Input, Button, Checkbox, Drawer, Dropdown, Menu, Modal, DatePicker, Select, Upload, Form, Space, message } from 'antd'
 import { useDispatch, useSelector } from 'react-redux';
 import { getConsumerRejectedQuoteList, acceptRejectQuoteByCustomer } from '../../redux/actions/supplierRfqAction';
@@ -56,7 +57,8 @@ const ConsumerRejectedQuotesList = ({ filter }) => {
   const [currentViewedUser, setCurrentViewedUser] = useState(null);
   const userDetail = useSelector((state) => state.user.userDetail);
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const fileRootPath = 'https://factory.demosite.name/api';
+  //const fileRootPath = 'https://factory.demosite.name/api';
+   const fileRootPath = `${API_URL}`;
 
   const [formData, setFormData] = useState({
     total_cost: '',
@@ -535,7 +537,7 @@ const ConsumerRejectedQuotesList = ({ filter }) => {
       formData.append('upload[0]', file);
     
       try {
-        const response = await fetch('https://factory.demosite.name/api/Api/multipleDocUpload', {
+        const response = await fetch(`${API_URL}/Api/multipleDocUpload`, {
           method: 'POST',
           headers: {
             'Authorization': `Bearer ${logindata?.token}`,

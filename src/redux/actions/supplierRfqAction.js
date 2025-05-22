@@ -1,10 +1,11 @@
 //import { notification } from 'antd'
+import { API_URL } from '../../utils/Config';
 import { showErrorNotification, showSuccessNotification } from "../../utils/AppNotification";
 export const getSupplierRfqReceivedList = (token) => {
     return async (dispatch) => {
         dispatch({ type: 'GET_SUPPLIER_RFQ_LIST_REQUEST' });
         try {
-            const response = await fetch('https://factory.demosite.name/api/Api/getSupplierRFQList', {
+            const response = await fetch(`${API_URL}/Api/getSupplierRFQList`, {
                 method: 'GET', 
                 headers: {
                     'Content-Type': 'application/json',
@@ -29,7 +30,7 @@ export const getSupplierRfqRejectedList = (token) => {
     return async (dispatch) => {
         dispatch({ type: 'GET_SUPPLIER_RFQ_REJECTED_LIST_REQUEST' });
         try {
-            const response = await fetch('https://factory.demosite.name/api/Api/getSupplierRejectedRFQList', {
+            const response = await fetch(`${API_URL}/Api/getSupplierRejectedRFQList`, {
                 method: 'GET', 
                 headers: {
                     'Content-Type': 'application/json',
@@ -54,7 +55,7 @@ export const getSupplierRfqAcceptedList = (token) => {
     return async (dispatch) => {
         dispatch({ type: 'GET_SUPPLIER_RFQ_ACCEPTED_LIST_REQUEST' });
         try {
-            const response = await fetch('https://factory.demosite.name/api/Api/getSupplierAcceptedRFQList', {
+            const response = await fetch(`${API_URL}/Api/getSupplierAcceptedRFQList`, {
                 method: 'GET', 
                 headers: {
                     'Content-Type': 'application/json',
@@ -81,7 +82,7 @@ export const getSupplierQuoteList = (token) => {
     return async (dispatch) => {
         dispatch({ type: 'GET_SUPPLIER_QUOTE_LIST_REQUEST' });
         try {
-            const response = await fetch('https://factory.demosite.name/api/Api/allQuotationListForSupplier', {
+            const response = await fetch(`${API_URL}/Api/allQuotationListForSupplier`, {
                 method: 'GET', 
                 headers: {
                     'Content-Type': 'application/json',
@@ -106,7 +107,7 @@ export const getAllQuoteList = (token) => {
     return async (dispatch) => {
         dispatch({ type: 'GET_ALL_QUOTE_LIST_REQUEST' });
         try {
-            const response = await fetch('https://factory.demosite.name/api/Api/allQuotationList', {
+            const response = await fetch(`${API_URL}/Api/allQuotationList`, {
                 method: 'GET', 
                 headers: {
                     'Content-Type': 'application/json',
@@ -131,7 +132,7 @@ export const getConsumerQuoteList = (token) => {
     return async (dispatch) => {
         dispatch({ type: 'GET_CONSUMER_QUOTE_LIST_REQUEST' });
         try {
-            const response = await fetch('https://factory.demosite.name/api/Api/allQuotationListForConsumer', {
+            const response = await fetch(`${API_URL}/Api/allQuotationListForConsumer`, {
                 method: 'GET', 
                 headers: {
                     'Content-Type': 'application/json',
@@ -156,7 +157,7 @@ export const getConsumerAcceptedQuoteList = (token) => {
     return async (dispatch) => {
         dispatch({ type: 'GET_CONSUMER_ACCEPTED_QUOTE_LIST_REQUEST' });
         try {
-            const response = await fetch('https://factory.demosite.name/api/Api/acceptedQuotationListForConsumer', {
+            const response = await fetch(`${API_URL}/Api/acceptedQuotationListForConsumer`, {
                 method: 'GET', 
                 headers: {
                     'Content-Type': 'application/json',
@@ -181,7 +182,7 @@ export const getConsumerRejectedQuoteList = (token) => {
     return async (dispatch) => {
         dispatch({ type: 'GET_CONSUMER_REJECTED_QUOTE_LIST_REQUEST' });
         try {
-            const response = await fetch('https://factory.demosite.name/api/Api/rejectedQuotationListForConsumer', {
+            const response = await fetch(`${API_URL}/Api/rejectedQuotationListForConsumer`, {
                 method: 'GET', 
                 headers: {
                     'Content-Type': 'application/json',
@@ -208,7 +209,7 @@ export const changeRfqStatus = (token,requestRfqStatus) => {
         //userData = {...userData, role_type: userType}
         dispatch({ type: 'CHANGE_RFQ_STATUS_REQUEST' });
         try {
-            const response = await fetch('https://factory.demosite.name/api/Api/changeRFQStatus', {
+            const response = await fetch(`${API_URL}/Api/changeRFQStatus`, {
                 method: 'POST', // Specify the HTTP method
                 headers: {
                     'Content-Type': 'application/json',
@@ -239,7 +240,7 @@ export const acceptRejectQuote = (token, requestRfqStatus) => {
         //userData = {...userData, role_type: userType}
         dispatch({ type: 'ACCEPT_REJECT_QUOTE_REQUEST' });
         try {
-            const response = await fetch('https://factory.demosite.name/api/Api/acceptRejectQuotation', {
+            const response = await fetch(`${API_URL}/Api/acceptRejectQuotation`, {
                 method: 'POST', // Specify the HTTP method
                 headers: {
                     'Content-Type': 'application/json',
@@ -269,7 +270,7 @@ export const acceptRejectQuoteByCustomer = (token, requestRfqStatus) => {
         //userData = {...userData, role_type: userType}
         dispatch({ type: 'ACCEPT_REJECT_QUOTE_CUSTOMER_REQUEST' });
         try {
-            const response = await fetch('https://factory.demosite.name/api/Api/acceptRejectCustomerQuotation', {
+            const response = await fetch(`${API_URL}/Api/acceptRejectCustomerQuotation`, {
                 method: 'POST', // Specify the HTTP method
                 headers: {
                     'Content-Type': 'application/json',
@@ -300,7 +301,7 @@ export const acceptRejectPObyAdmin = (token, requestRfqStatus) => {
         //userData = {...userData, role_type: userType}
         dispatch({ type: 'ACCEPT_REJECT_PO_REQUEST_ADMIN' });
         try {
-            const response = await fetch('https://factory.demosite.name/api/Api/acceptRejectPurchaseOrder', {
+            const response = await fetch(`${API_URL}/Api/acceptRejectPurchaseOrder`, {
                 method: 'POST', // Specify the HTTP method
                 headers: {
                     'Content-Type': 'application/json',
@@ -330,7 +331,7 @@ export const acceptRejectPObySupplier = (token, requestRfqStatus) => {
         //userData = {...userData, role_type: userType}
         dispatch({ type: 'ACCEPT_REJECT_PO_REQUEST_SUPPLIER' });
         try {
-            const response = await fetch('https://factory.demosite.name/api/Api/acceptRejectPOBySupplier', {
+            const response = await fetch(`${API_URL}/Api/acceptRejectPOBySupplier`, {
                 method: 'POST', // Specify the HTTP method
                 headers: {
                     'Content-Type': 'application/json',
@@ -359,7 +360,7 @@ export const updateQuoteCommissionAdmin = (token, requestRfqStatus) => {
     return async (dispatch) => {
         dispatch({ type: 'UPDATE_QUOTE_COMMISSION_REQUEST_ADMIN' });
         try {
-            const response = await fetch('https://factory.demosite.name/api/Api/updateQuoteCommission', {
+            const response = await fetch(`${API_URL}/Api/updateQuoteCommission`, {
                 method: 'POST', // Specify the HTTP method
                 headers: {
                     'Content-Type': 'application/json',

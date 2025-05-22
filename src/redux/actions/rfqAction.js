@@ -1,9 +1,10 @@
 import { notification } from 'antd'
+import { API_URL } from '../../utils/Config';
 export const getRfqList = (token) => {
     return async (dispatch) => {
         dispatch({ type: 'GET_RFQ_REQUEST' });
         try {
-            const response = await fetch('https://factory.demosite.name/api/Api/getCustomerRFQList', {
+            const response = await fetch(`${API_URL}/Api/getCustomerRFQList`, {
                 method: 'GET', 
                 headers: {
                     'Content-Type': 'application/json',
@@ -28,7 +29,7 @@ export const getAdminRfqLists = (token) => {
     return async (dispatch) => {
         dispatch({ type: 'GET_ADMIN_RFQ_REQUEST' });
         try {
-            const response = await fetch('https://factory.demosite.name/api/Api/AllRFQList', {
+            const response = await fetch(`${API_URL}/Api/AllRFQList`, {
                 method: 'GET', 
                 headers: {
                     'Content-Type': 'application/json',
@@ -53,7 +54,7 @@ export const createRfq = (rfq, token) => {
     return async (dispatch) => {
         dispatch({ type: 'CREATE_RFQ_REQUEST' });
         try {
-            const response = await fetch('https://factory.demosite.name/api/Api/createRFQ', {
+            const response = await fetch(`${API_URL}/Api/createRFQ`, {
                 method: 'POST', 
                 headers: {
                     'Content-Type': 'application/json', 
@@ -81,7 +82,7 @@ export const createQuote = (rfq, token) => {
     return async (dispatch) => {
         dispatch({ type: 'CREATE_QUOTE_REQUEST' });
         try {
-            const response = await fetch('https://factory.demosite.name/api/Api/generateQuote', {
+            const response = await fetch(`${API_URL}/Api/generateQuote`, {
                 method: 'POST', 
                 headers: {
                     'Content-Type': 'application/json', 
@@ -109,7 +110,7 @@ export const getProductList = (token) => {
     return async (dispatch) => {
         dispatch({ type: 'GET_PRODUCT_LIST_REQUEST' });
         try {
-            const response = await fetch('https://factory.demosite.name/api/Api/getProducts', {
+            const response = await fetch(`${API_URL}/Api/getProducts`, {
                 method: 'GET', 
                 headers: {
                     'Content-Type': 'application/json',
@@ -141,7 +142,7 @@ export const createPO = (po, token) => {
     return async (dispatch) => {
         dispatch({ type: 'CREATE_PO_REQUEST' });
         try {
-            const response = await fetch('https://factory.demosite.name/api/Api/createPurchaseOrder', {
+            const response = await fetch(`${API_URL}/Api/createPurchaseOrder`, {
                 method: 'POST', 
                 headers: {
                     'Content-Type': 'application/json', 
@@ -169,7 +170,7 @@ export const getPOList = (token) => {
     return async (dispatch) => {
         dispatch({ type: 'GET_PO_REQUEST' });
         try {
-            const response = await fetch('https://factory.demosite.name/api/Api/ConsumerPurchaseOrder', {
+            const response = await fetch(`${API_URL}/Api/ConsumerPurchaseOrder`, {
                 method: 'GET', 
                 headers: {
                     'Content-Type': 'application/json',
@@ -193,7 +194,7 @@ export const getSupplierPOList = (token) => {
     return async (dispatch) => {
         dispatch({ type: 'GET_SUPPLIER_PO_REQUEST' });
         try {
-            const response = await fetch('https://factory.demosite.name/api/Api/SupplierPurchaseOrder', {
+            const response = await fetch(`${API_URL}/Api/SupplierPurchaseOrder`, {
                 method: 'GET', 
                 headers: {
                     'Content-Type': 'application/json',
@@ -217,7 +218,7 @@ export const getAcceptedSupplierPOList = (token) => {
     return async (dispatch) => {
         dispatch({ type: 'GET_ACCEPTED_SUPPLIER_PO_REQUEST' });
         try {
-            const response = await fetch('https://factory.demosite.name/api/Api/SupplierPurchaseOrderAccepted', {
+            const response = await fetch(`${API_URL}/Api/SupplierPurchaseOrderAccepted`, {
                 method: 'GET', 
                 headers: {
                     'Content-Type': 'application/json',
@@ -241,7 +242,7 @@ export const getRejectedSupplierPOList = (token) => {
     return async (dispatch) => {
         dispatch({ type: 'GET_REJECTED_SUPPLIER_PO_REQUEST' });
         try {
-            const response = await fetch('https://factory.demosite.name/api/Api/SupplierPurchaseOrderRejected', {
+            const response = await fetch(`${API_URL}/Api/SupplierPurchaseOrderRejected`, {
                 method: 'GET', 
                 headers: {
                     'Content-Type': 'application/json',
@@ -265,7 +266,7 @@ export const getAdminPOList = (token) => {
     return async (dispatch) => {
         dispatch({ type: 'GET_ALL_PO_REQUEST' });
         try {
-            const response = await fetch('https://factory.demosite.name/api/Api/allPurchaseOrder', {
+            const response = await fetch(`${API_URL}/Api/allPurchaseOrder`, {
                 method: 'GET', 
                 headers: {
                     'Content-Type': 'application/json',
@@ -290,7 +291,7 @@ export const getTaxCategoryList = (token) => {
     return async (dispatch) => {
         dispatch({ type: 'GET_TAX_CATEGORY_REQUEST' });
         try {
-            const response = await fetch('https://factory.demosite.name/api/Api/taxCategory', {
+            const response = await fetch(`${API_URL}/Api/taxCategory`, {
                 method: 'GET', 
                 headers: {
                     'Content-Type': 'application/json',

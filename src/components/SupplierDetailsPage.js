@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { API_URL } from '../utils/Config';
 import './SupplierDetailsPage.css'; // Import the CSS file
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -28,7 +29,7 @@ const SupplierDetailsPage = () => {
           {userDetail?.company && 
             <div style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
               <div style={{ flex: '0 0 100px', marginRight: '20px' }}>
-                <img src={`https://factory.demosite.name/api/${userDetail?.company_logo}`} alt="Logo" style={{ width: '100px', height: 'auto' }} />
+                <img src={`${API_URL}/${userDetail?.company_logo}`} alt="Logo" style={{ width: '100px', height: 'auto' }} />
               </div>
               <div style={{ flex: 1 }}>
                 <h2 style={{ margin: 0, fontSize: '28px', color: '#000' }}>
@@ -54,10 +55,10 @@ const SupplierDetailsPage = () => {
 
 
           <div style={{ flex: '1 1 300px', minWidth: '280px', display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
-            <img src={`https://factory.demosite.name/api/${userDetail?.production_facility_photos}`} style={{ width: 'calc(50% - 5px)', height: '150px', borderRadius: '8px' }} alt="Image 1" />
-            <img src={`https://factory.demosite.name/api/${userDetail?.qc_area_photos}`} style={{ width: 'calc(50% - 5px)', height: '150px', borderRadius: '8px' }} alt="Image 1" />
-            <img src={`https://factory.demosite.name/api/${userDetail?.company_portflio}`} style={{ width: 'calc(50% - 5px)', height: '150px', borderRadius: '8px' }} alt="Image 1" />
-            <img src={`https://factory.demosite.name/api/${userDetail?.warehouse_photos}`} style={{ width: 'calc(50% - 5px)', height: '150px', borderRadius: '8px' }} alt="Image 1" />
+            <img src={`${API_URL}/${userDetail?.production_facility_photos}`} style={{ width: 'calc(50% - 5px)', height: '150px', borderRadius: '8px' }} alt="Image 1" />
+            <img src={`${API_URL}/${userDetail?.qc_area_photos}`} style={{ width: 'calc(50% - 5px)', height: '150px', borderRadius: '8px' }} alt="Image 1" />
+            <img src={`${API_URL}/${userDetail?.company_portflio}`} style={{ width: 'calc(50% - 5px)', height: '150px', borderRadius: '8px' }} alt="Image 1" />
+            <img src={`${API_URL}/${userDetail?.warehouse_photos}`} style={{ width: 'calc(50% - 5px)', height: '150px', borderRadius: '8px' }} alt="Image 1" />
           </div>
 
         </div>
@@ -109,7 +110,7 @@ const SupplierDetailsPage = () => {
             <div style={{ color: '#6b7280', fontWeight: 600 }}>Company Portfolio</div>
             <div style={{ display: 'flex', alignItems: 'center' }}>
 
-              <a href={`https://factory.demosite.name/api/${userDetail?.company_portflio}`} target="_blank" style={{ color: '#007bff', textDecoration: 'none', fontWeight: 500 }}>
+              <a href={`${API_URL}/${userDetail?.company_portflio}`} target="_blank" style={{ color: '#007bff', textDecoration: 'none', fontWeight: 500 }}>
                 View Portfolio
               </a>
 
@@ -310,7 +311,7 @@ const SupplierDetailsPage = () => {
                   <td>{row.brand_model}</td>
                   <td>{row.production_capacity}</td>
                   <td>
-                  <a href={`https://factory.demosite.name/api/${row?.machine_photos}`} target="_blank" style={{ color: '#007bff', textDecoration: 'none', fontWeight: 500 }}>
+                  <a href={`${API_URL}/${row?.machine_photos}`} target="_blank" style={{ color: '#007bff', textDecoration: 'none', fontWeight: 500 }}>
                   View Photo
                  </a>
                   </td>
@@ -485,7 +486,7 @@ const SupplierDetailsPage = () => {
         <h2>Products</h2>
         <div className="grid-container">
           {core_product_photos.map(row => {
-            return   <img src={`https://factory.demosite.name/api/${row}`} alt="Sample product image 1" />
+            return   <img src={`${API_URL}/${row}`} alt="Sample product image 1" />
           })}
         
           

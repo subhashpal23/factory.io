@@ -1,8 +1,10 @@
+import { API_URL } from "../../utils/Config";
+
 export const getAllSupplier = (token) => {
     return async (dispatch) => {
         dispatch({ type: 'GET_ALL_SUPPLIER_REQUEST' });
         try {
-            const response = await fetch('https://factory.demosite.name/api/Api/AllSuppliers', {
+            const response = await fetch(`${API_URL}/Api/AllSuppliers`, {
                 method: 'GET', 
                 headers: {
                     'Content-Type': 'application/json',
@@ -27,7 +29,7 @@ export const getAllConsumer = (token) => {
     return async (dispatch) => {
         dispatch({ type: 'GET_ALL_CONSUMNER_REQUEST' });
         try {
-            const response = await fetch('https://factory.demosite.name/api/Api/AllCustomers', {
+            const response = await fetch(`${API_URL}/Api/AllCustomers`, {
                 method: 'GET', 
                 headers: {
                     'Content-Type': 'application/json',

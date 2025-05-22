@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { API_URL } from '../../../utils/Config';
 import { Table, Input, Button, Checkbox, Drawer, Dropdown, Menu, Modal, Select, Space, Typography } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAdminRfqLists } from '../../../redux/actions/rfqAction';
@@ -48,7 +49,7 @@ const AdminRfqList = ({ filter }) => {
 
   const userDetail = useSelector((state) => state.user.userDetail);
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const fileRootPath = 'https://factory.demosite.name/api';
+  const fileRootPath = API_URL;
 
   let rfqList = adminRfqData && adminRfqData?.data ? adminRfqData.data : [];
   //console.log('@rfqList',rfqList)

@@ -1,4 +1,5 @@
 import React from 'react';
+import { API_URL } from '../utils/Config';
 import { Modal, Button, Typography, Spin, Table, Image} from 'antd';
 
 const { Paragraph, Text } = Typography;
@@ -11,7 +12,7 @@ const ViewPOModal = ({ currentRfqData, open, setOpen, viewLoading, showLoading, 
 
 console.log('@@products', products)
 
-  const fileRootPath = 'https://factory.demosite.name/api/';
+  const fileRootPath = `${API_URL}/`;
   const data = currentRfqData?.files?.map((file, index) => ({
     key: index,
     product_id: file?.product_id,

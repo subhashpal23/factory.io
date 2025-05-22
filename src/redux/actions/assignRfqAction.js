@@ -1,10 +1,12 @@
 //import { showErrorNotification, showSuccessNotification } from '../utils/AppNotification';
 import { showErrorNotification, showSuccessNotification } from "../../utils/AppNotification";
+import { API_URL } from '../../utils/Config';
+
 export const assignRfqToSupplier = (request, token) => {
     return async (dispatch) => {
         dispatch({ type: 'ASSIGN_SUPPLIER_RFQ_REQUEST' });
         try {
-            const response = await fetch('https://factory.demosite.name/api/Api/assignRFQ', {
+            const response = await fetch(`${API_URL}/Api/assignRFQ`, {
                 method: 'POST', 
                 headers: {
                     'Content-Type': 'application/json',

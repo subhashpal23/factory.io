@@ -24,6 +24,7 @@ import {
 } from './../../../components/Registration/constants';
 import FilePreview from '../../../components/FilePreview';
 import FilePreviewMultiple from '../../../components/FilePreviewMultiple';
+import { API_URL } from '../../../utils/Config';
 
 const { Option } = Select;
 
@@ -43,7 +44,7 @@ const SupplierAccount = () => {
     const userDetail = useSelector((state) => state.user.userDetail);
     const [isModalVisible, setIsModalVisible] = useState(false);
 
-    const fileRootPath = 'https://factory.demosite.name/api';
+    const fileRootPath = API_URL;
     const [formData, setFormData] = useState({
         employeeCount: 0,
         facilities: '',
@@ -161,7 +162,7 @@ const SupplierAccount = () => {
 
         try {
             const response = await fetch(
-                'https://factory.demosite.name/api/Api/multipleDocUpload',
+                `${API_URL}/Api/multipleDocUpload`,
                 {
                     method: 'POST',
                     headers: {
