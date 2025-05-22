@@ -1,16 +1,16 @@
 [
     {
-      "id": "casting",
-      "title": "Casting",
-      "description": "Hot and cold forging processes produce durable components with excellent mechanical properties through controlled deformation of metals. Forged parts offer superior strength and structural integrity compared to cast or machined alternatives.",
+      "id": "façade-manufacturing",
+      "title": "Façade Manufacturing",
+      "description": "Facade manufacturing creates custom exterior building systems including curtain walls, cladding panels, and architectural features. This process combines design, engineering, and fabrication to deliver functional and aesthetic building envelopes.",
       "applications": [
-        "Engine blocks",
-        "Machinery housings",
-        "Artistic components",
-        "Structural parts"
+        "Commercial buildings",
+        "Institutional facilities",
+        "High-rise structures",
+        "Cultural landmarks"
       ],
-      "materials": ["Aluminum", "Steel", "Bronze", "Zinc", "Magnesium"],
-      "image": "/images/front/casting-2.jpg"
+      "materials": ["Glass", "Aluminum", "Steel", "Composite panels", "Stone", "Ceramics"],
+      "image": "/images/front/facade.jpg"
     },
     {
       "id": "forging",
@@ -52,17 +52,17 @@
       "image": "/images/front/conventional-machining.jpg"
     }, 
     {
-      "id": "metal-fabrication",
-      "title": "Metal Fabrication",
-      "description": "Comprehensive metal forming services including cutting, bending, welding, and assembly. Our metal fabrication capabilities transform sheet metal and structural materials into finished products for a wide range of industries.",
+      "id": "aluminum-fabrication",
+      "title": "Aluminum Fabrication",
+      "description": "Aluminum fabrication shapes and joins aluminum through cutting, bending, welding, and finishing processes. This specialized fabrication method creates lightweight, corrosion-resistant components for diverse applications.",
       "applications": [
-        "Electronic enclosures",
-        "HVAC components",
-        "Automotive panels",
-        "Architectural elements"
+        "Architectural systems",
+        "Transportation components",
+        "Custom enclosures",
+        "Structural elements"
       ],
-      "materials": ["Aluminum", "Steel", "Stainless Steel", "Copper", "Brass"],
-      "image": "/images/front/fabrication1.jpg"
+      "materials": ["Aluminum alloys 6061", "5052", "3003", "7075", "Anodized aluminum", "Powder-coated aluminum"],
+      "image": "/images/front/fabrication2.jpg"
     },
     {
       "id": "tool-die-making",
@@ -99,23 +99,24 @@
       ],
       "image": "/images/front/anodizing.jpg"
     },{
-      "id": "plasma-cutting",
-      "title": "Plasma Cutting",
-      "description": "Fast and efficient cutting of conductive materials using high-temperature plasma. Our plasma cutting technology handles thick metals with speed and precision. Ideal for industrial fabrication, structural components, and applications requiring efficient processing of heavy materials.",
+      "id": "glass-industry",
+      "title": "Glass industry",
+      "description": "The glass industry encompasses manufacturing processes for creating, forming, and finishing glass products for architectural, automotive, and consumer applications. This versatile material is shaped through melting, molding, and precision cutting to create transparent or decorative components.",
       "applications": [
-        "Thick metal cutting",
-        "Industrial fabrication",
-        "Automotive components",
-        "Structural elements"
+        "Architectural glazing",
+        "Automotive windshields",
+        "Consumer products",
+        "Technical/specialty glass"
       ],
       "materials": [
-        "Steel",
-        "Aluminum",
-        "Stainless Steel",
-        "Copper",
-        "Brass"
+        "Soda-lime glass",
+        "Borosilicate glass",
+        "Tempered glass",
+        "Laminated glass",
+        "Float glass",
+        "Low-E glass"
       ],
-      "image": "/images/front/howard-r-wheeler-EueYQgD7cms-unsplash.jpg"
+      "image": "/images/front/glass.jpg"
     },
     {
       "id": "heat-treatment",
@@ -211,6 +212,19 @@
       ],
       "materials": ["Thermoplastics", "Thermosets", "Metal powders"],
       "image": "/images/front/injection-moulding.jpg"
+    },
+    {
+      "id": "stone-manufacturing",
+      "title": "Stone Manufacturing",
+      "description": "Stone manufacturing transforms raw stone into finished architectural and decorative elements through cutting, shaping, and finishing processes. This versatile manufacturing method delivers durable, natural products for various construction applications.",
+      "applications": [
+        "Countertops and surfaces",
+        "Floor and wall tiles",
+        "Architectural elements",
+        "Decorative features"
+      ],
+      "materials": ["Granite", "Marble", "Limestone", "Travertine", "Quartzite","Soapstone"],
+      "image": "/images/front/stone.jpg"
     }
   ]
   

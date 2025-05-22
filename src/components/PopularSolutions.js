@@ -8,10 +8,10 @@ const { Title } = Typography;
 const manufacturingSolutions = [
   { title: "Conventional Machining", image: "/images/front/conventional-machining.jpg", href: "/manufacturing/conventional-machining" },
   { title: "CNC Machining", image: "/images/front/CNC-machining1.png", href: "/manufacturing/cnc-machining" },
-  { title: "Casting", image: "/images/front/casting-2.jpg", href: "/manufacturing/casting" },
-  { title: "Metal Fabrication", image: "/images/front/fabrication1.jpg", href: "/manufacturing/metal-fabrication" },
+  { title: "Façade Manufacturing", image: "/images/front/facade.jpg", href: "/manufacturing/façade-manufacturing" },
+  { title: "Aluminum Fabrication", image: "/images/front/fabrication2.jpg", href: "/manufacturing/aluminum-fabrication" },
   { title: "Anodizing and Coating", image: "/images/front/anodizing.jpg", href: "/manufacturing/anodizing-coating" },
-  { title: "Plasma Cutting", image: "/images/front/howard-r-wheeler-EueYQgD7cms-unsplash.jpg", href: "/manufacturing/plasma-cutting" },
+  { title: "Glass industry", image: "/images/front/glass.jpg", href: "/manufacturing/plasma-cutting" },
   { title: "Laser Cutting", image: "/images/front/laser-cutting.jpg", href: "/manufacturing/laser-cutting" },
   { title: "Waterjet Cutting", image: "/images/front/waterjetmachining.jpg", href: "/manufacturing/waterjet-cutting" },
 ];

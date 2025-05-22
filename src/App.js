@@ -45,14 +45,15 @@ const App = () => {
                 </Route>
                 <Route path="/manufactoring/:process" element={<ManufactoringProcessPage />}/>
                 <Route path="/supplier-profile" element={<SupplierProfile />} />
-                <Route path="/manufacturing/casting" element={<ManufactoringProcess processId="casting" />} />
+                {/* <Route path="/manufacturing/casting" element={<ManufactoringProcess processId="casting" />} /> */}
+                <Route path="/manufacturing/façade-manufacturing" element={<ManufactoringProcess processId="façade-manufacturing" />} />
                 <Route path="/manufacturing/forging" element={<ManufactoringProcess processId="forging" />} />
                 <Route path="/manufacturing/cnc-machining" element={<ManufactoringProcess processId="cnc-machining" />} />
                 <Route path="/manufacturing/conventional-machining" element={<ManufactoringProcess processId="conventional-machining" />} />>
-                <Route path="/manufacturing/metal-fabrication" element={<ManufactoringProcess processId="metal-fabrication" />} />
+                <Route path="/manufacturing/aluminum-fabrication" element={<ManufactoringProcess processId="aluminum-fabrication" />} />
                 <Route path="/manufacturing/tool-die-making" element={<ManufactoringProcess processId="tool-die-making" />} />
                 <Route path="/manufacturing/anodizing-coating" element={<ManufactoringProcess processId="anodizing-coating" />} />
-                <Route path="/manufacturing/plasma-cutting" element={<ManufactoringProcess processId="plasma-cutting" />} />
+                <Route path="/manufacturing/glass-industry" element={<ManufactoringProcess processId="glass-industry" />} />
                 <Route path="/manufacturing/heat-treatment" element={<ManufactoringProcess processId="heat-treatment" />} />
                 <Route path="/manufacturing/laser-cutting" element={<ManufactoringProcess processId="laser-cutting" />} />
                 <Route path="/manufacturing/waterjet-cutting" element={<ManufactoringProcess processId="waterjet-cutting" />} />
@@ -60,6 +61,7 @@ const App = () => {
                 <Route path="/manufacturing/grinding" element={<ManufactoringProcess processId="grinding" />} />
                 <Route path="/manufacturing/wire-edm" element={<ManufactoringProcess processId="wire-edm" />} />
                 <Route path="/manufacturing/injection-molding" element={<ManufactoringProcess processId="injection-molding" />} />
+                <Route path="/manufacturing/stone-manufacturing" element={<ManufactoringProcess processId="stone-manufacturing" />} />
                 {/** Protected routes*/}
                 {/* <Route path="/dashboard" element={<Dashboard user_type = "consumer"/>} /> */}
                 {/* <Route path="/dashboard" element={<RoleBasedRoute element={<Dashboard />} requiredRole={UserRole.CONSUMER} />} />

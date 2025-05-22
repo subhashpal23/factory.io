@@ -28,7 +28,7 @@ import AdminQuotesList from '../pages/admin/AdminQuotesList';
 export const industriesType = [
     'Aerospace',
     'Agriculture',
-    'Automotive',
+    'Façade',
     'Aviation & Aerospace',
     'Construction',
     'Consulting',

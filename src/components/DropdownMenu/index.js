@@ -36,7 +36,7 @@ const DropdownMenu = () => {
         <Dropdown
           title="Industries"
           options={[
-            {label: "Automotive", link: "/automotive"},
+            {label: "Façade", link: "/façade"},
             {label: "Aerospace", link: "/aerospace"},
             {label: "Electronics", link: "/electronics"},
             {label: "Medical", link: "/medical"},

@@ -144,13 +144,13 @@ const TopNavigation = () => {
   const isUserLoggedIn = !!accessToken;
   const [manufacturingData, setManufacturingData] = useState([]);
   const [industryData, setIndustryData] = useState([
-    { title: "Automotive", icon: "🚏" },
+    { title: "Façade Industry", icon: "🚏" },
     { title: "Electronics", icon: "⚡" },
     { title: "Medical", icon: "⚕️" },
     { title: "Stone Industry", icon: "💎" },
     { title: "Woodworking", icon: "🪵" },
-    { title: "Heavy Machinery", icon: "🟰" },
-    { title: "Renewable Energy", icon: "🔋" },
+    { title: "Aluminum Industry", icon: "🟰" },
+    { title: "Glass & Stone industry", icon: "🔋" },
     { title: "Marine Industry", icon: "🪼" },
     { title: "Defense", icon: "🪖" },
     { title: "Consumer", icon: "🛍️" },

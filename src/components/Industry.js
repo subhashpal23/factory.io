@@ -5,13 +5,13 @@ import { Typography } from "antd";
 const { Title } = Typography;
 
 const industries = [
-  { name: "Automotive", icon: "🚏" },
+  { name: "Façade Industry", icon: "🚏" },
   { name: "Electronics", icon: "⚡" },
   { name: "Medical", icon: "⚕️" },
   { name: "Stone Industry", icon: "💎" },
   { name: "Woodworking", icon: "🪵" },
-  { name: "Heavy Machinery", icon: "🟰" },
-  { name: "Renewable Energy", icon: "🔋" },
+  { name: "Aluminum Industry", icon: "🟰" },
+  { name: "Glass & Stone industry", icon: "🔋" },
   { name: "Marine Industry", icon: "🪼" },
   { name: "Defense", icon: "🪖" },
   { name: "Consumer", icon: "🛍️" },
