@@ -22,6 +22,9 @@ import ContactUs from "./components/ContactUs";
 import About from "./components/About";
 import Blog from "./components/Blog";
 import  SupplierDetailsPage  from "./components/SupplierDetailsPage"
+import TermsAndConditions from "./components/TermsAndConditions";
+import PrivacyPolicy from "./components/PrivacyPolicy";
+import NotFound from "./components/NotFound";
 
 const App = () => {
     return (
@@ -31,6 +34,8 @@ const App = () => {
             <Routes>
                 <Route path="/" element={<Welcome />} />
                 <Route path="/contact-us" element={<ContactUs />} />
+                <Route path="/terms-conditions" element={<TermsAndConditions />} />
+                <Route path="/privacy-policy" element={<PrivacyPolicy />} />
                 <Route path="/about-us" element={<About />} />
                 <Route path="/blog" element={<Blog />} />
                 <Route path="/consumer-login" element={<CustomerLoginPage />} />
@@ -66,7 +71,7 @@ const App = () => {
                 {/* <Route path="/dashboard" element={<Dashboard user_type = "consumer"/>} /> */}
                 {/* <Route path="/dashboard" element={<RoleBasedRoute element={<Dashboard />} requiredRole={UserRole.CONSUMER} />} />
                 <Route path="/dashboard"element={ <RoleBasedRoute element={<Dashboard />} requiredRole={UserRole.CONSUMER} />} /> */}
-
+                <Route path="*" element={<NotFound />} />
             </Routes>
             {/* <header>
                 <nav>

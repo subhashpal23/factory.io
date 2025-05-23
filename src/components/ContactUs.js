@@ -231,8 +231,14 @@ const ContactUs = () => {
         <strong>
           Landline No:
         </strong>
+        <a 
+          href="tel:+045804514" 
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
         <PhoneOutlined style={{ color: '#1890ff', fontSize: 24 }} />
         <Text style={{fontSize: 16}}>+045804514</Text>
+        </a>
       </Space>
     </InfoBlock>
   </div>

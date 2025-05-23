@@ -1,8 +1,9 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
+import { notification } from 'antd'
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from 'react-router-dom';
 import { UserRole } from '../../types/enums';
-import styled from 'styled-components';
+import styled, { keyframes } from "styled-components";
 import { userRegister,refreshRegistrationState, userLogout } from "./../../redux/actions/authAction";
 import { CountryCodes, industriesType } from './constants';
 import TopNavigation  from "../../components/TopNavigation";
@@ -32,6 +33,8 @@ const RegistrationPage = ({user_type}) => {
     country_code: ''
   };
   const [registration, setRegistration] = React.useState({ ...registrationEmptyState });
+  const [passwordStrength, setPasswordStrength] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 //   const dal = useDal();
   const [errors, setErrors] = React.useState({ ...errorsEmptyState });
   const location = useLocation();
@@ -62,13 +65,14 @@ const RegistrationPage = ({user_type}) => {
     if (!validateForm()) return;
     const userType = user_type === 'consumer' ? UserRole.CONSUMER : UserRole.SUPPLIER;
     try {
+      setIsLoading(true);
       dispatch(userRegister(registration,userType))
     } catch (err) {
       // Handle error
     }
   };
 
-  if (registrationData) {
+ /* if (registrationData) {
     const registrationStatus = registrationData?.status;
     if (!registrationStatus) {
       window.alert(registrationData.message || '');
@@ -87,9 +91,51 @@ const RegistrationPage = ({user_type}) => {
       dispatch(refreshRegistrationState());
     }, 1000); // Dispatches after 1 second
   }
-  
+  */
+ useEffect(() => {
+    if (registrationData) {
+      const registrationStatus = registrationData?.status;
+      if (!registrationStatus) {
+        window.alert(registrationData.message || '');
+      } else {
+        setIsLoading(false);
+        localStorage.clear();
+        dispatch(userLogout());
+        notification.success({
+                message: "Registration Successful. Please check your email for verification.",
+                placement: 'topRight',
+        });
+        navigate(
+          registrationData?.data?.role_type === UserRole.CONSUMER
+            ? '/consumer-login'
+            : '/supplier-login'
+        );
+      }
+
+      const timer = setTimeout(() => {
+        dispatch(refreshRegistrationState());
+      }, 1000);
+
+      return () => clearTimeout(timer);
+    }
+ }, [registrationData]);
+
+
   if(registrationError){
   }
+
+  const getPasswordStrength = (password) => {
+      let strength = 0;
+      if (password.length >= 8) strength++;
+      if (/[A-Z]/.test(password)) strength++;
+      if (/[a-z]/.test(password)) strength++;
+      if (/\d/.test(password)) strength++;
+      if (/[\W_]/.test(password)) strength++;
+
+      if (strength <= 2) return 'Weak';
+      if (strength === 3 || strength === 4) return 'Strong';
+      return 'Very Strong';
+  };
 
   return (
     <>
@@ -211,12 +257,37 @@ const RegistrationPage = ({user_type}) => {
 
             {/* Password */}
             <InputField>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <Label>Password *</Label>
+              {registration.password && (
+                <span
+                  style={{
+                    fontSize: '12px',
+                    fontWeight: 'semibold',
+                    color:
+                      passwordStrength === 'Weak'
+                        ? 'red'
+                        : passwordStrength === 'Strong'
+                        ? 'orange'
+                        : 'green',
+                  }}
+                >
+                  {passwordStrength}
+                </span>
+              )}
+            </div>
               <Input
                 type="password"
                 placeholder="Password"
                 required
-                onChange={(e) => setRegistration({ ...registration, password: e.target.value })}
+                pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$"
+                title="Password must be at least 8 characters, and include uppercase, lowercase, number, and special character."
+                //onChange={(e) => setRegistration({ ...registration, password: e.target.value })}
+                onChange={(e) => {
+                  const newPassword = e.target.value;
+                  setRegistration({ ...registration, password: newPassword });
+                  setPasswordStrength(getPasswordStrength(newPassword));
+                }}
                 style={{
                   padding: '0.75rem',
                   borderRadius: '5px',
@@ -322,7 +393,7 @@ const RegistrationPage = ({user_type}) => {
               <Select
                 onChange={(e) => setRegistration({ ...registration, industry: e.target.value })}
                 style={{
-                  padding: '0.75rem',
+                  //padding: '0.75rem',
                   borderRadius: '5px',
                   border: '1px solid #1A3E8A',
                   fontSize: '13px',
@@ -341,21 +412,30 @@ const RegistrationPage = ({user_type}) => {
             </InputField>
 
             {/* Agreement */}
-            <Agreement>
-              <Checkbox
-                type="checkbox"
-                required
-                onChange={(e) => setRegistration({ ...registration, marketing_consent: e.target.checked })}
-                style={{
-                  width: '16px',
-                  height: '16px', // Adjust size to make it larger
-                  cursor: 'pointer', // Optional: Improve usability
-                }}
-              />
-              <Label style={{marginBottom: "0rem"}}>I agree to the <a href="#"><span style={{marginLeft:"5px", color:"#2563EB"}}>terms & conditions</span></a></Label>
+           <Agreement>
+            <Checkbox
+              id="marketing_consent"
+              type="checkbox"
+              required
+              checked={registration.marketing_consent}
+              onChange={(e) =>
+                setRegistration({ ...registration, marketing_consent: e.target.checked })
+              }
+              style={{
+                width: '16px',
+                height: '16px',
+                cursor: 'pointer',
+              }}
+            />
+            <Label htmlFor="marketing_consent" style={{ cursor: 'pointer', marginBottom: '0rem' }}>
+              I agree to the{' '}
+            </Label>
+            <Label onClick={() => navigate('/terms-conditions')} style={{ cursor: 'pointer', color: '#2563EB', marginBottom: '0rem', textDecoration: 'underline', paddingLeft: '4px', textUnderlineOffset: '2px' }}>
+             terms & conditions
+            </Label>
             </Agreement>
-
-            <SubmitButton type="submit">Sign up</SubmitButton>
+             {isLoading && <Spinner />}
+            <SubmitButton type="submit" disabled={isLoading}>{isLoading ? "Sign up In progress..." : "Sign up"}</SubmitButton>
           </form>
 
           <LoginLink>
@@ -509,6 +589,20 @@ const LoginLink = styled.p`
   color: #6b7280;
   margin-top: 1rem;
   text-align: center;
+`;
+
+const spin = keyframes`
+  to { transform: rotate(360deg); }
+`;
+
+const Spinner = styled.div`
+  border: 2px solid blue;
+  border-top: 2px solid transparent;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  animation: ${spin} 0.8s linear infinite;
+  padding: 2px;
 `;
 
 export default RegistrationPage;
