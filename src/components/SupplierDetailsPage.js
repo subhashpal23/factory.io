@@ -57,7 +57,7 @@ const SupplierDetailsPage = () => {
           <div style={{ flex: '1 1 300px', minWidth: '280px', display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
             <img src={`${API_URL}/${userDetail?.production_facility_photos}`} style={{ width: 'calc(50% - 5px)', height: '150px', borderRadius: '8px' }} alt="Image 1" />
             <img src={`${API_URL}/${userDetail?.qc_area_photos}`} style={{ width: 'calc(50% - 5px)', height: '150px', borderRadius: '8px' }} alt="Image 1" />
-            <img src={`${API_URL}/${userDetail?.company_portflio}`} style={{ width: 'calc(50% - 5px)', height: '150px', borderRadius: '8px' }} alt="Image 1" />
+            <img src={`${API_URL}/${userDetail?.production_line_photos}`} style={{ width: 'calc(50% - 5px)', height: '150px', borderRadius: '8px' }} alt="Image 1" />
             <img src={`${API_URL}/${userDetail?.warehouse_photos}`} style={{ width: 'calc(50% - 5px)', height: '150px', borderRadius: '8px' }} alt="Image 1" />
           </div>
 

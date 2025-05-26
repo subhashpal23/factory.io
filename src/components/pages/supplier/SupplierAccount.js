@@ -144,7 +144,13 @@ const SupplierAccount = () => {
                 ? formData.social_compliance_upload.at(-1)
                 : formData.social_compliance_upload ?? null,
 
-            core_product_photos: formData?.core_product_photos
+            core_product_photos: formData?.core_product_photos,
+
+            tax_documents:  Array.isArray(
+                formData.tax_documents
+            )
+                ? formData.tax_documents.at(-1)
+                : formData.tax_documents ?? null,
         };
         //delete dataToSend.importExportDocs;
         //console.log('dataToSend', dataToSend);
@@ -335,7 +341,7 @@ const SupplierAccount = () => {
                     ? JSON.parse(userDetail?.machinery_list)
                     : [],
                     operating_days: userDetail?.operating_days
-                    ? formData?.operating_days?.split(',')
+                    ? userDetail?.operating_days?.split(',')
                     : [],
 
                 general_moq_policy: userDetail?.general_moq_policy || '',
@@ -353,7 +359,7 @@ const SupplierAccount = () => {
                     userDetail?.environmental_cert_text || '',
                 social_compliance_text:
                     userDetail?.social_compliance_text || '',
-                sustainable_practices: userDetail?.sustainable_practices || [],
+                sustainable_practices: userDetail?.sustainable_practices || '',
 
                 production_facility_photos:
                     userDetail?.production_facility_photos || null,
@@ -370,7 +376,9 @@ const SupplierAccount = () => {
 
                 core_product_photos: userDetail?.core_product_photos
                     ? JSON.parse(userDetail?.core_product_photos)
-                    : []
+                    : [],
+
+                tax_documents: userDetail?.tax_documents || null,
             }
                 setFormData(data);
 // set inital
@@ -903,7 +911,7 @@ const SupplierAccount = () => {
                             </Form.Item>
                         </Col>
                         <Col xs={24} sm={24} md={12} lg={8}>
-                            <Form.Item
+                            {/* <Form.Item
                                 name="tax_documents"
                                 label="Tax Documents"
                                 valuePropName="fileList"
@@ -918,6 +926,26 @@ const SupplierAccount = () => {
                                         Upload Documents
                                     </Button>
                                 </Upload>
+                            </Form.Item> */}
+                             <Form.Item
+                                name="tax_documents"
+                                label="Tax Documents"
+                                valuePropName="file"
+                            >
+                                <Upload
+                                    {...props('tax_documents')}
+                                    showUploadList={true}
+                                >
+                                    <Button icon={<UploadOutlined />}>
+                                        Upload Tax Document
+                                    </Button>
+                                </Upload>
+                                {formData?.company_portflio && (
+                                    <FilePreview
+                                        filePath={formData?.tax_documents}
+                                        fileRootPath={fileRootPath}
+                                    />
+                                )}
                             </Form.Item>
                         </Col>
                         <Col span={24}>
