@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
+  <!-- White background -->
+  <rect width="800" height="600" fill="white"/>
+  
+  <!-- Circular navy background -->
+  <circle cx="400" cy="300" r="230" fill="#242c3c"/>
+  
+  <!-- Grid pattern inside circle -->
+  <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+    <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#2d3645" stroke-width="1"/>
+  </pattern>
+  <circle cx="400" cy="300" r="230" fill="url(#grid)"/>
+  
+  <!-- Factory Icon -->
+  <g transform="translate(400, 250) scale(0.9)">
+    <g fill="#deb887">
+      <!-- Left building tower -->
+      <rect x="-60" y="-40" width="20" height="80"/>
+      
+      <!-- Center elements - tall buildings -->
+      <rect x="-30" y="-80" width="12" height="120"/>
+      <rect x="-15" y="-90" width="12" height="130"/>
+      <rect x="0" y="-100" width="12" height="140"/>
+      <rect x="15" y="-70" width="12" height="110"/>
+      <rect x="30" y="-60" width="12" height="100"/>
+      
+      <!-- Right side building -->
+      <polygon points="50,-20 50,40 90,40 90,-20 70,-40 50,-40"/>
+      
+      <!-- Windows/details -->
+      <rect x="-55" y="15" width="10" height="10" fill="#242c3c"/>
+      <rect x="60" y="5" width="20" height="20" fill="#242c3c"/>
+    </g>
+  </g>
+  
+  <!-- DIGIFACTORY.AE Text -->
+  <text x="400" y="365" font-family="Arial, sans-serif" font-size="42" font-weight="bold" letter-spacing="1" text-anchor="middle" fill="#deb887">DIGIFACTORY.AE</text>
+  
+  <!-- Tagline -->
+  <text x="400" y="405" font-family="Arial, sans-serif" font-size="20" letter-spacing="3" font-weight="normal" text-anchor="middle" fill="#deb887">MANUFACTURE AT EASE</text>
+</svg>

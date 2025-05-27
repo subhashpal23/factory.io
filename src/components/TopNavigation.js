@@ -176,7 +176,23 @@ const TopNavigation = () => {
   return (
     <>
       <TopMenuContainer>
-        <HeaderText onClick={() => navigate("/")}>DigiFactory.ae</HeaderText>
+        <HeaderText 
+          onClick={() => navigate("/")} 
+          style={{ 
+            display: 'flex', 
+            alignItems: 'center', 
+            justifyContent: 'center', 
+            cursor: 'pointer', 
+            textAlign: 'center' 
+          }}
+          >
+          <img 
+            src='/images/digifactory-ae-logo.png' 
+            alt="Logo" 
+            style={{ width: '100px', height: 'auto' }} 
+          />
+          DigiFactory.ae
+      </HeaderText>
         <Menu mode="horizontal" style={{ borderBottom: "none", flex: 2, display: "flex", justifyContent: "flex-end", fontWeight: "bold", fontSize: "20px" }}>
           <Menu.Item key="services"><MegaMenu data={manufacturingData} title="Manufacturing Hub" /></Menu.Item>
           <Menu.Item key="industries"><MegaMenu data={industryData} title="Industry" /></Menu.Item>

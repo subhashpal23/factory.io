@@ -140,7 +140,7 @@ const ManufacturingProcess = ( processId ) => {
             ))}
           </MaterialTags>
 
-          <Button onClick={() => navigate('/supplier-registration')}>
+          <Button onClick={() => navigate('/consumer-registration')}>
             Find {process.title} Suppliers
           </Button>
         </TextContent>

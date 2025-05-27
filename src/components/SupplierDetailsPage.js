@@ -448,7 +448,7 @@ const SupplierDetailsPage = () => {
                   marginBottom: '20px'
                 }}>
                   <div>
-                    <a href={userDetail?.tax_documents} target="_blank" style={{ color: '#007bff', textDecoration: 'none', fontWeight: 500 }}>
+                    <a href={`${API_URL}/${userDetail?.tax_documents}`} target="_blank" style={{ color: '#007bff', textDecoration: 'none', fontWeight: 500 }}>
                       View Document
                     </a>
                   </div>

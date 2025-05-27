@@ -149,7 +149,23 @@ const MobileNavigation = () => {
     <Container>
       <Button type="text" onClick={toggleMenu} icon={isOpen ? <CloseOutlined /> : <MenuOutlined />} />
       
-      <HeaderText onClick={() => navigate("/")}>DigiFactory.ae</HeaderText>
+<HeaderText 
+  onClick={() => navigate("/")} 
+  style={{ 
+    display: 'flex', 
+    alignItems: 'center', 
+    justifyContent: 'center', 
+    cursor: 'pointer', 
+    textAlign: 'center' 
+  }}
+>
+  <img 
+    src='/images/digifactory-ae-logo.png' 
+    alt="Logo" 
+    style={{ width: '70px', height: 'auto' }} 
+  />
+  DigiFactory.ae
+</HeaderText>
 
       <Button type="text" icon={<UserOutlined />} onClick={openLoginDrawer} />
 
@@ -169,7 +185,23 @@ const MobileNavigation = () => {
         open={isOpen}
       >
         <div style={{ textAlign: 'center', marginBottom: 24 }}>
-          <HeaderText onClick={() => navigate("/")}>DigiFactory.ae</HeaderText>
+            <HeaderText 
+              onClick={() => navigate("/")} 
+              style={{ 
+                display: 'flex', 
+                alignItems: 'center', 
+                justifyContent: 'center', 
+                cursor: 'pointer', 
+                textAlign: 'center' 
+              }}
+            >
+              <img 
+                src='/images/digifactory-ae-logo.png' 
+                alt="Logo" 
+                style={{ width: '100px', height: 'auto' }} 
+              />
+          DigiFactory.ae
+         </HeaderText>
         </div>
         {!submenu ? (
           <ul style={{ listStyle: 'none', padding: 0, fontSize: '16px' }}>

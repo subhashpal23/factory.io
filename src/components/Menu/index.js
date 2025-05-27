@@ -203,7 +203,23 @@ const ResponsiveSidebar = ({ userType }) => {
               fontFamily: 'Roboto, sans-serif',
             }}
           >
-            DigiFactory.ae
+        <div 
+          onClick={() => navigate("/")} 
+          style={{ 
+            display: 'flex', 
+            alignItems: 'center', 
+            justifyContent: 'center', 
+            cursor: 'pointer', 
+            textAlign: 'center' 
+          }}
+          >
+          <img 
+            src='/images/digifactory-ae-logo.png' 
+            alt="Logo" 
+            style={{ width: '50px', height: 'auto', marginRight: '6px' }} 
+          />
+          DigiFactory.ae
+        </div>
           </Title>
         </div>
         <Menu
