@@ -160,11 +160,11 @@ const MobileNavigation = () => {
   }}
 >
   <img 
-    src='/images/digifactory-ae-logo.png' 
+    src='/images/DigiFactory_ae_logo_icon.png' 
     alt="Logo" 
     style={{ width: '70px', height: 'auto' }} 
   />
-  DigiFactory.ae
+  {/* DigiFactory.ae */}
 </HeaderText>
 
       <Button type="text" icon={<UserOutlined />} onClick={openLoginDrawer} />
@@ -196,11 +196,11 @@ const MobileNavigation = () => {
               }}
             >
               <img 
-                src='/images/digifactory-ae-logo.png' 
+                src='/images/DigiFactory_ae_logo_icon.png' 
                 alt="Logo" 
-                style={{ width: '100px', height: 'auto' }} 
+                style={{ width: '70px', height: 'auto' }} 
               />
-          DigiFactory.ae
+          {/* DigiFactory.ae */}
          </HeaderText>
         </div>
         {!submenu ? (

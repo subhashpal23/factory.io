@@ -123,7 +123,7 @@ const CNCMachining = () => {
         <Button>Find CNC Suppliers</Button>
       </TextContent>
 
-      <ImagePlaceholder><img  height={400} width={800} src="./../images/front/CNC-machining1.png" alt="CNC machining placeholder"/></ImagePlaceholder>
+      <ImagePlaceholder><img  height={400} width={800} src="./../images/front/cnc-machining1.png" alt="CNC machining placeholder"/></ImagePlaceholder>
     </Container>
     <Footer/>
     </>

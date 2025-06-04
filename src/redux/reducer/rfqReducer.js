@@ -105,7 +105,14 @@ const initialState = {
       case 'GET_TAX_CATEGORY_REQUEST_FAILURE':
         return { ...state, loading: false, error: action.payload };
 
-     
+      case 'GET_SUPPLIER_LIST_REQUEST':
+        return { ...state, loading: true };
+      case 'GET_SUPPLIER_LIST_SUCCESS':
+        console.log("Supplier List Action Payload:", action.payload);
+            return { ...state, loading: false, suppliers: action.payload?.data, totalSuppliers: action.payload?.total_record || 0 }; 
+        case 'GET_SUPPLIER_LIST_FAILURE':
+          return { ...state, loading: false, error: action.payload };
+  
       case 'RESET_RFC_CREATE_STATUS':
         return {...state, rfqCreateStatus: false}
 

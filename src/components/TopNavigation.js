@@ -187,11 +187,11 @@ const TopNavigation = () => {
           }}
           >
           <img 
-            src='/images/digifactory-ae-logo.png' 
+            src='/images/DigiFactory_ae_logo_.png' 
             alt="Logo" 
-            style={{ width: '100px', height: 'auto' }} 
+            style={{ width: '200px', height: 'auto' }} 
           />
-          DigiFactory.ae
+          {/* DigiFactory.ae */}
       </HeaderText>
         <Menu mode="horizontal" style={{ borderBottom: "none", flex: 2, display: "flex", justifyContent: "flex-end", fontWeight: "bold", fontSize: "20px" }}>
           <Menu.Item key="services"><MegaMenu data={manufacturingData} title="Manufacturing Hub" /></Menu.Item>

@@ -48,7 +48,6 @@ const App = () => {
                     <Route path="/dashboard/supplier-details" element={<SupplierDetailsPage />} />
                     <Route path="/dashboard/supplier-details/:id" element={<SupplierDetailsPage />} />
                 </Route>
-                <Route path="/manufactoring/:process" element={<ManufactoringProcessPage />}/>
                 <Route path="/supplier-profile" element={<SupplierProfile />} />
                 {/* <Route path="/manufacturing/casting" element={<ManufactoringProcess processId="casting" />} /> */}
                 <Route path="/manufacturing/façade-manufacturing" element={<ManufactoringProcess processId="façade-manufacturing" />} />
@@ -71,6 +70,7 @@ const App = () => {
                 {/* <Route path="/dashboard" element={<Dashboard user_type = "consumer"/>} /> */}
                 {/* <Route path="/dashboard" element={<RoleBasedRoute element={<Dashboard />} requiredRole={UserRole.CONSUMER} />} />
                 <Route path="/dashboard"element={ <RoleBasedRoute element={<Dashboard />} requiredRole={UserRole.CONSUMER} />} /> */}
+                <Route path="/manufactor/search" element={<ManufactoringProcessPage />}/>
                 <Route path="*" element={<NotFound />} />
             </Routes>
             {/* <header>

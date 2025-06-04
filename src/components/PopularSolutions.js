@@ -7,7 +7,7 @@ const { Title } = Typography;
 
 const manufacturingSolutions = [
   { title: "Conventional Machining", image: "/images/front/conventional-machining.jpg", href: "/manufacturing/conventional-machining" },
-  { title: "CNC Machining", image: "/images/front/CNC-machining1.png", href: "/manufacturing/cnc-machining" },
+  { title: "CNC Machining", image: "/images/front/cnc-machining1.png", href: "/manufacturing/cnc-machining" },
   { title: "Façade Manufacturing", image: "/images/front/facade.jpg", href: "/manufacturing/façade-manufacturing" },
   { title: "Aluminum Fabrication", image: "/images/front/fabrication2.jpg", href: "/manufacturing/aluminum-fabrication" },
   { title: "Anodizing and Coating", image: "/images/front/anodizing.jpg", href: "/manufacturing/anodizing-coating" },

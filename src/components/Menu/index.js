@@ -214,11 +214,11 @@ const ResponsiveSidebar = ({ userType }) => {
           }}
           >
           <img 
-            src='/images/digifactory-ae-logo.png' 
+            src='/images/DigiFactory_ae_logo_icon.png' 
             alt="Logo" 
-            style={{ width: '50px', height: 'auto', marginRight: '6px' }} 
+            style={{ width: '80px', height: 'auto', marginRight: '6px' }} 
           />
-          DigiFactory.ae
+          {/* DigiFactory.ae */}
         </div>
           </Title>
         </div>

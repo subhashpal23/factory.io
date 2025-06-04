@@ -310,3 +310,42 @@ export const getTaxCategoryList = (token) => {
         }
     };
 }
+
+export const getSuppliersList = (filters) => {
+    return async (dispatch) => {
+        dispatch({ type: 'GET_SUPPLIER_LIST_REQUEST' });
+
+        try {
+
+           const response = await fetch(`${API_URL}/Api/searchSuppliers`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    country: filters.country || '',
+                    industry: filters.industry || '',
+                    search: filters.search || '',
+                    pageno: filters.pageno?.toString() || '1',
+                    limit: filters.limit?.toString() || '10',
+                }),
+            });
+
+            if (!response.ok) {
+                throw new Error(`API Error: ${response.status} ${response.statusText}`);
+            }
+
+            const data = await response.json();
+            console.log("Supplier List Data:", data);
+            dispatch({
+                type: 'GET_SUPPLIER_LIST_SUCCESS',
+                payload: data || [],
+            });
+        } catch (error) {
+            dispatch({
+                type: 'GET_SUPPLIER_LIST_FAILURE',
+                payload: error.message,
+            });
+        }
+    };
+};
