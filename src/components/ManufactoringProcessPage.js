@@ -454,7 +454,7 @@ export default function ManufactoringProcessPage() {
                                         >
                                             {mfg.company_type}
                                         </Title>
-                                        <Text style={{ color: '#555' }}>
+                                        {/* <Text style={{ color: '#555' }}>
                                             {mfg.rating
                                                 ? `⭐ ${mfg.rating.toFixed(
                                                       2
@@ -464,7 +464,7 @@ export default function ManufactoringProcessPage() {
                                                           Math.random() * 100
                                                       ) + 1
                                                   })`}
-                                        </Text>
+                                        </Text> */}
                                     </div>
                                     {/* Placeholder thumbnails (replace src with actual URLs if available) */}
                                     <div style={{ display: 'flex', gap: 4 }}>
