@@ -195,6 +195,7 @@ const TopNavigation = () => {
       </HeaderText>
         <Menu mode="horizontal" style={{ borderBottom: "none", flex: 2, display: "flex", justifyContent: "flex-end", fontWeight: "bold", fontSize: "20px" }}>
           <Menu.Item key="services"><MegaMenu data={manufacturingData} title="Manufacturing Hub" /></Menu.Item>
+          <Menu.Item key="supplier-search"><a href="/manufactor/search">Supplier Search</a></Menu.Item>
           <Menu.Item key="industries"><MegaMenu data={industryData} title="Industry" /></Menu.Item>
           <Menu.Item key="resources"><a href="/#how-it-works">How It Works</a></Menu.Item>
           <Menu.Item key="contact" onClick={() => navigate("/contact-us")}>Contact</Menu.Item>

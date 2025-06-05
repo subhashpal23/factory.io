@@ -182,12 +182,12 @@ export default function ManufactoringProcessPage() {
         return 'Very Strong';
     };
 
-    const handleViewDetails = () => {
-        console.log('@@logindata', logindata);
+    const handleViewDetails = (id) => {
+       // console.log('@@logindata', logindata);
         if (!logindata || !logindata?.data) {
             setIsRegisterModalOpen(true);
         } else {
-            navigate(`/dashboard/supplier-details`);
+           window.open(`/dashboard/supplier-details/${id}`, '_blank');
         }
     };
 
@@ -220,7 +220,7 @@ export default function ManufactoringProcessPage() {
 
     useEffect(() => {
         fetchSuppliers(currentPage);
-    }, []);
+    }, [dispatch, currentPage, selectedCountry, selectIndustry, searchKeyword]);
 
     const handleSearch = () => {
         setCurrentPage(1);
@@ -322,11 +322,11 @@ export default function ManufactoringProcessPage() {
                             onChange={(e) => setSearchKeyword(e.target.value)}
                         />
                     </Col>
-                    <Col>
+                    {/* <Col>
                         <Button type="primary" onClick={handleSearch}>
                             Search Manufacturers
                         </Button>
-                    </Col>
+                    </Col> */}
                 </Row>
 
                 {/* Show Near Me */}
@@ -334,17 +334,17 @@ export default function ManufactoringProcessPage() {
                     style={{
                         textAlign: 'center',
                         margin: '30px auto',
-                        border: '1px solid #eee',
-                        borderRadius: 8,
-                        padding: 20,
+                        //border: '1px solid #eee',
+                        //borderRadius: 8,
+                        padding: 2,
                         maxWidth: 400
                     }}
                 >
-                    <Text style={{ display: 'block', marginBottom: 10 }}>
+                    {/* <Text style={{ display: 'block', marginBottom: 10 }}>
                         Show manufacturers closest to your location listed
                         first.
                     </Text>
-                    <Button type="primary">Show Near Me</Button>
+                    <Button type="primary">Show Near Me</Button> */}
                 </div>
 
                 {/* Filters Display */}
@@ -591,7 +591,7 @@ export default function ManufactoringProcessPage() {
                                 >
                                     <Button
                                         type="primary"
-                                        onClick={() => handleViewDetails()}
+                                        onClick={() => handleViewDetails(mfg.id)}
                                     >
                                         View More Details
                                     </Button>
@@ -610,6 +610,7 @@ export default function ManufactoringProcessPage() {
                 </Row>
 
                 {/* Pagination */}
+                { suppliers?.length > 0 ? (
                 <Row justify="center" style={{ marginTop: 30 }}>
                     <Pagination
                         current={currentPage}
@@ -618,21 +619,22 @@ export default function ManufactoringProcessPage() {
                         onChange={handlePageChange}
                         showSizeChanger={false}
                     />
-                </Row>
+                </Row>): <Row justify="center" style={{ marginTop: 2, fontSize: '18px', fontWeight: 'normal'}}>No Search Result !, Please try with other combinations</Row>}
                 <Modal
                     //title="Register to View Details"
                     open={isRegisterModalOpen}
                     onCancel={() => setIsRegisterModalOpen(false)}
                     footer={null}
+                    centered
                 >
                     <FormContainer>
-                        <h2 style={{ marginBottom: '16px', color: '#1F2937' }}>
+                        <h2 style={{ marginBottom: '2px', color: '#1F2937' }}>
                             Sign up for an account
                         </h2>
                         <form onSubmit={registerUser}>
                             {/* Name */}
                             <InputField>
-                                <Label style={{ marginBottom: '6px' }}>
+                                <Label style={{ marginBottom: '3px' }}>
                                     Name *
                                 </Label>
                                 <Input
@@ -975,25 +977,22 @@ export default function ManufactoringProcessPage() {
                             <span style={{ color: '#4b5563' }}>
                                 Already have an account?{' '}
                             </span>
-                            <a
-                                href=""
+                            <span
                                 onClick={() =>
-                                    navigate(
-                                        pathname.includes('customer')
-                                            ? '/consumer-login'
-                                            : '/supplier-login'
+                                    navigate('/consumer-login'
                                     )
                                 }
                             >
                                 <span
                                     style={{
-                                        fontSize: '12px',
-                                        color: '#2563EB'
+                                        fontSize: '14px',
+                                        color: '#2563EB',
+                                        cursor: 'pointer',
                                     }}
                                 >
                                     Login
                                 </span>
-                            </a>
+                            </span>
                         </LoginLink>
                     </FormContainer>
                 </Modal>
@@ -1004,7 +1003,7 @@ export default function ManufactoringProcessPage() {
 }
 
 const InputField = styled.div`
-    margin-bottom: 1rem;
+    margin-bottom: .5rem;
 `;
 
 const Label = styled.label`
@@ -1042,8 +1041,8 @@ const Checkbox = styled.input`
 const Agreement = styled.div`
     display: flex;
     align-items: center;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
+    margin-top: .2rem;
+    margin-bottom: .2rem;
 `;
 
 const Error = styled.div`
@@ -1067,7 +1066,7 @@ const SubmitButton = styled.button`
 const LoginLink = styled.p`
     font-size: 0.875rem;
     color: #6b7280;
-    margin-top: 1rem;
+    margin-top: .2rem;
     text-align: center;
 `;
 
@@ -1087,9 +1086,9 @@ const Spinner = styled.div`
 
 const FormContainer = styled.div`
     background: #fff;
-    padding: 2rem 2.5rem;
+    padding: 1rem 1.5rem;
     border-radius: 10px;
-    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.07);
+    //box-shadow: 0 2px 16px rgba(0, 0, 0, 0.07);
     max-width: 420px;
     margin: 0 auto;
 `;

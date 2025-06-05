@@ -205,7 +205,7 @@ const MobileNavigation = () => {
         </div>
         {!submenu ? (
           <ul style={{ listStyle: 'none', padding: 0, fontSize: '16px' }}>
-            {['Manufacturer Hub', 'Industry', 'How It Works', 'Contact Us'].map((menu) => {
+            {['Manufacturer Hub', 'Supplier Search', 'Industry', 'How It Works', 'Contact Us'].map((menu) => {
               let content;
               switch (menu) {
                 case "Manufacturer Hub":
@@ -213,6 +213,13 @@ const MobileNavigation = () => {
                   content = (
                     <span onClick={() => openSubmenu(menu)} style={{ display: 'block', padding: '8px 0', fontWeight: 'bold', cursor: 'pointer' }}>
                       {menu}
+                    </span>
+                  );
+                  break;
+                case "Supplier Search":
+                    content = (
+                    <span style={{ display: 'block', padding: '8px 0', fontWeight: 'bold', cursor: 'pointer' }}>
+                      <a style={{ display: 'block', fontWeight: 'bold', cursor: 'pointer', color:"black" }} href={"/manufactor/search"}>{menu}</a>
                     </span>
                   );
                   break;
