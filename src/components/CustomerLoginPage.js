@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import { userLogin, userLogout } from "./../redux/actions/authAction";
 import { UserRole } from './../types/enums'
@@ -8,6 +8,7 @@ import CustomSpinner from '../utils/CustomSpinner';
 import { showErrorNotification } from '../utils/AppNotification';
 
 const CustomerLoginPage = () => {
+  const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [appLoading, setAppLoading] = useState(false);
@@ -22,7 +23,8 @@ const CustomerLoginPage = () => {
        setAppLoading(false);
        localStorage.setItem('access_token', logindata.token);
        localStorage.setItem('user_type', UserRole.CONSUMER);
-       navigate('/dashboard');
+       //navigate('/dashboard');
+       navigate((location.state)?.from?.pathname || '/dashboard', { replace: true });
      }else if(logindata &&  !logindata.status){
        setAppLoading(false); 
       localStorage.clear();

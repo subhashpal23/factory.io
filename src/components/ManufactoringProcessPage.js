@@ -154,7 +154,8 @@ export default function ManufactoringProcessPage() {
                 navigate(
                     registrationData?.data?.role_type === UserRole.CONSUMER
                         ? '/consumer-login'
-                        : '/supplier-login'
+                        : '/supplier-login',
+                    { state: { from: location } }
                 );
             }
 
@@ -979,7 +980,7 @@ export default function ManufactoringProcessPage() {
                             </span>
                             <span
                                 onClick={() =>
-                                    navigate('/consumer-login'
+                                    navigate('/consumer-login',  { state: { from: location } }
                                     )
                                 }
                             >
