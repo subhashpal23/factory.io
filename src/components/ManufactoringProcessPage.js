@@ -36,7 +36,7 @@ import {
 const { Text, Title, Paragraph } = Typography;
 const { Option } = AntdSelect;
 
-export default function ManufactoringProcessPage() {
+export default function ManufactoringProcessPage(props) {
     const dispatch = useDispatch();
     const { logindata } = useSelector((state) => state.auth);
     const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
@@ -50,6 +50,7 @@ export default function ManufactoringProcessPage() {
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 5;
     const navigate = useNavigate();
+    const [currentViewedSupplier, setCurrentViewedSupplier] = useState(null);
 
     const { registrationData, registrationError, laoding } = useSelector(
         (state) => state.auth
@@ -79,9 +80,8 @@ export default function ManufactoringProcessPage() {
     const [passwordStrength, setPasswordStrength] = useState('');
     //   const dal = useDal();
     const [errors, setErrors] = React.useState({ ...errorsEmptyState });
-    const location = useLocation();
-    const { pathname } = location;
-    //const navigate = useNavigate();
+    /*const location = `/dashboard/supplier-details/${currentViewedSupplier}` //useLocation();
+    const { pathname } = location; */
 
     const validateForm = () => {
         const newErrors = {};
@@ -155,7 +155,7 @@ export default function ManufactoringProcessPage() {
                     registrationData?.data?.role_type === UserRole.CONSUMER
                         ? '/consumer-login'
                         : '/supplier-login',
-                    { state: { from: location } }
+                    { state: { from: `/dashboard/supplier-details/${currentViewedSupplier}` } }
                 );
             }
 
@@ -187,6 +187,7 @@ export default function ManufactoringProcessPage() {
        // console.log('@@logindata', logindata);
         if (!logindata || !logindata?.data) {
             setIsRegisterModalOpen(true);
+            setCurrentViewedSupplier(id);
         } else {
            window.open(`/dashboard/supplier-details/${id}`, '_blank');
         }
@@ -246,7 +247,7 @@ export default function ManufactoringProcessPage() {
 
     return (
         <>
-            <TopNavigation />
+           {props?.view !== 'dashboard' && <TopNavigation />}
             {isLoading && (
                 <div className="overlay-loader">
                     <div className="spinner" />
@@ -980,7 +981,7 @@ export default function ManufactoringProcessPage() {
                             </span>
                             <span
                                 onClick={() =>
-                                    navigate('/consumer-login',  { state: { from: location } }
+                                    navigate('/consumer-login',  { state: { from: `/dashboard/supplier-details/${currentViewedSupplier}` } }
                                     )
                                 }
                             >
@@ -998,7 +999,7 @@ export default function ManufactoringProcessPage() {
                     </FormContainer>
                 </Modal>
             </div>
-            <Footer />
+            {props?.view !== 'dashboard' && <Footer />}
         </>
     );
 }

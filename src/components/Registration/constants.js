@@ -24,6 +24,7 @@ import AdminRfqList from '../pages/admin/AdminRfqList';
 import SupplierAccount from '../pages/supplier/SupplierAccount';
 import SupplierQuotesList from '../pages/supplier/SupplierQuotesList';
 import AdminQuotesList from '../pages/admin/AdminQuotesList';
+import ManufactoringProcessPage from '../../components/ManufactoringProcessPage'
 
 export const industriesType = [
     'Aerospace',
@@ -243,6 +244,7 @@ export const industriesType = [
     {id:19,role_type:'consumer',label:'Accepted Quotes',iconLabel:<SolutionOutlined />, component: <ConsumerAcceptedQuotesList />},
     {id:20,role_type:'consumer',label:'Rejected Quotes',iconLabel:<SolutionOutlined />, component: <ConsumerRejectedQuotesList />},
     {id:10,role_type:'consumer',label:'PO List',iconLabel:<SolutionOutlined />, component: <POList />},
+    {id:15,role_type:'consumer',label:'Supplier Search',iconLabel:<SolutionOutlined />, component: <ManufactoringProcessPage view="dashboard"/>},
     // {id:11,role_type:'consumer',label:'Create PO',iconLabel:<SolutionOutlined />, component: <CreatePO />},
     // {id:12,role_type:'consumer',label:'Manage Suppliers',iconLabel:<SolutionOutlined />, component: <ManageSuppliers />},
     // {id:13,role_type:'consumer',label:'Manage Item Library',iconLabel:<SolutionOutlined />, component: <ManageItemLibrary />},
