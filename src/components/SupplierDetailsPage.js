@@ -4,12 +4,15 @@ import './SupplierDetailsPage.css'; // Import the CSS file
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { getUserInfo } from '../redux/actions/userActions';
+import { Button } from "antd";
+import { useNavigate } from 'react-router-dom';
 
 const SupplierDetailsPage = () => {
     const dispatch = useDispatch();
     const token = useSelector((state) => state.auth.logindata.token);
     const userDetail = useSelector((state) => state.user.userDetail);
     let { id } = useParams();
+    const navigate = useNavigate();
 
     useEffect(() => {
           if (token) {
@@ -19,10 +22,23 @@ const SupplierDetailsPage = () => {
 
     const machinery_list = userDetail?.machinery_list ? JSON.parse(userDetail.machinery_list) : [];
     const core_product_photos = userDetail?.core_product_photos ? JSON.parse(userDetail.core_product_photos) : []
+  const handleClick = () => {
+    const menuItems = document.querySelectorAll('li.ant-menu-item');
+    const lastItem = menuItems[menuItems.length - 1];
+    if (lastItem) {
+      lastItem.click();
+    } else {
+      console.warn('No menu items found');
+    }
+  }
 
   return (
       <div>
-        <div className="flex-wrap-container"></div>
+        <div className="flex-wrap-container">
+          <Button onClick={handleClick} type="primary" style={{marginBottom:15}}>
+            {"<"} Back to supplier search
+          </Button>
+        </div>
         <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'flex-start', gap: '20px' }}>
 
           <div style={{ flex: '1 1 300px', minWidth: '280px' }}>

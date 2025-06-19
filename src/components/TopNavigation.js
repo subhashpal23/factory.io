@@ -92,7 +92,7 @@ const MegaMenu = ({ data, title }) => {
 
   return (
     <Dropdown overlay={menu} trigger={["hover"]} overlayStyle={{ width: '100%', position: 'absolute', left: '0', right: '0', top: '9vh', zIndex: 9999 }}>
-      <Button type="text" style={{ fontSize: "20px", fontWeight: "bold", padding: "0px 10px" }}>{title}</Button>
+      <Button type="text" style={{ fontSize: "16px", fontWeight: "bold", padding: "0px 10px" }}>{title}</Button>
     </Dropdown>
   );
 };
@@ -193,7 +193,7 @@ const TopNavigation = () => {
           />
           {/* DigiFactory.ae */}
       </HeaderText>
-        <Menu mode="horizontal" style={{ borderBottom: "none", flex: 2, display: "flex", justifyContent: "flex-end", fontWeight: "bold", fontSize: "20px" }}>
+        <Menu mode="horizontal" style={{ borderBottom: "none", flex: 1.5, display: "flex", justifyContent: "flex-end", fontWeight: "bold", fontSize: "16px" }}>
           <Menu.Item key="services"><MegaMenu data={manufacturingData} title="Manufacturing Hub" /></Menu.Item>
           <Menu.Item key="supplier-search"><a href="/manufactor/search">Supplier Search</a></Menu.Item>
           <Menu.Item key="industries"><MegaMenu data={industryData} title="Industry" /></Menu.Item>

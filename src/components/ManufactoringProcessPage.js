@@ -189,7 +189,8 @@ export default function ManufactoringProcessPage(props) {
             setIsRegisterModalOpen(true);
             setCurrentViewedSupplier(id);
         } else {
-           window.open(`/dashboard/supplier-details/${id}`, '_blank');
+           //navigate(`/dashboard/supplier-details/${id}`);
+           window.location.href = `/dashboard/supplier-details/${id}`;
         }
     };
 
